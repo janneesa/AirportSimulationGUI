@@ -5,10 +5,10 @@ import simu.framework.Tapahtumalista;
 
 import java.util.LinkedList;
 
-public class CheckIn extends Palvelupiste{
+public class SelfCheckIn extends Palvelupiste{
     private final static LinkedList<Asiakas> jono = new LinkedList<>(); // Tietorakennetoteutus
 
-    public CheckIn(String nimi , ContinuousGenerator generator, Tapahtumalista tapahtumalista, TapahtumanTyyppi tyyppi){
+    public SelfCheckIn(String nimi , ContinuousGenerator generator, Tapahtumalista tapahtumalista, TapahtumanTyyppi tyyppi){
         super(nimi, generator, tapahtumalista, tyyppi);
     }
 }
