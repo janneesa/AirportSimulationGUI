@@ -9,8 +9,10 @@ public class OmaMoottori extends Moottori {
 
     private Saapumisprosessi saapumisprosessi;
 
-    private double selfCheckInTodennakoisyys = 0.5;
+    // Todennäköisyys, että asiakas menee itsepalvelu check-iniin
+    private double selfCheckInTodennakoisyys = 0.5; // 50%
 
+    // Palvelupisteiden määrät. Koodi luo näiden mukaisen määrän palvelupisteitä
     private int checkInKoko = 2;
     private int selfCheckInKoko = 2;
     private int turvatarkastusKoko = 2;
@@ -21,14 +23,15 @@ public class OmaMoottori extends Moottori {
     private Palvelupiste[] turvatarkastusPisteet;
     private Palvelupiste[] porttiPisteet;
 
+    // Palvelupisteiden palveluajat
     private int meanPalveluaika = 10;
     private int variancePalveluaika = 6;
 
+    // Saapumisprosessin saapumisväli
     private int meanSaapumisvali = 15;
     private int varianceSaapumisvali = 5;
 
     public OmaMoottori(IKontrolleriForM kontrolleri) {
-
         super(kontrolleri);
         checkInPisteet = new Palvelupiste[checkInKoko];
         selfCheckInPisteet = new Palvelupiste[selfCheckInKoko];
