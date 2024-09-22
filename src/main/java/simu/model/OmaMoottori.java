@@ -12,12 +12,6 @@ public class OmaMoottori extends Moottori {
     // Todennäköisyys, että asiakas menee itsepalvelu check-iniin
     private double selfCheckInTodennakoisyys = 0.5; // 50%
 
-    // Palvelupisteiden määrät. Koodi luo näiden mukaisen määrän palvelupisteitä
-    private int checkInKoko = 2;
-    private int selfCheckInKoko = 2;
-    private int turvatarkastusKoko = 2;
-    private int porttiKoko = 2;
-
     private Palvelupiste[] checkInPisteet;
     private Palvelupiste[] selfCheckInPisteet;
     private Palvelupiste[] turvatarkastusPisteet;
@@ -176,5 +170,4 @@ public class OmaMoottori extends Moottori {
         }
         return shortest;
     }
-
 }
