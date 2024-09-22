@@ -27,8 +27,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private IKontrolleriForV kontrolleri;
 
     // Käyttöliittymäkomponentit:
+    private TextField checkInKoko;
+    private TextField selfCheckInKoko;
+    private TextField turvatarkastusKoko;
+    private TextField porttiKoko;
     private TextField aika;
     private TextField viive;
+    private Label checkInKokoLabel;
+    private Label selfCheckInKokoLabel;
+    private Label turvatarkastusKokoLabel;
+    private Label porttiKokoLabel;
     private Label tulos;
     private Label aikaLabel;
     private Label viiveLabel;
@@ -95,6 +103,30 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             viive.setPrefWidth(150);
 
+            checkInKokoLabel = new Label("Syötä Check-In pisteiden määrä:");
+            checkInKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            checkInKoko = new TextField("2");
+            checkInKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            checkInKoko.setPrefWidth(150);
+
+            selfCheckInKokoLabel = new Label("Syötä Self-Check-In pisteiden määrä:");
+            selfCheckInKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            selfCheckInKoko = new TextField("2");
+            selfCheckInKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            selfCheckInKoko.setPrefWidth(150);
+
+            turvatarkastusKokoLabel = new Label("Syötä Turvatarkastus pisteiden määrä:");
+            turvatarkastusKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            turvatarkastusKoko = new TextField("2");
+            turvatarkastusKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            turvatarkastusKoko.setPrefWidth(150);
+
+            porttiKokoLabel = new Label("Syötä Portti pisteiden määrä:");
+            porttiKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            porttiKoko = new TextField("2");
+            porttiKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            porttiKoko.setPrefWidth(150);
+
             tulosLabel = new Label("Kokonaisaika:");
             tulosLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             tulos = new Label();
@@ -114,13 +146,21 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             grid.add(aika, 1, 0);          // sarake, rivi
             grid.add(viiveLabel, 0, 1);      // sarake, rivi
             grid.add(viive, 1, 1);           // sarake, rivi
-            grid.add(tulosLabel, 0, 2);      // sarake, rivi
-            grid.add(tulos, 1, 2);           // sarake, rivi
-            grid.add(kaynnistaButton, 0, 3);  // sarake, rivi
-            grid.add(nopeutaButton, 0, 4);   // sarake, rivi
-            grid.add(hidastaButton, 1, 4);   // sarake, rivi
+            grid.add(checkInKokoLabel, 0, 2);   // sarake, rivi
+            grid.add(checkInKoko, 1, 2);        // sarake, rivi
+            grid.add(selfCheckInKokoLabel, 0, 3);   // sarake, rivi
+            grid.add(selfCheckInKoko, 1, 3);        // sarake, rivi
+            grid.add(turvatarkastusKokoLabel, 0, 4);   // sarake, rivi
+            grid.add(turvatarkastusKoko, 1, 4);        // sarake, rivi
+            grid.add(porttiKokoLabel, 0, 5);   // sarake, rivi
+            grid.add(porttiKoko, 1, 5);        // sarake, rivi
+            grid.add(tulosLabel, 0, 6);      // sarake, rivi
+            grid.add(tulos, 1, 6);           // sarake, rivi
+            grid.add(kaynnistaButton, 0, 7);  // sarake, rivi
+            grid.add(nopeutaButton, 0, 8);   // sarake, rivi
+            grid.add(hidastaButton, 1, 8);   // sarake, rivi
 
-            naytto = new Visualisointi2(400, 200);
+            naytto = new Visualisointi2(400, 400);
 
             // TÃ¤ytetÃ¤Ã¤n boxi:
             hBox.getChildren().addAll(grid, (Canvas) naytto);
@@ -146,6 +186,26 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     @Override
     public long getViive() {
         return Long.parseLong(viive.getText());
+    }
+
+    @Override
+    public int getCheckInKoko() {
+        return Integer.parseInt(checkInKoko.getText());
+    }
+
+    @Override
+    public int getSelfCheckInKoko() {
+        return Integer.parseInt(selfCheckInKoko.getText());
+    }
+
+    @Override
+    public int getTurvatarkastusKoko() {
+        return Integer.parseInt(turvatarkastusKoko.getText());
+    }
+
+    @Override
+    public int getPorttiKoko() {
+        return Integer.parseInt(porttiKoko.getText());
     }
 
     @Override

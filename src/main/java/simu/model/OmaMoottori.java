@@ -31,7 +31,7 @@ public class OmaMoottori extends Moottori {
     private int meanSaapumisvali = 15;
     private int varianceSaapumisvali = 5;
 
-    public OmaMoottori(IKontrolleriForM kontrolleri) {
+    public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko) {
         super(kontrolleri);
         checkInPisteet = new Palvelupiste[checkInKoko];
         selfCheckInPisteet = new Palvelupiste[selfCheckInKoko];
@@ -176,4 +176,5 @@ public class OmaMoottori extends Moottori {
         }
         return shortest;
     }
+
 }
