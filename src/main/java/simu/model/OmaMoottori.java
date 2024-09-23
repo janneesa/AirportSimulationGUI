@@ -30,16 +30,19 @@ public class OmaMoottori extends Moottori {
     private int turvatarkastusAsiakasMaara;
     private int porttiAsiakasMaara;
 
-    public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanPalveluaika, int variancePalveluaika, int meanSaapumisvali, int varianceSaapumisvali) {
+    public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanPalveluaika, int variancePalveluaika, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
         this.meanPalveluaika = meanPalveluaika;
         this.variancePalveluaika = variancePalveluaika;
         this.meanSaapumisvali = meanSaapumisvali;
         this.varianceSaapumisvali = varianceSaapumisvali;
+        this.selfCheckInTodennakoisyys = selfCheckInTodennakoisyys;
+        System.out.println(selfCheckInTodennakoisyys);
         checkInPisteet = new Palvelupiste[checkInKoko];
         selfCheckInPisteet = new Palvelupiste[selfCheckInKoko];
         turvatarkastusPisteet = new Palvelupiste[turvatarkastusKoko];
         porttiPisteet = new Palvelupiste[porttiKoko];
+
 
         // Luo check-in pisteet
         for (int i = 0; i < checkInKoko; i++) {

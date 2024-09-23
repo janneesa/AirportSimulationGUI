@@ -25,7 +25,8 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 				ui.getMeanPalveluaika(),
 				ui.getVariancePalveluaika(),
 				ui.getMeanSaapumisvali(),
-				ui.getVarianceSaapumisvali()
+				ui.getVarianceSaapumisvali(),
+				ui.getSelfCheckInTodennakoisyys()
 		);
 		moottori.setSimulointiaika(ui.getAika());
 		moottori.setViive(ui.getViive());

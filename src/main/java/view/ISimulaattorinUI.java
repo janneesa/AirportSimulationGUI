@@ -13,10 +13,12 @@ public interface ISimulaattorinUI {
 	int getVariancePalveluaika();
 	int getMeanSaapumisvali();
 	int getVarianceSaapumisvali();
+	double getSelfCheckInTodennakoisyys();
 
 	// Kontrolleri antaa käyttöliittymälle tuloksia, joita Moottori tuottaa
 	void setLoppuaika(double aika);
 
 	// Kontrolleri tarvitsee
 	IVisualisointi getVisualisointi();
+
 }

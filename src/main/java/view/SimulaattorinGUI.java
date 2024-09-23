@@ -20,9 +20,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private IKontrolleriForV kontrolleri;
     private TextField checkInKoko, selfCheckInKoko, turvatarkastusKoko, porttiKoko, aika, viive;
     private TextField meanPalveluaika, variancePalveluaika, meanSaapumisvali, varianceSaapumisvali;
-    private Label tulos;
+    private Label tulos, selfCheckInValueLabel;
     private Button kaynnistaButton, hidastaButton, nopeutaButton;
     private IVisualisointi naytto;
+    private Slider selfCheckInSlider;
 
     @Override
     public void init() {
@@ -60,16 +61,23 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         tulos = new Label();
         tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
+        selfCheckInSlider = new Slider(0, 1, 0.5);
+        selfCheckInValueLabel = new Label(String.format("Self-Check-In todennäköisyys: %.2f%%", selfCheckInSlider.getValue() * 100));
+        selfCheckInSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            selfCheckInValueLabel.setText(String.format("Self-Check-In todennäköisyys: %.2f%%", newValue.doubleValue() * 100));
+        });
+
         GridPane grid = createGridPane();
         addGridRow(grid, "Simulointiaika:", aika, "Viive:", viive, 0);
         addGridRow(grid, "Check-In pisteiden määrä:", checkInKoko, "Self-Check-In pisteiden määrä:", selfCheckInKoko, 1);
         addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 2);
         addGridRow(grid, "Palveluaika (keskiarvo):", meanPalveluaika, "Palveluaika (varianssi):", variancePalveluaika, 3);
         addGridRow(grid, "Saapumisväli (keskiarvo):", meanSaapumisvali, "Saapumisväli (varianssi):", varianceSaapumisvali, 4);
-        addGridRow(grid, "Kokonaisaika:", tulos, 5);
-        grid.add(kaynnistaButton, 0, 6);
-        grid.add(nopeutaButton, 0, 7);
-        grid.add(hidastaButton, 1, 7);
+        addGridRow(grid, "Self-Check-In todennäköisyys:", selfCheckInSlider, selfCheckInValueLabel, 5);
+        addGridRow(grid, "Kokonaisaika:", tulos, 6);
+        grid.add(kaynnistaButton, 0, 7);
+        grid.add(nopeutaButton, 0, 8);
+        grid.add(hidastaButton, 1, 8);
 
         naytto = new Visualisointi3(400, 400);
 
@@ -110,6 +118,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     private void addGridRow(GridPane grid, String labelText, Control control, int rowIndex) {
         VBox vbox = new VBox(5, new Label(labelText), control);
+        grid.add(vbox, 0, rowIndex, 2, 1);
+    }
+
+    private void addGridRow(GridPane grid, String labelText, Control control1, Control control2, int rowIndex) {
+        VBox vbox = new VBox(5, new Label(labelText), control1, control2);
         grid.add(vbox, 0, rowIndex, 2, 1);
     }
 
@@ -157,6 +170,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     public int getVarianceSaapumisvali() {
         return Integer.parseInt(varianceSaapumisvali.getText());
+    }
+
+    public double getSelfCheckInTodennakoisyys() {
+        return selfCheckInSlider.getValue();
     }
 
     @Override
