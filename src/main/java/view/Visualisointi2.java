@@ -34,6 +34,10 @@ public class Visualisointi2 extends Canvas implements IVisualisointi{
 		gc.fillText("Asiakas " + asiakasLkm, 100, 100);
 		
 	}
+
+	public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste) {
+
+	}
 	
 
 }

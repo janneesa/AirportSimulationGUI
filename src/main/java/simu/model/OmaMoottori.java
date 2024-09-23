@@ -25,6 +25,11 @@ public class OmaMoottori extends Moottori {
     private int meanSaapumisvali;
     private int varianceSaapumisvali;
 
+    private int checkInAsiakasMaara;
+    private int selfCheckInAsiakasMaara;
+    private int turvatarkastusAsiakasMaara;
+    private int porttiAsiakasMaara;
+
     public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanPalveluaika, int variancePalveluaika, int meanSaapumisvali, int varianceSaapumisvali) {
         super(kontrolleri);
         this.meanPalveluaika = meanPalveluaika;
@@ -76,7 +81,6 @@ public class OmaMoottori extends Moottori {
                     getShortestQueue(checkInPisteet).lisaaJonoon(new Asiakas());
                 }
                 saapumisprosessi.generoiSeuraava();
-                kontrolleri.visualisoiAsiakas();
                 break;
             case CHECK_IN_VALMIS:
                 for (Palvelupiste p : checkInPisteet) {
@@ -123,6 +127,7 @@ public class OmaMoottori extends Moottori {
                     }
                 }
         }
+        paivitaGUI();
     }
 
     @Override
@@ -155,6 +160,7 @@ public class OmaMoottori extends Moottori {
                 Trace.out(Trace.Level.INFO, p.getNimi() + " Portti piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
             }
         }
+        paivitaGUI();
     }
 
     @Override
@@ -173,5 +179,37 @@ public class OmaMoottori extends Moottori {
             }
         }
         return shortest;
+    }
+
+    private int getAsiakasMaara(Palvelupiste[] pisteet) {
+        int jononKoko = 0;
+        for (Palvelupiste p : pisteet) {
+            jononKoko += p.jononKoko();
+        }
+        return jononKoko;
+    }
+
+    private double getKayttoaste(Palvelupiste[] pisteet) {
+        int varatut = 0;
+        for (Palvelupiste p : pisteet) {
+            if (p.jononKoko() > 0) {
+                varatut += p.jononKoko();
+            }
+        }
+        return ((double) varatut / pisteet.length) * 100;
+    }
+
+    private void paivitaGUI() {
+        checkInAsiakasMaara = getAsiakasMaara(checkInPisteet);
+        kontrolleri.visualisoiAsiakas(1, checkInAsiakasMaara, getKayttoaste(checkInPisteet));
+
+        selfCheckInAsiakasMaara = getAsiakasMaara(selfCheckInPisteet);
+        kontrolleri.visualisoiAsiakas(2, selfCheckInAsiakasMaara, getKayttoaste(selfCheckInPisteet));
+
+        turvatarkastusAsiakasMaara = getAsiakasMaara(turvatarkastusPisteet);
+        kontrolleri.visualisoiAsiakas(3, turvatarkastusAsiakasMaara, getKayttoaste(turvatarkastusPisteet));
+
+        porttiAsiakasMaara = getAsiakasMaara(porttiPisteet);
+        kontrolleri.visualisoiAsiakas(4, porttiAsiakasMaara, getKayttoaste(porttiPisteet));
     }
 }
