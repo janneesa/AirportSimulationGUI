@@ -1,7 +1,5 @@
 package view;
 
-
-import java.text.DecimalFormat;
 import controller.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,173 +8,110 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import simu.framework.Trace;
-import simu.framework.Trace.Level;
-import javafx.scene.*;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
-
-
+import simu.framework.Trace;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
-    //Kontrollerin esittely (tarvitaan käyttöliittymässä)
     private IKontrolleriForV kontrolleri;
-
-    // Käyttöliittymäkomponentit:
-    private TextField checkInKoko;
-    private TextField selfCheckInKoko;
-    private TextField turvatarkastusKoko;
-    private TextField porttiKoko;
-    private TextField aika;
-    private TextField viive;
-    private Label checkInKokoLabel;
-    private Label selfCheckInKokoLabel;
-    private Label turvatarkastusKokoLabel;
-    private Label porttiKokoLabel;
+    private TextField checkInKoko, selfCheckInKoko, turvatarkastusKoko, porttiKoko, aika, viive;
+    private TextField meanPalveluaika, variancePalveluaika, meanSaapumisvali, varianceSaapumisvali;
     private Label tulos;
-    private Label aikaLabel;
-    private Label viiveLabel;
-    private Label tulosLabel;
-
-    private Button kaynnistaButton;
-    private Button hidastaButton;
-    private Button nopeutaButton;
-
+    private Button kaynnistaButton, hidastaButton, nopeutaButton;
     private IVisualisointi naytto;
-
 
     @Override
     public void init() {
-
-        Trace.setTraceLevel(Level.INFO);
-
+        Trace.setTraceLevel(Trace.Level.INFO);
         kontrolleri = new Kontrolleri(this);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        // Käyttöliittymän rakentaminen
-        try {
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent t) {
-                    Platform.exit();
-                    System.exit(0);
-                }
-            });
+        primaryStage.setTitle("Simulaattori");
 
+        kaynnistaButton = createButton("Käynnistä simulointi", e -> {
+            kontrolleri.kaynnistaSimulointi();
+            kaynnistaButton.setDisable(true);
+        });
 
-            primaryStage.setTitle("Simulaattori");
+        hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta());
+        nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
 
-            kaynnistaButton = new Button();
-            kaynnistaButton.setText("Käynnistä simulointi");
-            kaynnistaButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    kontrolleri.kaynnistaSimulointi();
-                    kaynnistaButton.setDisable(true);
-                }
-            });
+        aika = createTextField("Syötä aika");
+        viive = createTextField("Syötä viive");
+        checkInKoko = createTextField("2");
+        selfCheckInKoko = createTextField("2");
+        turvatarkastusKoko = createTextField("2");
+        porttiKoko = createTextField("2");
+        meanPalveluaika = createTextField("10");
+        variancePalveluaika = createTextField("6");
+        meanSaapumisvali = createTextField("15");
+        varianceSaapumisvali = createTextField("5");
+        tulos = new Label();
+        tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
-            hidastaButton = new Button();
-            hidastaButton.setText("Hidasta");
-            hidastaButton.setOnAction(e -> kontrolleri.hidasta());
+        GridPane grid = createGridPane();
+        addGridRow(grid, "Simulointiaika:", aika, "Viive:", viive, 0);
+        addGridRow(grid, "Check-In pisteiden määrä:", checkInKoko, "Self-Check-In pisteiden määrä:", selfCheckInKoko, 1);
+        addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 2);
+        addGridRow(grid, "Palveluaika (keskiarvo):", meanPalveluaika, "Palveluaika (varianssi):", variancePalveluaika, 3);
+        addGridRow(grid, "Saapumisväli (keskiarvo):", meanSaapumisvali, "Saapumisväli (varianssi):", varianceSaapumisvali, 4);
+        addGridRow(grid, "Kokonaisaika:", tulos, 5);
+        grid.add(kaynnistaButton, 0, 6);
+        grid.add(nopeutaButton, 0, 7);
+        grid.add(hidastaButton, 1, 7);
 
-            nopeutaButton = new Button();
-            nopeutaButton.setText("Nopeuta");
-            nopeutaButton.setOnAction(e -> kontrolleri.nopeuta());
+        naytto = new Visualisointi2(400, 400);
 
-            aikaLabel = new Label("Simulointiaika:");
-            aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            aika = new TextField("Syötä aika");
-            aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            aika.setPrefWidth(150);
+        HBox hBox = new HBox(10, grid, (Canvas) naytto);
+        hBox.setPadding(new Insets(15));
 
-            viiveLabel = new Label("Viive:");
-            viiveLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            viive = new TextField("Syötä viive");
-            viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            viive.setPrefWidth(150);
-
-            checkInKokoLabel = new Label("Syötä Check-In pisteiden määrä:");
-            checkInKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            checkInKoko = new TextField("2");
-            checkInKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            checkInKoko.setPrefWidth(150);
-
-            selfCheckInKokoLabel = new Label("Syötä Self-Check-In pisteiden määrä:");
-            selfCheckInKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            selfCheckInKoko = new TextField("2");
-            selfCheckInKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            selfCheckInKoko.setPrefWidth(150);
-
-            turvatarkastusKokoLabel = new Label("Syötä Turvatarkastus pisteiden määrä:");
-            turvatarkastusKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            turvatarkastusKoko = new TextField("2");
-            turvatarkastusKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            turvatarkastusKoko.setPrefWidth(150);
-
-            porttiKokoLabel = new Label("Syötä Portti pisteiden määrä:");
-            porttiKokoLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            porttiKoko = new TextField("2");
-            porttiKoko.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            porttiKoko.setPrefWidth(150);
-
-            tulosLabel = new Label("Kokonaisaika:");
-            tulosLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            tulos = new Label();
-            tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            tulos.setPrefWidth(150);
-
-            HBox hBox = new HBox();
-            hBox.setPadding(new Insets(15, 12, 15, 12)); // marginaalit ylÃ¤, oikea, ala, vasen
-            hBox.setSpacing(10);   // noodien välimatka 10 pikseliä
-
-            GridPane grid = new GridPane();
-            grid.setAlignment(Pos.CENTER);
-            grid.setVgap(10);
-            grid.setHgap(5);
-
-            grid.add(aikaLabel, 0, 0);   // sarake, rivi
-            grid.add(aika, 1, 0);          // sarake, rivi
-            grid.add(viiveLabel, 0, 1);      // sarake, rivi
-            grid.add(viive, 1, 1);           // sarake, rivi
-            grid.add(checkInKokoLabel, 0, 2);   // sarake, rivi
-            grid.add(checkInKoko, 1, 2);        // sarake, rivi
-            grid.add(selfCheckInKokoLabel, 0, 3);   // sarake, rivi
-            grid.add(selfCheckInKoko, 1, 3);        // sarake, rivi
-            grid.add(turvatarkastusKokoLabel, 0, 4);   // sarake, rivi
-            grid.add(turvatarkastusKoko, 1, 4);        // sarake, rivi
-            grid.add(porttiKokoLabel, 0, 5);   // sarake, rivi
-            grid.add(porttiKoko, 1, 5);        // sarake, rivi
-            grid.add(tulosLabel, 0, 6);      // sarake, rivi
-            grid.add(tulos, 1, 6);           // sarake, rivi
-            grid.add(kaynnistaButton, 0, 7);  // sarake, rivi
-            grid.add(nopeutaButton, 0, 8);   // sarake, rivi
-            grid.add(hidastaButton, 1, 8);   // sarake, rivi
-
-            naytto = new Visualisointi2(400, 400);
-
-            // TÃ¤ytetÃ¤Ã¤n boxi:
-            hBox.getChildren().addAll(grid, (Canvas) naytto);
-
-            Scene scene = new Scene(hBox);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        primaryStage.setScene(new Scene(hBox));
+        primaryStage.show();
     }
 
+    private Button createButton(String text, EventHandler<ActionEvent> handler) {
+        Button button = new Button(text);
+        button.setOnAction(handler);
+        return button;
+    }
 
-    //Käyttöliittymän rajapintametodit (kutsutaan kontrollerista)
+    private TextField createTextField(String promptText) {
+        TextField textField = new TextField(promptText);
+        textField.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        textField.setPrefWidth(150);
+        return textField;
+    }
+
+    private GridPane createGridPane() {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setVgap(10);
+        grid.setHgap(10);
+        return grid;
+    }
+
+    private void addGridRow(GridPane grid, String labelText1, Control control1, String labelText2, Control control2, int rowIndex) {
+        VBox vbox1 = new VBox(5, new Label(labelText1), control1);
+        VBox vbox2 = new VBox(5, new Label(labelText2), control2);
+        grid.add(vbox1, 0, rowIndex);
+        grid.add(vbox2, 1, rowIndex);
+    }
+
+    private void addGridRow(GridPane grid, String labelText, Control control, int rowIndex) {
+        VBox vbox = new VBox(5, new Label(labelText), control);
+        grid.add(vbox, 0, rowIndex, 2, 1);
+    }
 
     @Override
     public double getAika() {
@@ -208,19 +143,33 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         return Integer.parseInt(porttiKoko.getText());
     }
 
-    @Override
-    public void setLoppuaika(double aika) {
-        DecimalFormat formatter = new DecimalFormat("#0.00");
-        this.tulos.setText(formatter.format(aika));
+    public int getMeanPalveluaika() {
+        return Integer.parseInt(meanPalveluaika.getText());
     }
 
+    public int getVariancePalveluaika() {
+        return Integer.parseInt(variancePalveluaika.getText());
+    }
+
+    public int getMeanSaapumisvali() {
+        return Integer.parseInt(meanSaapumisvali.getText());
+    }
+
+    public int getVarianceSaapumisvali() {
+        return Integer.parseInt(varianceSaapumisvali.getText());
+    }
+
+    @Override
+    public void setLoppuaika(double aika) {
+        tulos.setText(String.format("%.2f", aika));
+    }
 
     @Override
     public IVisualisointi getVisualisointi() {
         return naytto;
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
-
-
-
-

@@ -5,59 +5,51 @@ import simu.framework.IMoottori;
 import simu.model.OmaMoottori;
 import view.ISimulaattorinUI;
 
-public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUSI
-	
-	private IMoottori moottori; 
+public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
+
+	private IMoottori moottori;
 	private ISimulaattorinUI ui;
-	
+
 	public Kontrolleri(ISimulaattorinUI ui) {
 		this.ui = ui;
-		
 	}
 
-	
-	// Moottorin ohjausta:
-		
 	@Override
 	public void kaynnistaSimulointi() {
-		moottori = new OmaMoottori(this, ui.getCheckInKoko(), ui.getSelfCheckInKoko(), ui.getTurvatarkastusKoko(), ui.getPorttiKoko()); // luodaan uusi moottorisäie jokaista simulointia varten
+		moottori = new OmaMoottori(
+				this,
+				ui.getCheckInKoko(),
+				ui.getSelfCheckInKoko(),
+				ui.getTurvatarkastusKoko(),
+				ui.getPorttiKoko(),
+				ui.getMeanPalveluaika(),
+				ui.getVariancePalveluaika(),
+				ui.getMeanSaapumisvali(),
+				ui.getVarianceSaapumisvali()
+		);
 		moottori.setSimulointiaika(ui.getAika());
 		moottori.setViive(ui.getViive());
 		ui.getVisualisointi().tyhjennaNaytto();
-		((Thread)moottori).start();
-		//((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?		
-	}
-	
-	@Override
-	public void hidasta() { // hidastetaan moottorisäiettä
-		moottori.setViive((long)(moottori.getViive()*1.10));
+		((Thread) moottori).start();
 	}
 
 	@Override
-	public void nopeuta() { // nopeutetaan moottorisäiettä
-		moottori.setViive((long)(moottori.getViive()*0.9));
+	public void hidasta() {
+		moottori.setViive((long) (moottori.getViive() * 1.10));
 	}
-	
-	
-	
-	// Simulointitulosten välittämistä käyttöliittymään.
-	// Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:
-		
+
+	@Override
+	public void nopeuta() {
+		moottori.setViive((long) (moottori.getViive() * 0.9));
+	}
+
 	@Override
 	public void naytaLoppuaika(double aika) {
-		Platform.runLater(()->ui.setLoppuaika(aika)); 
+		Platform.runLater(() -> ui.setLoppuaika(aika));
 	}
 
-	
 	@Override
 	public void visualisoiAsiakas() {
-		Platform.runLater(new Runnable(){
-			public void run(){
-				ui.getVisualisointi().uusiAsiakas();
-			}
-		});
+		Platform.runLater(() -> ui.getVisualisointi().uusiAsiakas());
 	}
-
-
-
 }
