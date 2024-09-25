@@ -48,8 +48,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta());
         nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
 
-        aika = createTextField("Syötä aika");
-        viive = createTextField("Syötä viive");
+        aika = createTextField("500");
+        viive = createTextField("500");
         checkInKoko = createTextField("2");
         selfCheckInKoko = createTextField("2");
         turvatarkastusKoko = createTextField("2");

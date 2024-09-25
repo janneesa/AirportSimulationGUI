@@ -44,9 +44,20 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         int spacing = 20;
         int startX = 50;
         int startY = 50;
+        int x, y;
 
-        int x = startX + (index % 2) * (boxWidth + spacing);
-        int y = startY + (index / 2) * (boxHeight + spacing);
+        if (index == 1) {
+            x = startX + (index % 2) * (boxWidth + spacing);
+        } else {
+            x = startX;
+        }
+
+        if (index == 3) {
+            y = startY + 2 * (boxHeight + spacing);
+        } else {
+            y = startY + (index / 2) * (boxHeight + spacing);
+        }
+
 
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(x, y, boxWidth, boxHeight);
