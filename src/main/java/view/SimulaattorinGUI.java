@@ -68,12 +68,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         });
 
         GridPane grid = createGridPane();
-        addGridRow(grid, "Simulointiaika:", aika, "Viive:", viive, 0);
+        addGridRow(grid, "Simulointiaika (min):", aika, "Viive (min):", viive, 0);
         addGridRow(grid, "Check-In pisteiden määrä:", checkInKoko, "Self-Check-In pisteiden määrä:", selfCheckInKoko, 1);
         addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 2);
-        addGridRow(grid, "Palveluaika (keskiarvo):", meanPalveluaika, "Palveluaika (varianssi):", variancePalveluaika, 3);
-        addGridRow(grid, "Saapumisväli (keskiarvo):", meanSaapumisvali, "Saapumisväli (varianssi):", varianceSaapumisvali, 4);
-        addGridRow(grid, "Self-Check-In todennäköisyys:", selfCheckInSlider, selfCheckInValueLabel, 5);
+        addGridRow(grid, "Palveluajan keskiarvo (min):", meanPalveluaika, "Palveluajan varianssi (min):", variancePalveluaika, 3);
+        addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 4);
+        addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 5);
         addGridRow(grid, "Kokonaisaika:", tulos, 6);
         grid.add(kaynnistaButton, 0, 7);
         grid.add(nopeutaButton, 0, 8);
@@ -116,13 +116,13 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(vbox2, 1, rowIndex);
     }
 
-    private void addGridRow(GridPane grid, String labelText, Control control, int rowIndex) {
-        VBox vbox = new VBox(5, new Label(labelText), control);
+    private void addGridRow(GridPane grid, Label label, Control control, int rowIndex) {
+        VBox vbox = new VBox(5, label, control);
         grid.add(vbox, 0, rowIndex, 2, 1);
     }
 
-    private void addGridRow(GridPane grid, String labelText, Control control1, Control control2, int rowIndex) {
-        VBox vbox = new VBox(5, new Label(labelText), control1, control2);
+    private void addGridRow(GridPane grid, String labelText, Control control1, int rowIndex) {
+        VBox vbox = new VBox(5, new Label(labelText), control1);
         grid.add(vbox, 0, rowIndex, 2, 1);
     }
 
@@ -178,7 +178,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     @Override
     public void setLoppuaika(double aika) {
-        tulos.setText(String.format("%.2f", aika));
+        tulos.setText(String.format("%.2f h", aika/60));
     }
 
     @Override
