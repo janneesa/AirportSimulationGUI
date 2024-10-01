@@ -62,7 +62,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
 
         gc.setFill(Color.LIGHTSALMON);
-        gc.fillRect(x, y-20, boxWidth, (double) boxHeight / 2);
+        gc.fillRect(x, y-40, boxWidth, (double) boxHeight / 2);
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(14));
 
@@ -71,6 +71,16 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
             jonossa = 0;
         }
 
+        for (int i = 0; i < jonossa; i++) {
+            gc.setFill(Color.BLUEVIOLET);
+            gc.fillOval(x + 10 + i * 11, y - 30, 10, 10);
+            if (i >= 11) {
+                gc.fillText("...", x + 10 + i * 11, y - 5);
+                break;
+            }
+        }
+
+        gc.setFill(Color.BLACK);
         gc.fillText("Jonossa: " + jonossa, x + 10, y - 5);
 
         gc.setFill(Color.LIGHTGRAY);
