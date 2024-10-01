@@ -44,7 +44,7 @@ public class Asiakas {
 		this.palvelunPaattymisaika = palvelunPaattymisaika;
 	}
 
-	public double getValmiitAsiakkaat() {
+	public static double getValmiitAsiakkaat() {
 		return valmiitAsiakkaat;
 	}
 

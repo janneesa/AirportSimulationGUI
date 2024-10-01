@@ -22,4 +22,8 @@ public class CheckIn extends Palvelupiste{
         System.out.println();
     }
 
+    @Override
+    public double getKeskiPalveluaika() {
+        return keskiPalveluaika;
+    }
 }

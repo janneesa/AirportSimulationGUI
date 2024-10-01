@@ -21,4 +21,9 @@ public class Turvatarkastus extends Palvelupiste {
         System.out.println("Keskimääräinen Turvatarkastus pisteiden palveluaika: " + keskiPalveluaika);
         System.out.println();
     }
+
+    @Override
+    public double getKeskiPalveluaika() {
+        return keskiPalveluaika;
+    }
 }

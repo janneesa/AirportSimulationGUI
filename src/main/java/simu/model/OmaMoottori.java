@@ -187,7 +187,13 @@ public class OmaMoottori extends Moottori {
     @Override
     protected void tulokset() {
         System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-        System.out.println("Tulokset ... puuttuvat vielä");
+        System.out.println("Tulokset ... keskesn.....");
+        System.out.println("Valmiit asiakkaat: " + Asiakas.getValmiitAsiakkaat());
+        System.out.println("Keskimääräinen läpimenoaika: " + this.prosessiAika / Asiakas.getValmiitAsiakkaat());
+        System.out.println("Check-in pisteiden keskimääräinen palveluaika: " + checkInPisteet[0].getKeskiPalveluaika());
+        System.out.println("Self-Check-in pisteiden keskimääräinen palveluaika: " + selfCheckInPisteet[0].getKeskiPalveluaika());
+        System.out.println("Turvatarkastus pisteiden keskimääräinen palveluaika: " + turvatarkastusPisteet[0].getKeskiPalveluaika());
+        System.out.println("Portti pisteiden keskimääräinen palveluaika: " + porttiPisteet[0].getKeskiPalveluaika());
 
         kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
     }

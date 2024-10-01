@@ -21,4 +21,9 @@ public class SelfCheckIn extends Palvelupiste{
         System.out.println("Keskimääräinen Self-Check-In pisteiden palveluaika: " + keskiPalveluaika);
         System.out.println();
     }
+
+    @Override
+    public double getKeskiPalveluaika() {
+        return keskiPalveluaika;
+    }
 }

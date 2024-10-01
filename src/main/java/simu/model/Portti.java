@@ -21,4 +21,9 @@ public class Portti extends Palvelupiste {
         System.out.println("Keskimääräinen Portti pisteiden palveluaika: " + keskiPalveluaika);
         System.out.println();
     }
+
+    @Override
+    public double getKeskiPalveluaika() {
+        return keskiPalveluaika;
+    }
 }
