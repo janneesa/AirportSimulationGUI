@@ -34,7 +34,7 @@ public class Visualisointi extends Canvas implements IVisualisointi{
 	}
 
 	@Override
-	public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste) {
+	public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {
 
 	}
 }

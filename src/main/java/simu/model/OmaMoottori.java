@@ -223,21 +223,26 @@ public class OmaMoottori extends Moottori {
                 varatut += p.jononKoko();
             }
         }
+        double kayttoaste = ((double) varatut / pisteet.length) * 100;
+
+        if (kayttoaste > 100) {
+            return 100;
+        }
         return ((double) varatut / pisteet.length) * 100;
     }
 
     private void paivitaGUI() {
         checkInAsiakasMaara = getAsiakasMaara(checkInPisteet);
-        kontrolleri.visualisoiAsiakas(1, checkInAsiakasMaara, getKayttoaste(checkInPisteet));
+        kontrolleri.visualisoiAsiakas(1, checkInAsiakasMaara, getKayttoaste(checkInPisteet), checkInPisteet.length);
 
         selfCheckInAsiakasMaara = getAsiakasMaara(selfCheckInPisteet);
-        kontrolleri.visualisoiAsiakas(2, selfCheckInAsiakasMaara, getKayttoaste(selfCheckInPisteet));
+        kontrolleri.visualisoiAsiakas(2, selfCheckInAsiakasMaara, getKayttoaste(selfCheckInPisteet), selfCheckInPisteet.length);
 
         turvatarkastusAsiakasMaara = getAsiakasMaara(turvatarkastusPisteet);
-        kontrolleri.visualisoiAsiakas(3, turvatarkastusAsiakasMaara, getKayttoaste(turvatarkastusPisteet));
+        kontrolleri.visualisoiAsiakas(3, turvatarkastusAsiakasMaara, getKayttoaste(turvatarkastusPisteet), turvatarkastusPisteet.length);
 
         porttiAsiakasMaara = getAsiakasMaara(porttiPisteet);
-        kontrolleri.visualisoiAsiakas(4, porttiAsiakasMaara, getKayttoaste(porttiPisteet));
+        kontrolleri.visualisoiAsiakas(4, porttiAsiakasMaara, getKayttoaste(porttiPisteet), porttiPisteet.length);
     }
 
     private void laskeKeskiProsessiAika(double valmiitAsiakkaat, double prosessiAika) {

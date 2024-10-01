@@ -35,8 +35,7 @@ public class Visualisointi2 extends Canvas implements IVisualisointi{
 		
 	}
 
-	public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste) {
-
+	public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {
 	}
 	
 

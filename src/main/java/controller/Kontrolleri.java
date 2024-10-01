@@ -50,7 +50,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 	}
 
 	@Override
-	public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste) {
-		Platform.runLater(() -> ui.getVisualisointi().paivitaVisualisointi(palvelupiste, asiakasMaara, kayttoaste));
+	public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {
+		Platform.runLater(() -> ui.getVisualisointi().paivitaVisualisointi(palvelupiste, asiakasMaara, kayttoaste, palvelupisteMaara));
 	}
 }

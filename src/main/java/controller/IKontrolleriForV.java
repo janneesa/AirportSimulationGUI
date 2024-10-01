@@ -7,5 +7,5 @@ public interface IKontrolleriForV {
     public void kaynnistaSimulointi();
     public void nopeuta();
     public void hidasta();
-    public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste);
+    public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara);
 }

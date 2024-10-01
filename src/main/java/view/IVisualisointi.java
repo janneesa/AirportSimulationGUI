@@ -7,6 +7,6 @@ public interface IVisualisointi {
 	
 	public void uusiAsiakas();
 
-	void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste);
+	void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara);
 }
 

@@ -79,7 +79,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(nopeutaButton, 0, 8);
         grid.add(hidastaButton, 1, 8);
 
-        naytto = new Visualisointi3(400, 400);
+        naytto = new Visualisointi3(400, 600);
 
         HBox hBox = new HBox(10, grid, (Canvas) naytto);
         hBox.setPadding(new Insets(15));
