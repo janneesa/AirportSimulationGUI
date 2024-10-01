@@ -44,10 +44,16 @@ public class Asiakas {
 		this.palvelunPaattymisaika = palvelunPaattymisaika;
 	}
 
-
+	public double getValmiitAsiakkaat() {
+		return valmiitAsiakkaat;
+	}
 
 	public int getId() {
 		return id;
+	}
+
+	public double getProsessiAika() {
+		return poistumisaika-saapumisaika;
 	}
 
 	public void raportti(){

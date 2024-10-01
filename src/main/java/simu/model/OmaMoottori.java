@@ -5,6 +5,8 @@ import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 
+import java.util.Arrays;
+
 public class OmaMoottori extends Moottori {
 
     private Saapumisprosessi saapumisprosessi;
@@ -25,10 +27,13 @@ public class OmaMoottori extends Moottori {
     private int meanSaapumisvali;
     private int varianceSaapumisvali;
 
+    // Palavelupisteiden asiakasmäärät
     private int checkInAsiakasMaara;
     private int selfCheckInAsiakasMaara;
     private int turvatarkastusAsiakasMaara;
     private int porttiAsiakasMaara;
+
+    private double prosessiAika = 0.0;
 
     public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanPalveluaika, int variancePalveluaika, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
@@ -125,6 +130,7 @@ public class OmaMoottori extends Moottori {
                             a = p.otaJonosta();
                             a.setPoistumisaika(Kello.getInstance().getAika());
                             a.raportti();
+                            laskeKeskiProsessiAika(a.getValmiitAsiakkaat(), a.getProsessiAika());
                             break;
                         }
                     }
@@ -138,6 +144,9 @@ public class OmaMoottori extends Moottori {
         for (Palvelupiste p : checkInPisteet) {
             if (!p.onVarattu() && p.onJonossa()) {
                 p.aloitaPalvelu();
+
+                // Päivitetään Check-in pisteiden palveluajan keskiarvoa
+                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
             } else {
                 Trace.out(Trace.Level.INFO, p.getNimi() + " piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
             }
@@ -145,6 +154,9 @@ public class OmaMoottori extends Moottori {
         for (Palvelupiste p : selfCheckInPisteet) {
             if (!p.onVarattu() && p.onJonossa()) {
                 p.aloitaPalvelu();
+
+                // Päivitetään Self-Checkin pisteiden palveluajan keskiarvoa
+                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
             } else {
                 Trace.out(Trace.Level.INFO, p.getNimi() + " piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
             }
@@ -152,6 +164,9 @@ public class OmaMoottori extends Moottori {
         for (Palvelupiste p : turvatarkastusPisteet) {
             if (!p.onVarattu() && p.onJonossa()) {
                 p.aloitaPalvelu();
+
+                // Päivitetään Turvatarkastus pisteiden palveluajan keskiarvoa
+                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
             } else {
                 Trace.out(Trace.Level.INFO, p.getNimi() + " Turvatarkastus piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
             }
@@ -159,6 +174,9 @@ public class OmaMoottori extends Moottori {
         for (Palvelupiste p : porttiPisteet) {
             if (!p.onVarattu() && p.onJonossa()) {
                 p.aloitaPalvelu();
+
+                // Päivitetään Portti pisteiden palveluajan keskiarvoa
+                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
             } else {
                 Trace.out(Trace.Level.INFO, p.getNimi() + " Portti piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
             }
@@ -215,4 +233,13 @@ public class OmaMoottori extends Moottori {
         porttiAsiakasMaara = getAsiakasMaara(porttiPisteet);
         kontrolleri.visualisoiAsiakas(4, porttiAsiakasMaara, getKayttoaste(porttiPisteet));
     }
+
+    private void laskeKeskiProsessiAika(double valmiitAsiakkaat, double prosessiAika) {
+        this.prosessiAika += prosessiAika;
+        double keskiProsessiAika = this.prosessiAika / valmiitAsiakkaat;
+        System.out.println();
+        System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti: " + keskiProsessiAika);
+        System.out.println();
+    }
+
 }

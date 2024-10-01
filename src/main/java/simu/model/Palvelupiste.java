@@ -6,13 +6,15 @@ import eduni.distributions.ContinuousGenerator;
 
 // TODO:
 // Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
-public class Palvelupiste {
+public abstract class Palvelupiste {
 
 	private final String nimi;
 	private final LinkedList<Asiakas> jono = new LinkedList<>(); // Tietorakennetoteutus
 	private final ContinuousGenerator generator;
 	private final Tapahtumalista tapahtumalista;
 	private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
+	private double hetkenPalveluaika;
+
 
 	//JonoStartegia strategia; //optio: asiakkaiden järjestys
 
@@ -46,8 +48,10 @@ public class Palvelupiste {
 
 		varattu = true;
 		double palveluaika = generator.sample();
+		hetkenPalveluaika = palveluaika;
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi,Kello.getInstance().getAika()+palveluaika));
 		jono.peek().setPalvelunPaattymisaika(Kello.getInstance().getAika()+palveluaika);
+
 	}
 
 
@@ -76,5 +80,11 @@ public class Palvelupiste {
 	public LinkedList<Asiakas> getJono() {
 		return jono;
 	}
+
+	public double getHetkenPalveluaika() {
+		return hetkenPalveluaika;
+	}
+
+	public abstract void paivitaKeskiPalveluaika(double palveluaika);
 
 }
