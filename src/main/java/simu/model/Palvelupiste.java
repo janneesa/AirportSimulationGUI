@@ -87,6 +87,4 @@ public abstract class Palvelupiste {
 
 	public abstract void paivitaKeskiPalveluaika(double palveluaika);
 
-	public abstract double getKeskiPalveluaika();
-
 }

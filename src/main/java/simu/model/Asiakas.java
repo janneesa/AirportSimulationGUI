@@ -12,9 +12,11 @@ public class Asiakas {
 	private static int i = 1;
 	private static double sum = 0;
 	private static double valmiitAsiakkaat = 0;
+	private static double saapuneetAsiakkaat = 0;
 
 	public Asiakas(){
 		id = i++;
+		saapuneetAsiakkaat++;
 
 		saapumisaika = Kello.getInstance().getAika();
 		Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo "+saapumisaika);
@@ -65,6 +67,14 @@ public class Asiakas {
 		sum += (poistumisaika-saapumisaika);
 		double keskiarvo = sum/valmiitAsiakkaat;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
+	}
+
+	public static double getKeskiViipyminen(){
+		return sum/valmiitAsiakkaat;
+	}
+
+	public static double getSaapuneetAsiakkaat() {
+		return saapuneetAsiakkaat;
 	}
 
 }

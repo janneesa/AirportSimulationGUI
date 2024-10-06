@@ -1,6 +1,7 @@
 package simu.model;
 
 import eduni.distributions.ContinuousGenerator;
+import simu.framework.Kello;
 import simu.framework.Tapahtumalista;
 
 public class CheckIn extends Palvelupiste{
@@ -17,13 +18,21 @@ public class CheckIn extends Palvelupiste{
         aloitetutPalvelut++;
         totalPalveluaika += palveluaika;
         keskiPalveluaika = totalPalveluaika / aloitetutPalvelut;
-        System.out.println();
-        System.out.println("Keskimääräinen Check-In pisteiden palveluaika: " + keskiPalveluaika);
-        System.out.println();
     }
 
-    @Override
-    public double getKeskiPalveluaika() {
+    public static double getKeskiPalveluaika() {
         return keskiPalveluaika;
+    }
+
+    public static double getTotalPalveluaika() {
+        return totalPalveluaika;
+    }
+
+    public static double getKayttoAste() {
+        return totalPalveluaika / Kello.getInstance().getAika();
+    }
+
+    public static double getLapimeno() {
+        return aloitetutPalvelut / Kello.getInstance().getAika();
     }
 }

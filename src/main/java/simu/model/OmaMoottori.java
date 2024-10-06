@@ -5,8 +5,6 @@ import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 
-import java.util.Arrays;
-
 public class OmaMoottori extends Moottori {
 
     private Saapumisprosessi saapumisprosessi;
@@ -82,8 +80,7 @@ public class OmaMoottori extends Moottori {
         Asiakas a;
         switch ((TapahtumanTyyppi) t.getTyyppi()) {
             case ARRIVAL:
-                double selfCheckInAsiakas = Math.random();
-                if (selfCheckInAsiakas < selfCheckInTodennakoisyys) {
+                if (Math.random() < selfCheckInTodennakoisyys) {
                     getShortestQueue(selfCheckInPisteet).lisaaJonoon(new Asiakas());
                 } else {
                     getShortestQueue(checkInPisteet).lisaaJonoon(new Asiakas());
@@ -91,109 +88,69 @@ public class OmaMoottori extends Moottori {
                 saapumisprosessi.generoiSeuraava();
                 break;
             case CHECK_IN_VALMIS:
-                for (Palvelupiste p : checkInPisteet) {
-                    if (p.onVarattu() && p.onJonossa()) {
-                        if (p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
-                            a = p.otaJonosta();
-                            getShortestQueue(turvatarkastusPisteet).lisaaJonoon(a);
-                            break;
-                        }
-                    }
-                }
+                siirraAsiaks(checkInPisteet, turvatarkastusPisteet);
                 break;
             case SELF_CHECK_IN_VALMIS:
-                for (Palvelupiste p : selfCheckInPisteet) {
-                    if (p.onVarattu() && p.onJonossa()) {
-                        if (p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
-                            a = p.otaJonosta();
-                            getShortestQueue(turvatarkastusPisteet).lisaaJonoon(a);
-                            break;
-                        }
-                    }
-                }
+                siirraAsiaks(selfCheckInPisteet, turvatarkastusPisteet);
                 break;
             case TURVATARKASTUS_VALMIS:
-                for (Palvelupiste p : turvatarkastusPisteet) {
-                    if (p.onVarattu() && p.onJonossa()) {
-                        if (p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
-                            a = p.otaJonosta();
-                            getShortestQueue(porttiPisteet).lisaaJonoon(a);
-                            break;
-                        }
-                    }
-                }
+                siirraAsiaks(turvatarkastusPisteet, porttiPisteet);
                 break;
             case PORTTI_VALMIS:
                 for (Palvelupiste p : porttiPisteet) {
-                    if (p.onVarattu() && p.onJonossa()) {
-                        if (p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
-                            a = p.otaJonosta();
-                            a.setPoistumisaika(Kello.getInstance().getAika());
-                            a.raportti();
-                            laskeKeskiProsessiAika(a.getValmiitAsiakkaat(), a.getProsessiAika());
-                            break;
-                        }
+                    if (p.onVarattu() && p.onJonossa() && p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
+                        a = p.otaJonosta();
+                        a.setPoistumisaika(Kello.getInstance().getAika());
+                        a.raportti();
+                        laskeKeskiProsessiAika(a.getValmiitAsiakkaat(), a.getProsessiAika());
+                        break;
                     }
                 }
+                break;
         }
         paivitaGUI();
+    }
+
+    private void siirraAsiaks(Palvelupiste[] mista, Palvelupiste[] minne) {
+        for (Palvelupiste p : mista) {
+            if (p.onVarattu() && p.onJonossa() && p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
+                Asiakas a = p.otaJonosta();
+                getShortestQueue(minne).lisaaJonoon(a);
+                break;
+            }
+        }
     }
 
     @Override
     protected void yritaCTapahtumat() {
-        for (Palvelupiste p : checkInPisteet) {
-            if (!p.onVarattu() && p.onJonossa()) {
-                p.aloitaPalvelu();
-
-                // Päivitetään Check-in pisteiden palveluajan keskiarvoa
-                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
-            } else {
-                Trace.out(Trace.Level.INFO, p.getNimi() + " piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
-            }
-        }
-        for (Palvelupiste p : selfCheckInPisteet) {
-            if (!p.onVarattu() && p.onJonossa()) {
-                p.aloitaPalvelu();
-
-                // Päivitetään Self-Checkin pisteiden palveluajan keskiarvoa
-                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
-            } else {
-                Trace.out(Trace.Level.INFO, p.getNimi() + " piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
-            }
-        }
-        for (Palvelupiste p : turvatarkastusPisteet) {
-            if (!p.onVarattu() && p.onJonossa()) {
-                p.aloitaPalvelu();
-
-                // Päivitetään Turvatarkastus pisteiden palveluajan keskiarvoa
-                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
-            } else {
-                Trace.out(Trace.Level.INFO, p.getNimi() + " Turvatarkastus piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
-            }
-        }
-        for (Palvelupiste p : porttiPisteet) {
-            if (!p.onVarattu() && p.onJonossa()) {
-                p.aloitaPalvelu();
-
-                // Päivitetään Portti pisteiden palveluajan keskiarvoa
-                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
-            } else {
-                Trace.out(Trace.Level.INFO, p.getNimi() + " Portti piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
-            }
-        }
+        prosessoiTapahtumaJonot(checkInPisteet);
+        prosessoiTapahtumaJonot(selfCheckInPisteet);
+        prosessoiTapahtumaJonot(turvatarkastusPisteet);
+        prosessoiTapahtumaJonot(porttiPisteet);
         paivitaGUI();
+    }
+
+    private void prosessoiTapahtumaJonot(Palvelupiste[] pisteet) {
+        for (Palvelupiste p : pisteet) {
+            if (!p.onVarattu() && p.onJonossa()) {
+                p.aloitaPalvelu();
+                p.paivitaKeskiPalveluaika(p.getHetkenPalveluaika());
+            } else {
+                Trace.out(Trace.Level.INFO, p.getNimi() + " piste on varattu tai ei jonoa. Jonon koko: " + p.jononKoko());
+            }
+        }
     }
 
     @Override
     protected void tulokset() {
-        System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-        System.out.println("Tulokset ... keskesn.....");
-        System.out.println("Valmiit asiakkaat: " + Asiakas.getValmiitAsiakkaat());
-        System.out.println("Keskimääräinen läpimenoaika: " + this.prosessiAika / Asiakas.getValmiitAsiakkaat());
-        System.out.println("Check-in pisteiden keskimääräinen palveluaika: " + checkInPisteet[0].getKeskiPalveluaika());
-        System.out.println("Self-Check-in pisteiden keskimääräinen palveluaika: " + selfCheckInPisteet[0].getKeskiPalveluaika());
-        System.out.println("Turvatarkastus pisteiden keskimääräinen palveluaika: " + turvatarkastusPisteet[0].getKeskiPalveluaika());
-        System.out.println("Portti pisteiden keskimääräinen palveluaika: " + porttiPisteet[0].getKeskiPalveluaika());
+        System.out.println("Simulointi päättyi kello (T): " + Kello.getInstance().getAika());
+        System.out.println("Saapuneet asiakkaat (A): " + Asiakas.getSaapuneetAsiakkaat());
+        System.out.println("Valmiit asiakkaat (C): " + Asiakas.getValmiitAsiakkaat());
+        System.out.println("Keskimääräinen läpimenoaika: " + Asiakas.getKeskiViipyminen());
+        System.out.println("Check-in keski palveluaika (S): " + CheckIn.getKeskiPalveluaika() + ", koko palveluaika (B): " + CheckIn.getTotalPalveluaika() + ", käyttöaste (U): " + CheckIn.getKayttoAste() + ", suorituskyky (X): " + CheckIn.getLapimeno());
+        System.out.println("Self-Check-in keski palveluaika (S): " + SelfCheckIn.getKeskiPalveluaika() + ", koko palveluaika (B): " + SelfCheckIn.getTotalPalveluaika() + ", käyttöaste (U): " + SelfCheckIn.getKayttoAste() + ", suorituskyky (X): " + SelfCheckIn.getLapimeno());
+        System.out.println("Turvatarkastus keski palveluaika (S): " + Turvatarkastus.getKeskiPalveluaika() + ", koko palveluaika (B): " + Turvatarkastus.getTotalPalveluaika() + ", käyttöaste (U): " + Turvatarkastus.getKayttoAste() + ", suorituskyky (X): " + Turvatarkastus.getLapimeno());
+        System.out.println("Portti keski palveluaika (S): " + Portti.getKeskiPalveluaika() + ", koko palveluaika (B): " + Portti.getTotalPalveluaika() + ", käyttöaste (U): " + Portti.getKayttoAste() + ", suorituskyky (X): " + Portti.getLapimeno());
 
         kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
     }
