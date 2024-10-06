@@ -186,6 +186,7 @@ public class OmaMoottori extends Moottori {
 
     @Override
     protected void tulokset() {
+        //Luodaan tulokset
         int loppuaika = (int)Kello.getInstance().getAika();
         int valmiitAsiakkaat = (int)Asiakas.getValmiitAsiakkaat();
         int meanLapimenoaika = (int)this.prosessiAika / (int)Asiakas.getValmiitAsiakkaat();
@@ -194,9 +195,11 @@ public class OmaMoottori extends Moottori {
         int turvatarkastusMeanPalveluaika = (int)turvatarkastusPisteet[0].getKeskiPalveluaika();
         int porttiMeanPalveluaika = (int)porttiPisteet[0].getKeskiPalveluaika();
 
+        // Tallennetaan tulokset tietokantaan
         Results results = new Results(loppuaika, valmiitAsiakkaat, meanLapimenoaika, checkInMeanPalveluaika, selfCheckInMeanPalveluaika, turvatarkastusMeanPalveluaika, porttiMeanPalveluaika);
         kontrolleri.persistRes(results);
 
+        //Tulostetaan tulokset konsoliin
         System.out.println("Simulointi päättyi kello " + loppuaika);
         System.out.println("Tulokset ... kesken.....");
         System.out.println("Valmiit asiakkaat: " + valmiitAsiakkaat);

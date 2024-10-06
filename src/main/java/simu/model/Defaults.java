@@ -7,25 +7,25 @@ import jakarta.persistence.*;
 public class Defaults {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    int aika;
-    int viive;
+    private int id;
+    private int aika;
+    private int viive;
     @Column (name = "check_in_koko")
-    int checkInKoko;
+    private int checkInKoko;
     @Column (name = "self_check_in_koko")
-    int selfCheckInKoko;
+    private int selfCheckInKoko;
     @Column (name = "turvatarkastus_koko")
-    int turvatarkastusKoko;
+    private int turvatarkastusKoko;
     @Column (name = "portti_koko")
-    int porttiKoko;
+    private int porttiKoko;
     @Column (name = "mean_palveluaika")
-    int meanPalveluaika;
+    private int meanPalveluaika;
     @Column (name = "variance_palveluaika")
-    int variancePalveluaika;
+    private int variancePalveluaika;
     @Column (name = "mean_saapumisvali")
-    int meanSaapumisvali;
+    private int meanSaapumisvali;
     @Column (name = "variance_saapumisvali")
-    int varianceSaapumisvali;
+    private int varianceSaapumisvali;
 
     public Defaults(int aika, int viive, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanPalveluaika, int variancePalveluaika, int meanSaapumisvali, int varianceSaapumisvali) {
         super();
@@ -37,4 +37,47 @@ public class Defaults {
 
     public Defaults() {}
 
+    public int getId() {
+        return id;
+    }
+
+    public int getAika() {
+        return aika;
+    }
+
+    public int getViive() {
+        return viive;
+    }
+
+    public int getCheckInKoko() {
+        return checkInKoko;
+    }
+
+    public int getSelfCheckInKoko() {
+        return selfCheckInKoko;
+    }
+
+    public int getTurvatarkastusKoko() {
+        return turvatarkastusKoko;
+    }
+
+    public int getPorttiKoko() {
+        return porttiKoko;
+    }
+
+    public int getMeanPalveluaika() {
+        return meanPalveluaika;
+    }
+
+    public int getVariancePalveluaika() {
+        return variancePalveluaika;
+    }
+
+    public int getMeanSaapumisvali() {
+        return meanSaapumisvali;
+    }
+
+    public int getVarianceSaapumisvali() {
+        return varianceSaapumisvali;
+    }
 }

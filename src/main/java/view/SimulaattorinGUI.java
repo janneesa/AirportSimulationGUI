@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import simu.framework.Trace;
+import simu.model.Defaults;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
@@ -21,7 +22,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private TextField checkInKoko, selfCheckInKoko, turvatarkastusKoko, porttiKoko, aika, viive;
     private TextField meanPalveluaika, variancePalveluaika, meanSaapumisvali, varianceSaapumisvali;
     private Label tulos, selfCheckInValueLabel;
-    private Button kaynnistaButton, hidastaButton, nopeutaButton;
+    private Button kaynnistaButton, hidastaButton, nopeutaButton, haeEdellinenButton;
     private IVisualisointi naytto;
     private Slider selfCheckInSlider;
 
@@ -43,10 +44,39 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         kaynnistaButton = createButton("Käynnistä simulointi", e -> {
             kontrolleri.kaynnistaSimulointi();
             kaynnistaButton.setDisable(true);
+
+            //Tallennetaan käyttäjän syöttämät arvot tietokantaan
+            Defaults defaults = new Defaults(
+                Integer.parseInt(aika.getText()),
+                Integer.parseInt(viive.getText()),
+                Integer.parseInt(checkInKoko.getText()),
+                Integer.parseInt(selfCheckInKoko.getText()),
+                Integer.parseInt(turvatarkastusKoko.getText()),
+                Integer.parseInt(porttiKoko.getText()),
+                Integer.parseInt(meanPalveluaika.getText()),
+                Integer.parseInt(variancePalveluaika.getText()),
+                Integer.parseInt(meanSaapumisvali.getText()),
+                Integer.parseInt(varianceSaapumisvali.getText())
+            );
+            kontrolleri.persistDef(defaults);
         });
 
         hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta());
         nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
+        //Haetaan edellisen simuloinnin lähtöarvot tietokannasta
+        haeEdellinenButton = createButton("Hae edellinen", e -> {
+            Defaults defaults = kontrolleri.haeEdellinen();
+            aika.setText(String.valueOf(defaults.getAika()));
+            viive.setText(String.valueOf(defaults.getViive()));
+            checkInKoko.setText(String.valueOf(defaults.getCheckInKoko()));
+            selfCheckInKoko.setText(String.valueOf(defaults.getSelfCheckInKoko()));
+            turvatarkastusKoko.setText(String.valueOf(defaults.getTurvatarkastusKoko()));
+            porttiKoko.setText(String.valueOf(defaults.getPorttiKoko()));
+            meanPalveluaika.setText(String.valueOf(defaults.getMeanPalveluaika()));
+            variancePalveluaika.setText(String.valueOf(defaults.getVariancePalveluaika()));
+            meanSaapumisvali.setText(String.valueOf(defaults.getMeanSaapumisvali()));
+            varianceSaapumisvali.setText(String.valueOf(defaults.getVarianceSaapumisvali()));
+        });
 
         aika = createTextField("500");
         viive = createTextField("500");
@@ -78,6 +108,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(kaynnistaButton, 0, 7);
         grid.add(nopeutaButton, 0, 8);
         grid.add(hidastaButton, 1, 8);
+        grid.add(haeEdellinenButton, 0, 9);
 
         naytto = new Visualisointi3(400, 600);
 

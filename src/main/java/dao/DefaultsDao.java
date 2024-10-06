@@ -13,9 +13,10 @@ public class DefaultsDao {
         em.getTransaction().commit();
     }
 
-    public ArrayList<Defaults> getDefaults() {
+    //Get last Defaults
+    public Defaults getDefaults() {
         EntityManager em = MariaDbConnection.getInstance();
-        return new ArrayList<>(em.createQuery("SELECT c FROM Defaults c", Defaults.class).getResultList());
+        return em.createQuery("SELECT d FROM Defaults d ORDER BY d.id DESC", Defaults.class).setMaxResults(1).getSingleResult();
     }
 
     public void update(Defaults def) {

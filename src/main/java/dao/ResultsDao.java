@@ -13,7 +13,7 @@ public class ResultsDao {
         em.getTransaction().commit();
     }
 
-    public ArrayList<Results> getDefaults() {
+    public ArrayList<Results> getResults() {
         EntityManager em = MariaDbConnection.getInstance();
         return new ArrayList<>(em.createQuery("SELECT c FROM Results c", Results.class).getResultList());
     }
