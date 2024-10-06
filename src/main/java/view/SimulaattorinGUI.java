@@ -19,7 +19,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     private IKontrolleriForV kontrolleri;
     private TextField checkInKoko, selfCheckInKoko, turvatarkastusKoko, porttiKoko, aika, viive;
-    private TextField meanPalveluaika, variancePalveluaika, meanSaapumisvali, varianceSaapumisvali;
+    private TextField meanCheckIn, varianceCheckIn, meanSelfCheckIn, varianceSelfCheckIn;
+    private TextField meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
+    // private TextField meanPalveluaika, variancePalveluaika;
+    private TextField meanSaapumisvali, varianceSaapumisvali;
     private Label tulos, selfCheckInValueLabel;
     private Button kaynnistaButton, hidastaButton, nopeutaButton;
     private IVisualisointi naytto;
@@ -54,32 +57,45 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         selfCheckInKoko = createTextField("2");
         turvatarkastusKoko = createTextField("2");
         porttiKoko = createTextField("2");
-        meanPalveluaika = createTextField("10");
-        variancePalveluaika = createTextField("6");
+        meanCheckIn = createTextField("2");
+        varianceCheckIn = createTextField("1");
+        meanSelfCheckIn = createTextField("1");
+        varianceSelfCheckIn = createTextField("1");
+        meanTurvatarkastus = createTextField("2");
+        varianceTurvatarkastus = createTextField("5");
+        meanPortti = createTextField("1");
+        variancePortti = createTextField("2");
+        // meanPalveluaika = createTextField("10");
+        // variancePalveluaika = createTextField("6");
         meanSaapumisvali = createTextField("15");
         varianceSaapumisvali = createTextField("5");
         tulos = new Label();
         tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
         selfCheckInSlider = new Slider(0, 1, 0.5);
-        selfCheckInValueLabel = new Label(String.format("Self-Check-In todennäköisyys: %.2f%%", selfCheckInSlider.getValue() * 100));
+        selfCheckInValueLabel = new Label(String.format("Self-Check-in-todennäköisyys: %.2f%%", selfCheckInSlider.getValue() * 100));
         selfCheckInSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            selfCheckInValueLabel.setText(String.format("Self-Check-In todennäköisyys: %.2f%%", newValue.doubleValue() * 100));
+            selfCheckInValueLabel.setText(String.format("Self-Check-in-todennäköisyys: %.2f%%", newValue.doubleValue() * 100));
         });
 
         GridPane grid = createGridPane();
         addGridRow(grid, "Simulointiaika (min):", aika, "Viive (min):", viive, 0);
-        addGridRow(grid, "Check-In pisteiden määrä:", checkInKoko, "Self-Check-In pisteiden määrä:", selfCheckInKoko, 1);
+        addGridRow(grid, "Check-in-pisteiden määrä:", checkInKoko, "Self-Check-in-pisteiden määrä:", selfCheckInKoko, 1);
         addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 2);
-        addGridRow(grid, "Palveluajan keskiarvo (min):", meanPalveluaika, "Palveluajan varianssi (min):", variancePalveluaika, 3);
-        addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 4);
-        addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 5);
-        addGridRow(grid, "Kokonaisaika:", tulos, 6);
-        grid.add(kaynnistaButton, 0, 7);
-        grid.add(nopeutaButton, 0, 8);
-        grid.add(hidastaButton, 1, 8);
+        grid.add(new Label("Palveluaikojen keskiarvot ja varianssit (min): "), 0, 3, 2, 1);
+        addGridRow(grid, "Check-in (min):", meanCheckIn, "Check-In varianssi (min):", varianceCheckIn, 4);
+        addGridRow(grid, "Self-Check-In keskiarvo (min):", meanSelfCheckIn, "Self-Check-In varianssi (min):", varianceSelfCheckIn, 5);
+        addGridRow(grid, "Turvatarkastus keskiarvo (min):", meanTurvatarkastus, "Turvatarkastus varianssi (min):", varianceTurvatarkastus, 6);
+        addGridRow(grid, "Portti keskiarvo (min):", meanPortti, "Portti varianssi (min):", variancePortti, 7);
+        // addGridRow(grid, "Palveluajan keskiarvo (min):", meanPalveluaika, "Palveluajan varianssi (min):", variancePalveluaika, 3);
+        addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 8);
+        addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 9);
+        addGridRow(grid, "Kokonaisaika:", tulos, 10);
+        grid.add(kaynnistaButton, 0, 11);
+        grid.add(nopeutaButton, 0, 12);
+        grid.add(hidastaButton, 1, 12);
 
-        naytto = new Visualisointi3(400, 600);
+        naytto = new Visualisointi3(400, 700, getAika());
 
         HBox hBox = new HBox(10, grid, (Canvas) naytto);
         hBox.setPadding(new Insets(15));
@@ -156,13 +172,46 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         return Integer.parseInt(porttiKoko.getText());
     }
 
-    public int getMeanPalveluaika() {
+    public int getMeanCheckIn() {
+        return Integer.parseInt(meanCheckIn.getText());
+    }
+
+    public int getVarianceCheckIn() {
+        return Integer.parseInt(varianceCheckIn.getText());
+    }
+
+    public int getMeanSelfCheckIn() {
+        return Integer.parseInt(meanSelfCheckIn.getText());
+    }
+
+    public int getVarianceSelfCheckIn() {
+        return Integer.parseInt(varianceSelfCheckIn.getText());
+    }
+
+    public int getMeanTurvatarkastus() {
+        return Integer.parseInt(meanTurvatarkastus.getText());
+    }
+
+    public int getVarianceTurvatarkastus() {
+        return Integer.parseInt(varianceTurvatarkastus.getText());
+    }
+
+    public int getMeanPortti() {
+        return Integer.parseInt(meanPortti.getText());
+    }
+
+    public int getVariancePortti() {
+        return Integer.parseInt(variancePortti.getText());
+    }
+
+    /* public int getMeanPalveluaika() {
         return Integer.parseInt(meanPalveluaika.getText());
     }
 
     public int getVariancePalveluaika() {
         return Integer.parseInt(variancePalveluaika.getText());
     }
+    */
 
     public int getMeanSaapumisvali() {
         return Integer.parseInt(meanSaapumisvali.getText());
