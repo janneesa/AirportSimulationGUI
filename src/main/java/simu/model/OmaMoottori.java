@@ -165,26 +165,39 @@ public class OmaMoottori extends Moottori {
     protected void tulokset() {
         //Luodaan tulokset
         int loppuaika = (int)Kello.getInstance().getAika();
+
         int valmiitAsiakkaat = (int)Asiakas.getValmiitAsiakkaat();
-        int meanLapimenoaika = (int)this.prosessiAika / (int)Asiakas.getValmiitAsiakkaat();
+        int meanLapimenoaika = (int)Asiakas.getKeskiViipyminen();
         int checkInMeanPalveluaika = (int)CheckIn.getKeskiPalveluaika();
+        int checkInKokoPalveluaika = (int)CheckIn.getTotalPalveluaika();
+        int checkInKayttoaste = (int)CheckIn.getKayttoAste();
+        int checkInSuorituskyky = (int)CheckIn.getLapimeno();
         int selfCheckInMeanPalveluaika = (int)SelfCheckIn.getKeskiPalveluaika();
+        int selfCheckInKokoPalveluaika = (int)SelfCheckIn.getTotalPalveluaika();
+        int selfCheckInKayttoaste = (int)SelfCheckIn.getKayttoAste();
+        int selfCheckInSuorituskyky = (int)SelfCheckIn.getLapimeno();
         int turvatarkastusMeanPalveluaika = (int)Turvatarkastus.getKeskiPalveluaika();
+        int turvatarkastusKokoPalveluaika = (int)Turvatarkastus.getTotalPalveluaika();
+        int turvatarkastusKayttoaste = (int)Turvatarkastus.getKayttoAste();
+        int turvatarkastusSuorituskyky = (int)Turvatarkastus.getLapimeno();
         int porttiMeanPalveluaika = (int)Portti.getKeskiPalveluaika();
+        int porttiKokoPalveluaika = (int)Portti.getTotalPalveluaika();
+        int porttiKayttoaste = (int)Portti.getKayttoAste();
+        int porttiSuorituskyky = (int)Portti.getLapimeno();
 
         // Tallennetaan tulokset tietokantaan
-        Results results = new Results(loppuaika, valmiitAsiakkaat, meanLapimenoaika, checkInMeanPalveluaika, selfCheckInMeanPalveluaika, turvatarkastusMeanPalveluaika, porttiMeanPalveluaika);
+        Results results = new Results(loppuaika, valmiitAsiakkaat, meanLapimenoaika, checkInMeanPalveluaika, checkInKokoPalveluaika, checkInKayttoaste, checkInSuorituskyky, selfCheckInMeanPalveluaika, selfCheckInKokoPalveluaika, selfCheckInKayttoaste, selfCheckInSuorituskyky, turvatarkastusMeanPalveluaika, turvatarkastusKokoPalveluaika, turvatarkastusKayttoaste, turvatarkastusSuorituskyky, porttiMeanPalveluaika, porttiKokoPalveluaika, porttiKayttoaste, porttiSuorituskyky);
         kontrolleri.persistRes(results);
 
         //Tulostetaan tulokset konsoliin
-        System.out.println("Simulointi päättyi kello (T): " + Kello.getInstance().getAika());
+        System.out.println("Simulointi päättyi kello (T): " + loppuaika);
         System.out.println("Saapuneet asiakkaat (A): " + Asiakas.getSaapuneetAsiakkaat());
-        System.out.println("Valmiit asiakkaat (C): " + Asiakas.getValmiitAsiakkaat());
-        System.out.println("Keskimääräinen läpimenoaika: " + Asiakas.getKeskiViipyminen());
-        System.out.println("Check-in keski palveluaika (S): " + CheckIn.getKeskiPalveluaika() + ", koko palveluaika (B): " + CheckIn.getTotalPalveluaika() + ", käyttöaste (U): " + CheckIn.getKayttoAste() + ", suorituskyky (X): " + CheckIn.getLapimeno());
-        System.out.println("Self-Check-in keski palveluaika (S): " + SelfCheckIn.getKeskiPalveluaika() + ", koko palveluaika (B): " + SelfCheckIn.getTotalPalveluaika() + ", käyttöaste (U): " + SelfCheckIn.getKayttoAste() + ", suorituskyky (X): " + SelfCheckIn.getLapimeno());
-        System.out.println("Turvatarkastus keski palveluaika (S): " + Turvatarkastus.getKeskiPalveluaika() + ", koko palveluaika (B): " + Turvatarkastus.getTotalPalveluaika() + ", käyttöaste (U): " + Turvatarkastus.getKayttoAste() + ", suorituskyky (X): " + Turvatarkastus.getLapimeno());
-        System.out.println("Portti keski palveluaika (S): " + Portti.getKeskiPalveluaika() + ", koko palveluaika (B): " + Portti.getTotalPalveluaika() + ", käyttöaste (U): " + Portti.getKayttoAste() + ", suorituskyky (X): " + Portti.getLapimeno());
+        System.out.println("Valmiit asiakkaat (C): " + valmiitAsiakkaat);
+        System.out.println("Keskimääräinen läpimenoaika: " + meanLapimenoaika);
+        System.out.println("Check-in keski palveluaika (S): " + checkInMeanPalveluaika + ", koko palveluaika (B): " + checkInKokoPalveluaika + ", käyttöaste (U): " + checkInKayttoaste + ", suorituskyky (X): " + checkInSuorituskyky);
+        System.out.println("Self-Check-in keski palveluaika (S): " + selfCheckInMeanPalveluaika + ", koko palveluaika (B): " + selfCheckInKokoPalveluaika + ", käyttöaste (U): " + selfCheckInKayttoaste + ", suorituskyky (X): " + selfCheckInSuorituskyky);
+        System.out.println("Turvatarkastus keski palveluaika (S): " + turvatarkastusMeanPalveluaika + ", koko palveluaika (B): " + turvatarkastusKokoPalveluaika + ", käyttöaste (U): " + turvatarkastusKayttoaste + ", suorituskyky (X): " + turvatarkastusSuorituskyky);
+        System.out.println("Portti keski palveluaika (S): " + porttiMeanPalveluaika + ", koko palveluaika (B): " + porttiKokoPalveluaika + ", käyttöaste (U): " + porttiKayttoaste + ", suorituskyky (X): " + porttiSuorituskyky);
 
         kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
     }
