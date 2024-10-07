@@ -61,8 +61,14 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 Integer.parseInt(selfCheckInKoko.getText()),
                 Integer.parseInt(turvatarkastusKoko.getText()),
                 Integer.parseInt(porttiKoko.getText()),
-                Integer.parseInt(meanPalveluaika.getText()),
-                Integer.parseInt(variancePalveluaika.getText()),
+                Integer.parseInt(meanCheckIn.getText()),
+                Integer.parseInt(varianceCheckIn.getText()),
+                Integer.parseInt(meanSelfCheckIn.getText()),
+                Integer.parseInt(varianceSelfCheckIn.getText()),
+                Integer.parseInt(meanTurvatarkastus.getText()),
+                Integer.parseInt(varianceTurvatarkastus.getText()),
+                Integer.parseInt(meanPortti.getText()),
+                Integer.parseInt(variancePortti.getText()),
                 Integer.parseInt(meanSaapumisvali.getText()),
                 Integer.parseInt(varianceSaapumisvali.getText())
             );
@@ -80,8 +86,14 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             selfCheckInKoko.setText(String.valueOf(defaults.getSelfCheckInKoko()));
             turvatarkastusKoko.setText(String.valueOf(defaults.getTurvatarkastusKoko()));
             porttiKoko.setText(String.valueOf(defaults.getPorttiKoko()));
-            meanPalveluaika.setText(String.valueOf(defaults.getMeanPalveluaika()));
-            variancePalveluaika.setText(String.valueOf(defaults.getVariancePalveluaika()));
+            meanCheckIn.setText(String.valueOf(defaults.getMeanCheckIn()));
+            varianceCheckIn.setText(String.valueOf(defaults.getVarianceCheckIn()));
+            meanSelfCheckIn.setText(String.valueOf(defaults.getMeanSelfCheckIn()));
+            varianceSelfCheckIn.setText(String.valueOf(defaults.getVarianceSelfCheckIn()));
+            meanTurvatarkastus.setText(String.valueOf(defaults.getMeanTurvatarkastus()));
+            varianceTurvatarkastus.setText(String.valueOf(defaults.getVarianceTurvatarkastus()));
+            meanPortti.setText(String.valueOf(defaults.getMeanPortti()));
+            variancePortti.setText(String.valueOf(defaults.getVariancePortti()));
             meanSaapumisvali.setText(String.valueOf(defaults.getMeanSaapumisvali()));
             varianceSaapumisvali.setText(String.valueOf(defaults.getVarianceSaapumisvali()));
         });
@@ -129,13 +141,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(kaynnistaButton, 0, 11);
         grid.add(nopeutaButton, 0, 12);
         grid.add(hidastaButton, 1, 12);
-        addGridRow(grid, "Palveluajan keskiarvo (min):", meanPalveluaika, "Palveluajan varianssi (min):", variancePalveluaika, 3);
-        addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 4);
-        addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 5);
-        addGridRow(grid, "Kokonaisaika:", tulos, 6);
-        grid.add(kaynnistaButton, 0, 7);
-        grid.add(nopeutaButton, 0, 8);
-        grid.add(hidastaButton, 1, 8);
         grid.add(haeEdellinenButton, 0, 9);
 
         naytto = new Visualisointi3(400, 700, getAika());

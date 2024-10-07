@@ -167,10 +167,10 @@ public class OmaMoottori extends Moottori {
         int loppuaika = (int)Kello.getInstance().getAika();
         int valmiitAsiakkaat = (int)Asiakas.getValmiitAsiakkaat();
         int meanLapimenoaika = (int)this.prosessiAika / (int)Asiakas.getValmiitAsiakkaat();
-        int checkInMeanPalveluaika = (int)checkInPisteet[0].getKeskiPalveluaika();
-        int selfCheckInMeanPalveluaika = (int)selfCheckInPisteet[0].getKeskiPalveluaika();
-        int turvatarkastusMeanPalveluaika = (int)turvatarkastusPisteet[0].getKeskiPalveluaika();
-        int porttiMeanPalveluaika = (int)porttiPisteet[0].getKeskiPalveluaika();
+        int checkInMeanPalveluaika = (int)CheckIn.getKeskiPalveluaika();
+        int selfCheckInMeanPalveluaika = (int)SelfCheckIn.getKeskiPalveluaika();
+        int turvatarkastusMeanPalveluaika = (int)Turvatarkastus.getKeskiPalveluaika();
+        int porttiMeanPalveluaika = (int)Portti.getKeskiPalveluaika();
 
         // Tallennetaan tulokset tietokantaan
         Results results = new Results(loppuaika, valmiitAsiakkaat, meanLapimenoaika, checkInMeanPalveluaika, selfCheckInMeanPalveluaika, turvatarkastusMeanPalveluaika, porttiMeanPalveluaika);
