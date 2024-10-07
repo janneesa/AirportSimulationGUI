@@ -27,6 +27,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.fillRect(0, 0, this.getWidth(), this.getHeight());
         drawServicePoints();
         drawProgressBar();
+        simulointiaika = SimulaattorinGUI.haeAika();
     }
 
     public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {

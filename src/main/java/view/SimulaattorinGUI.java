@@ -18,7 +18,12 @@ import simu.framework.Trace;
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     private IKontrolleriForV kontrolleri;
-    private TextField checkInKoko, selfCheckInKoko, turvatarkastusKoko, porttiKoko, aika, viive;
+    private TextField checkInKoko;
+    private TextField selfCheckInKoko;
+    private TextField turvatarkastusKoko;
+    private TextField porttiKoko;
+    private static TextField aika;
+    private TextField viive;
     private TextField meanCheckIn, varianceCheckIn, meanSelfCheckIn, varianceSelfCheckIn;
     private TextField meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
     // private TextField meanPalveluaika, variancePalveluaika;
@@ -237,5 +242,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static Double haeAika() {
+        return Double.parseDouble(aika.getText());
     }
 }
