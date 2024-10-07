@@ -79,23 +79,31 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
         //Haetaan edellisen simuloinnin lähtöarvot tietokannasta
         haeEdellinenButton = createButton("Hae edellinen", e -> {
-            Defaults defaults = kontrolleri.haeEdellinen();
-            aika.setText(String.valueOf(defaults.getAika()));
-            viive.setText(String.valueOf(defaults.getViive()));
-            checkInKoko.setText(String.valueOf(defaults.getCheckInKoko()));
-            selfCheckInKoko.setText(String.valueOf(defaults.getSelfCheckInKoko()));
-            turvatarkastusKoko.setText(String.valueOf(defaults.getTurvatarkastusKoko()));
-            porttiKoko.setText(String.valueOf(defaults.getPorttiKoko()));
-            meanCheckIn.setText(String.valueOf(defaults.getMeanCheckIn()));
-            varianceCheckIn.setText(String.valueOf(defaults.getVarianceCheckIn()));
-            meanSelfCheckIn.setText(String.valueOf(defaults.getMeanSelfCheckIn()));
-            varianceSelfCheckIn.setText(String.valueOf(defaults.getVarianceSelfCheckIn()));
-            meanTurvatarkastus.setText(String.valueOf(defaults.getMeanTurvatarkastus()));
-            varianceTurvatarkastus.setText(String.valueOf(defaults.getVarianceTurvatarkastus()));
-            meanPortti.setText(String.valueOf(defaults.getMeanPortti()));
-            variancePortti.setText(String.valueOf(defaults.getVariancePortti()));
-            meanSaapumisvali.setText(String.valueOf(defaults.getMeanSaapumisvali()));
-            varianceSaapumisvali.setText(String.valueOf(defaults.getVarianceSaapumisvali()));
+            try {
+                Defaults defaults = kontrolleri.haeEdellinen();
+                aika.setText(String.valueOf(defaults.getAika()));
+                viive.setText(String.valueOf(defaults.getViive()));
+                checkInKoko.setText(String.valueOf(defaults.getCheckInKoko()));
+                selfCheckInKoko.setText(String.valueOf(defaults.getSelfCheckInKoko()));
+                turvatarkastusKoko.setText(String.valueOf(defaults.getTurvatarkastusKoko()));
+                porttiKoko.setText(String.valueOf(defaults.getPorttiKoko()));
+                meanCheckIn.setText(String.valueOf(defaults.getMeanCheckIn()));
+                varianceCheckIn.setText(String.valueOf(defaults.getVarianceCheckIn()));
+                meanSelfCheckIn.setText(String.valueOf(defaults.getMeanSelfCheckIn()));
+                varianceSelfCheckIn.setText(String.valueOf(defaults.getVarianceSelfCheckIn()));
+                meanTurvatarkastus.setText(String.valueOf(defaults.getMeanTurvatarkastus()));
+                varianceTurvatarkastus.setText(String.valueOf(defaults.getVarianceTurvatarkastus()));
+                meanPortti.setText(String.valueOf(defaults.getMeanPortti()));
+                variancePortti.setText(String.valueOf(defaults.getVariancePortti()));
+                meanSaapumisvali.setText(String.valueOf(defaults.getMeanSaapumisvali()));
+                varianceSaapumisvali.setText(String.valueOf(defaults.getVarianceSaapumisvali()));
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Virhe");
+                alert.setHeaderText("Tietokantayhteys epäonnistui");
+                alert.setContentText("Yhteyttä tietokantaan ei saatu.");
+                alert.showAndWait();
+            }
         });
 
         aika = createTextField("500");
@@ -140,7 +148,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         addGridRow(grid, "Kokonaisaika:", tulos, 11);
         grid.add(kaynnistaButton, 0, 12);
         grid.add(nopeutaButton, 0, 13);
-        grid.add(hidastaButton, 1, 14);
+        grid.add(hidastaButton, 1, 13);
         grid.add(haeEdellinenButton, 0, 0);
 
         naytto = new Visualisointi3(400, 700, getAika());
@@ -162,6 +170,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         TextField textField = new TextField(promptText);
         textField.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         textField.setPrefWidth(150);
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                textField.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
         return textField;
     }
 
