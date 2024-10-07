@@ -25,7 +25,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private TextField meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
     private TextField meanSaapumisvali, varianceSaapumisvali;
     private Label tulos, selfCheckInValueLabel;
-    private Button kaynnistaButton, hidastaButton, nopeutaButton, haeEdellinenButton;
+    private Button kaynnistaButton;
+    private Button hidastaButton;
+    private Button nopeutaButton;
+    private Button haeEdellinenButton;
+    private static Button tallennaButton;
     private IVisualisointi naytto;
     private Slider selfCheckInSlider;
 
@@ -47,12 +51,13 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         kaynnistaButton = createButton("Käynnistä simulointi", e -> {
             kontrolleri.kaynnistaSimulointi();
             kaynnistaButton.setDisable(true);
-            saveDefaults();
         });
 
         hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta());
         nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
         haeEdellinenButton = createButton("Hae edellinen", e -> loadDefaults());
+        tallennaButton = createButton("Tallenna", e -> tallennaSimulaatio());
+        tallennaButton.setVisible(false);
 
         initializeTextFields();
         tulos = new Label();
@@ -76,7 +81,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         primaryStage.show();
     }
 
-    private void saveDefaults() {
+    private void tallennaSimulaatio() {
         Defaults defaults = getDefaults();
         kontrolleri.persistDef(defaults);
     }
@@ -159,6 +164,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(nopeutaButton, 0, 13);
         grid.add(hidastaButton, 1, 13);
         grid.add(haeEdellinenButton, 0, 0);
+        grid.add(tallennaButton, 1, 0);
     }
 
     private void addGridRow(GridPane grid, String labelText1, Control control1, String labelText2, Control control2, int rowIndex) {
@@ -301,5 +307,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         variancePortti.setText(String.valueOf(defaults.getVariancePortti()));
         meanSaapumisvali.setText(String.valueOf(defaults.getMeanSaapumisvali()));
         varianceSaapumisvali.setText(String.valueOf(defaults.getVarianceSaapumisvali()));
+    }
+
+    public static Button getTallennaButton() {
+        return tallennaButton;
     }
 }

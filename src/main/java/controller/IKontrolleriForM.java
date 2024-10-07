@@ -9,4 +9,8 @@ public interface IKontrolleriForM {
     public void naytaLoppuaika(double aika);
     public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara);
     public void persistRes(Results res);
+
+    void setResults(Results results);
+
+    void showTallennaButton();
 }

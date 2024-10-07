@@ -8,14 +8,15 @@ import simu.model.Defaults;
 import simu.model.OmaMoottori;
 import simu.model.Results;
 import view.ISimulaattorinUI;
+import view.SimulaattorinGUI;
 
-import java.util.ArrayList;
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 
 	private IMoottori moottori;
 	private ISimulaattorinUI ui;
 	private ResultsDao resultsDao;
+	private Results results;
 
 	public Kontrolleri(ISimulaattorinUI ui) {
 		this.ui = ui;
@@ -75,10 +76,25 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 	public void persistDef(Defaults defaults) {
 		DefaultsDao defaultsDao= new DefaultsDao();
 		defaultsDao.persist(defaults);
+		setResults(results);
+
+		persistRes(results);
 	}
 
 	public Defaults haeEdellinen() {
 		DefaultsDao defaultsDao = new DefaultsDao();
 		return defaultsDao.getDefaults();
+	}
+
+	public void setResults(Results results) {
+		this.results = results;
+	}
+
+	public Results getResults() {
+		return results;
+	}
+
+	public void showTallennaButton() {
+		SimulaattorinGUI.getTallennaButton().setVisible(true);
 	}
 }
