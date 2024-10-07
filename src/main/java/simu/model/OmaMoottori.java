@@ -18,8 +18,18 @@ public class OmaMoottori extends Moottori {
     private Palvelupiste[] porttiPisteet;
 
     // Palvelupisteiden palveluajat
+    private int meanCheckIn;
+    private int varianceCheckIn;
+    private int meanSelfCheckIn;
+    private int varianceSelfCheckIn;
+    private int meanTurvatarkastus;
+    private int varianceTurvatarkastus;
+    private int meanPortti;
+    private int variancePortti;
+    /*
     private int meanPalveluaika;
     private int variancePalveluaika;
+    */
 
     // Saapumisprosessin saapumisväli
     private int meanSaapumisvali;
@@ -33,10 +43,20 @@ public class OmaMoottori extends Moottori {
 
     private double prosessiAika = 0.0;
 
-    public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanPalveluaika, int variancePalveluaika, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
+    public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
+        this.meanCheckIn = meanCheckIn;
+        this.varianceCheckIn = varianceCheckIn;
+        this.meanSelfCheckIn = meanSelfCheckIn;
+        this.varianceSelfCheckIn = varianceSelfCheckIn;
+        this.meanTurvatarkastus = meanTurvatarkastus;
+        this.varianceTurvatarkastus = varianceTurvatarkastus;
+        this.meanPortti = meanPortti;
+        this.variancePortti = variancePortti;
+        /*
         this.meanPalveluaika = meanPalveluaika;
         this.variancePalveluaika = variancePalveluaika;
+        */
         this.meanSaapumisvali = meanSaapumisvali;
         this.varianceSaapumisvali = varianceSaapumisvali;
         this.selfCheckInTodennakoisyys = selfCheckInTodennakoisyys;
@@ -49,22 +69,22 @@ public class OmaMoottori extends Moottori {
 
         // Luo check-in pisteet
         for (int i = 0; i < checkInKoko; i++) {
-            checkInPisteet[i] = new CheckIn("Check-in " + (i + 1), new Normal(meanPalveluaika, variancePalveluaika), tapahtumalista, TapahtumanTyyppi.CHECK_IN_VALMIS);
+            checkInPisteet[i] = new CheckIn("Check-in " + (i + 1), new Normal(meanCheckIn, varianceCheckIn), tapahtumalista, TapahtumanTyyppi.CHECK_IN_VALMIS);
         }
 
         // Luo self-check-in pisteet
         for (int i = 0; i < selfCheckInKoko; i++) {
-            selfCheckInPisteet[i] = new SelfCheckIn("Self-check-in " + (i + 1), new Normal(meanPalveluaika, variancePalveluaika), tapahtumalista, TapahtumanTyyppi.SELF_CHECK_IN_VALMIS);
+            selfCheckInPisteet[i] = new SelfCheckIn("Self-check-in " + (i + 1), new Normal(meanSelfCheckIn, varianceSelfCheckIn), tapahtumalista, TapahtumanTyyppi.SELF_CHECK_IN_VALMIS);
         }
 
         // Luo turvatarkastus pisteet
         for (int i = 0; i < turvatarkastusKoko; i++) {
-            turvatarkastusPisteet[i] = new Turvatarkastus("Turvatarkastus " + (i + 1), new Normal(meanPalveluaika, variancePalveluaika), tapahtumalista, TapahtumanTyyppi.TURVATARKASTUS_VALMIS);
+            turvatarkastusPisteet[i] = new Turvatarkastus("Turvatarkastus " + (i + 1), new Normal(meanTurvatarkastus, varianceTurvatarkastus), tapahtumalista, TapahtumanTyyppi.TURVATARKASTUS_VALMIS);
         }
 
         // Luo portti pisteet
         for (int i = 0; i < porttiKoko; i++) {
-            porttiPisteet[i] = new Portti("Portti " + (i + 1), new Normal(meanPalveluaika, variancePalveluaika), tapahtumalista, TapahtumanTyyppi.PORTTI_VALMIS);
+            porttiPisteet[i] = new Portti("Portti " + (i + 1), new Normal(meanPortti, variancePortti), tapahtumalista, TapahtumanTyyppi.PORTTI_VALMIS);
         }
 
         saapumisprosessi = new Saapumisprosessi(new Negexp(meanSaapumisvali, varianceSaapumisvali), tapahtumalista, TapahtumanTyyppi.ARRIVAL);

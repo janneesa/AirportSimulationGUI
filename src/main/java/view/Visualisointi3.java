@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import simu.framework.Kello;
 
 public class Visualisointi3 extends Canvas implements IVisualisointi {
 
@@ -12,10 +13,12 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private int[] customerAmounts = {0, 0, 0, 0};
     private double[] usageRates = {0.0, 0.0, 0.0, 0.0};
     private int[] servicePointAmounts = {0, 0, 0, 0};
+    private double simulointiaika;
 
-    public Visualisointi3(int w, int h) {
+    public Visualisointi3(int w, int h, double simulointiaika) {
         super(w, h);
         gc = this.getGraphicsContext2D();
+        this.simulointiaika = simulointiaika;
         tyhjennaNaytto();
     }
 
@@ -23,6 +26,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, this.getWidth(), this.getHeight());
         drawServicePoints();
+        drawProgressBar();
     }
 
     public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {
@@ -32,6 +36,28 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
             servicePointAmounts[palvelupiste - 1] = palvelupisteMaara;
             drawServicePoint(palvelupiste - 1);
         }
+        drawProgressBar();
+    }
+
+    private void drawProgressBar() {
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 640, this.getWidth(), 50);
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font(14));
+        gc.fillText("Kello: " + Kello.getInstance().getAika() + " / " + simulointiaika, 10, 650);
+        gc.setFill(Color.LIGHTGRAY);
+        gc.fillRect(10, 650, this.getWidth() - 20, 20);
+
+        double progress = (double) Kello.getInstance().getAika() / simulointiaika;
+
+
+
+        gc.setFill(Color.GREEN);
+        gc.fillRect(10, 650, (this.getWidth() - 20) * progress, 20);
+
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font(14));
+        gc.fillText(String.format("Progress: %.2f%%", progress * 100), 10, 715);
     }
 
     private void drawServicePoints() {
@@ -42,9 +68,9 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     private void drawServicePoint(int index) {
         int boxWidth = 150;
-        int boxHeight = 100;
+        int boxHeight = 150;
         int spacingX = 20;
-        int spacingY = 40;
+        int spacingY = 60;
         int startX = 50;
         int startY = 50;
         int x, y;
@@ -87,21 +113,37 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.fillRect(x, y, boxWidth, boxHeight);
 
         int asiakkaat = customerAmounts[index];
+        int palvelupisteet = servicePointAmounts[index];
+
+        // Skaalatan ympyränkoot ja välit siten, että ne mahtuvat ruutuun
+        double ympyranKoko = Math.min(20, (boxWidth - 20) / (double) palvelupisteet);
+        double valit = (ympyranKoko / 3) / (palvelupisteet);
+
         if (customerAmounts[index] > servicePointAmounts[index]) {
             asiakkaat = servicePointAmounts[index];
+        }
+
+        int i = 0;
+        for (; i < asiakkaat; i++) {
+            gc.setFill(Color.RED);
+            gc.fillOval(x + 10 + i * (ympyranKoko+valit), y + 50, ympyranKoko, ympyranKoko);
+        }
+        for (int j = 0; j < (palvelupisteet - asiakkaat); j++, i++) {
+            gc.setFill(Color.GREEN);
+            gc.fillOval(x + 10 + i * (ympyranKoko+valit), y + 50, ympyranKoko, ympyranKoko);
         }
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(14));
         gc.fillText(names[index], x + 10, y + 20);
-        gc.fillText("Asiakkaat: " + asiakkaat + " / " + servicePointAmounts[index], x + 10, y + 50);
+        gc.fillText("Asiakkaat: " + asiakkaat + " / " + palvelupisteet, x + 10, y + 100);
 
         if (usageRates[index] > 100) {
             gc.setFill(Color.RED);
         } else {
             gc.setFill(Color.GREEN);
         }
-        gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 80);
+        gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 130);
     }
 
     @Override

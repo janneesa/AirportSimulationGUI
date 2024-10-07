@@ -9,8 +9,16 @@ public interface ISimulaattorinUI {
 	int getSelfCheckInKoko();
 	int getTurvatarkastusKoko();
 	int getPorttiKoko();
-	int getMeanPalveluaika();
-	int getVariancePalveluaika();
+	// int getMeanPalveluaika();
+	// int getVariancePalveluaika();
+	int getMeanCheckIn();
+	int getVarianceCheckIn();
+	int getMeanSelfCheckIn();
+	int getVarianceSelfCheckIn();
+	int getMeanTurvatarkastus();
+	int getVarianceTurvatarkastus();
+	int getMeanPortti();
+	int getVariancePortti();
 	int getMeanSaapumisvali();
 	int getVarianceSaapumisvali();
 	double getSelfCheckInTodennakoisyys();
