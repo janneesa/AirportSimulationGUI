@@ -163,14 +163,28 @@ public class OmaMoottori extends Moottori {
 
     @Override
     protected void tulokset() {
-        System.out.println("Simulointi päättyi kello (T): " + Kello.getInstance().getAika());
-        System.out.println("Saapuneet asiakkaat (A): " + Asiakas.getSaapuneetAsiakkaat());
-        System.out.println("Valmiit asiakkaat (C): " + Asiakas.getValmiitAsiakkaat());
-        System.out.println("Keskimääräinen läpimenoaika: " + Asiakas.getKeskiViipyminen());
-        System.out.println("Check-in keski palveluaika (S): " + CheckIn.getKeskiPalveluaika() + ", koko palveluaika (B): " + CheckIn.getTotalPalveluaika() + ", käyttöaste (U): " + CheckIn.getKayttoAste() + ", suorituskyky (X): " + CheckIn.getLapimeno());
-        System.out.println("Self-Check-in keski palveluaika (S): " + SelfCheckIn.getKeskiPalveluaika() + ", koko palveluaika (B): " + SelfCheckIn.getTotalPalveluaika() + ", käyttöaste (U): " + SelfCheckIn.getKayttoAste() + ", suorituskyky (X): " + SelfCheckIn.getLapimeno());
-        System.out.println("Turvatarkastus keski palveluaika (S): " + Turvatarkastus.getKeskiPalveluaika() + ", koko palveluaika (B): " + Turvatarkastus.getTotalPalveluaika() + ", käyttöaste (U): " + Turvatarkastus.getKayttoAste() + ", suorituskyky (X): " + Turvatarkastus.getLapimeno());
-        System.out.println("Portti keski palveluaika (S): " + Portti.getKeskiPalveluaika() + ", koko palveluaika (B): " + Portti.getTotalPalveluaika() + ", käyttöaste (U): " + Portti.getKayttoAste() + ", suorituskyky (X): " + Portti.getLapimeno());
+        //Luodaan tulokset
+        int loppuaika = (int)Kello.getInstance().getAika();
+        int valmiitAsiakkaat = (int)Asiakas.getValmiitAsiakkaat();
+        int meanLapimenoaika = (int)this.prosessiAika / (int)Asiakas.getValmiitAsiakkaat();
+        int checkInMeanPalveluaika = (int)checkInPisteet[0].getKeskiPalveluaika();
+        int selfCheckInMeanPalveluaika = (int)selfCheckInPisteet[0].getKeskiPalveluaika();
+        int turvatarkastusMeanPalveluaika = (int)turvatarkastusPisteet[0].getKeskiPalveluaika();
+        int porttiMeanPalveluaika = (int)porttiPisteet[0].getKeskiPalveluaika();
+
+        // Tallennetaan tulokset tietokantaan
+        Results results = new Results(loppuaika, valmiitAsiakkaat, meanLapimenoaika, checkInMeanPalveluaika, selfCheckInMeanPalveluaika, turvatarkastusMeanPalveluaika, porttiMeanPalveluaika);
+        kontrolleri.persistRes(results);
+
+        //Tulostetaan tulokset konsoliin
+        System.out.println("Simulointi päättyi kello " + loppuaika);
+        System.out.println("Tulokset ... kesken.....");
+        System.out.println("Valmiit asiakkaat: " + valmiitAsiakkaat);
+        System.out.println("Keskimääräinen läpimenoaika: " + meanLapimenoaika);
+        System.out.println("Check-in pisteiden keskimääräinen palveluaika: " + checkInMeanPalveluaika);
+        System.out.println("Self-Check-in pisteiden keskimääräinen palveluaika: " + selfCheckInMeanPalveluaika);
+        System.out.println("Turvatarkastus pisteiden keskimääräinen palveluaika: " + turvatarkastusMeanPalveluaika);
+        System.out.println("Portti pisteiden keskimääräinen palveluaika: " + porttiMeanPalveluaika);
 
         kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
     }

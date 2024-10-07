@@ -1,14 +1,21 @@
 package controller;
 
+import dao.DefaultsDao;
+import dao.ResultsDao;
 import javafx.application.Platform;
 import simu.framework.IMoottori;
+import simu.model.Defaults;
 import simu.model.OmaMoottori;
+import simu.model.Results;
 import view.ISimulaattorinUI;
+
+import java.util.ArrayList;
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 
 	private IMoottori moottori;
 	private ISimulaattorinUI ui;
+	private ResultsDao resultsDao;
 
 	public Kontrolleri(ISimulaattorinUI ui) {
 		this.ui = ui;
@@ -58,5 +65,20 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 	@Override
 	public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {
 		Platform.runLater(() -> ui.getVisualisointi().paivitaVisualisointi(palvelupiste, asiakasMaara, kayttoaste, palvelupisteMaara));
+	}
+
+	public void persistRes(Results res) {
+		resultsDao = new ResultsDao();
+		resultsDao.persist(res);
+	}
+
+	public void persistDef(Defaults defaults) {
+		DefaultsDao defaultsDao= new DefaultsDao();
+		defaultsDao.persist(defaults);
+	}
+
+	public Defaults haeEdellinen() {
+		DefaultsDao defaultsDao = new DefaultsDao();
+		return defaultsDao.getDefaults();
 	}
 }
