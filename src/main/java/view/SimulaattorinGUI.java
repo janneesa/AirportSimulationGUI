@@ -126,22 +126,22 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         });
 
         GridPane grid = createGridPane();
-        addGridRow(grid, "Simulointiaika (min):", aika, "Viive (min):", viive, 0);
-        addGridRow(grid, "Check-in-pisteiden määrä:", checkInKoko, "Self-Check-in-pisteiden määrä:", selfCheckInKoko, 1);
-        addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 2);
-        grid.add(new Label("Palveluaikojen keskiarvot ja varianssit (min): "), 0, 3, 2, 1);
-        addGridRow(grid, "Check-in (min):", meanCheckIn, "Check-In varianssi (min):", varianceCheckIn, 4);
-        addGridRow(grid, "Self-Check-In keskiarvo (min):", meanSelfCheckIn, "Self-Check-In varianssi (min):", varianceSelfCheckIn, 5);
-        addGridRow(grid, "Turvatarkastus keskiarvo (min):", meanTurvatarkastus, "Turvatarkastus varianssi (min):", varianceTurvatarkastus, 6);
-        addGridRow(grid, "Portti keskiarvo (min):", meanPortti, "Portti varianssi (min):", variancePortti, 7);
+        addGridRow(grid, "Simulointiaika (min):", aika, "Viive (min):", viive, 1);
+        addGridRow(grid, "Check-in-pisteiden määrä:", checkInKoko, "Self-Check-in-pisteiden määrä:", selfCheckInKoko, 2);
+        addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 3);
+        grid.add(new Label("Palveluaikojen keskiarvot ja varianssit (min): "), 0, 4, 2, 1);
+        addGridRow(grid, "Check-in (min):", meanCheckIn, "Check-In varianssi (min):", varianceCheckIn, 5);
+        addGridRow(grid, "Self-Check-In keskiarvo (min):", meanSelfCheckIn, "Self-Check-In varianssi (min):", varianceSelfCheckIn, 6);
+        addGridRow(grid, "Turvatarkastus keskiarvo (min):", meanTurvatarkastus, "Turvatarkastus varianssi (min):", varianceTurvatarkastus, 7);
+        addGridRow(grid, "Portti keskiarvo (min):", meanPortti, "Portti varianssi (min):", variancePortti, 8);
         // addGridRow(grid, "Palveluajan keskiarvo (min):", meanPalveluaika, "Palveluajan varianssi (min):", variancePalveluaika, 3);
-        addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 8);
-        addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 9);
-        addGridRow(grid, "Kokonaisaika:", tulos, 10);
-        grid.add(kaynnistaButton, 0, 11);
-        grid.add(nopeutaButton, 0, 12);
-        grid.add(hidastaButton, 1, 12);
-        grid.add(haeEdellinenButton, 0, 9);
+        addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 9);
+        addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 10);
+        addGridRow(grid, "Kokonaisaika:", tulos, 11);
+        grid.add(kaynnistaButton, 0, 12);
+        grid.add(nopeutaButton, 0, 13);
+        grid.add(hidastaButton, 1, 14);
+        grid.add(haeEdellinenButton, 0, 0);
 
         naytto = new Visualisointi3(400, 700, getAika());
 
