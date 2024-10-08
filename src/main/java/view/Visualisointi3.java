@@ -5,8 +5,26 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import simu.framework.Kello;
+import simu.model.CheckIn;
+import simu.model.Portti;
+import simu.model.SelfCheckIn;
+import simu.model.Turvatarkastus;
 
 public class Visualisointi3 extends Canvas implements IVisualisointi {
+
+    private static int CANVAS_WIDTH = 700;
+    private static int CANVAS_HEIGHT = 700;
+    private static final int BOX_WIDTH = 180;
+    private static final int BOX_HEIGHT = 225;
+    private static final int SPACING_X = 30;
+    private static final int SPACING_Y = 50;
+    private static final int START_Y = 50;
+    private static final int PROGRESS_BAR_HEIGHT = 50;
+    private static final int PROGRESS_BAR_Y = 640;
+    private static final int PROGRESS_BAR_MARGIN = 10;
+    private static final int FONT_SIZE = 14;
+    private static final int MAX_QUEUE_DISPLAY = 11;
+    private static final double CIRCLE_SIZE = 20.0;
 
     private GraphicsContext gc;
     private String[] names = {"Check-In", "Self-Check-In", "Turvatarkastus", "Portti"};
@@ -17,6 +35,8 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     public Visualisointi3(int w, int h, double simulointiaika) {
         super(w, h);
+        CANVAS_WIDTH = w;
+        CANVAS_HEIGHT = h;
         gc = this.getGraphicsContext2D();
         this.simulointiaika = simulointiaika;
         tyhjennaNaytto();
@@ -30,121 +50,151 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         simulointiaika = SimulaattorinGUI.haeAika();
     }
 
-    public void paivitaVisualisointi(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara) {
-        if (palvelupiste >= 1 && palvelupiste <= 4) {
-            customerAmounts[palvelupiste - 1] = asiakasMaara;
-            usageRates[palvelupiste - 1] = kayttoaste;
-            servicePointAmounts[palvelupiste - 1] = palvelupisteMaara;
-            drawServicePoint(palvelupiste - 1);
+    public void paivitaVisualisointi(int servicePoint, int customerCount, double usageRate, int servicePointCount) {
+        if (servicePoint >= 1 && servicePoint <= 4) {
+            customerAmounts[servicePoint - 1] = customerCount;
+            usageRates[servicePoint - 1] = usageRate;
+            servicePointAmounts[servicePoint - 1] = servicePointCount;
+            drawServicePoint(servicePoint - 1);
         }
         drawProgressBar();
     }
 
     private void drawProgressBar() {
         gc.setFill(Color.WHITE);
-        gc.fillRect(0, 640, this.getWidth(), 50);
+        gc.fillRect(0, PROGRESS_BAR_Y, this.getWidth(), PROGRESS_BAR_HEIGHT);
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font(14));
-        gc.fillText("Kello: " + Kello.getInstance().getAika() + " / " + simulointiaika, 10, 650);
+        gc.setFont(new Font(FONT_SIZE));
+        gc.fillText("Kello: " + Kello.getInstance().getAika() + " / " + simulointiaika, PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10);
         gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(10, 650, this.getWidth() - 20, 20);
+        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10, this.getWidth() - 2 * PROGRESS_BAR_MARGIN, 20);
 
-        double progress = (double) Kello.getInstance().getAika() / simulointiaika;
-
-
-
+        double progress = Kello.getInstance().getAika() / simulointiaika;
         gc.setFill(Color.GREEN);
-        gc.fillRect(10, 650, (this.getWidth() - 20) * progress, 20);
+        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10, (this.getWidth() - 2 * PROGRESS_BAR_MARGIN) * progress, 20);
 
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font(14));
-        gc.fillText(String.format("Progress: %.2f%%", progress * 100), 10, 715);
+        gc.setFont(new Font(FONT_SIZE));
+        gc.fillText(String.format("Progress: %.2f%%", progress * 100), PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 75);
     }
 
     private void drawServicePoints() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < names.length; i++) {
             drawServicePoint(i);
         }
     }
 
     private void drawServicePoint(int index) {
-        int boxWidth = 150;
-        int boxHeight = 150;
-        int spacingX = 20;
-        int spacingY = 60;
-        int startX = 50;
-        int startY = 50;
-        int x, y;
+        int startX = (CANVAS_WIDTH - (3 * BOX_WIDTH + 2 * SPACING_X)) / 2;
+        int x = startX + index * (BOX_WIDTH + SPACING_X);
+        int y = START_Y;
 
         if (index == 1) {
-            x = startX + (index % 2) * (boxWidth + spacingX);
-        } else {
+            y = 350;
             x = startX;
+        } else if (index > 1) {
+            x = startX + (index - 1) * (BOX_WIDTH + SPACING_X);
         }
 
-        if (index == 3) {
-            y = startY + 2 * (boxHeight + spacingY);
-        } else {
-            y = startY + (index / 2) * (boxHeight + spacingY);
-        }
+        drawServicePointBox(x, y, index);
+        drawQueue(x, y, index);
+        drawServicePointDetails(x, y, index);
+    }
 
+    private void drawServicePointBox(int x, int y, int index) {
         gc.setFill(Color.LIGHTSALMON);
-        gc.fillRect(x, y-40, boxWidth, (double) boxHeight / 2);
+        gc.fillRect(x, y - 40, BOX_WIDTH, BOX_HEIGHT / 2);
+        gc.setFill(Color.LIGHTGRAY);
+        gc.fillRect(x, y, BOX_WIDTH, BOX_HEIGHT);
+    }
+
+    private void drawQueue(int x, int y, int index) {
+        int queue = Math.max(0, customerAmounts[index] - servicePointAmounts[index]);
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font(14));
+        gc.setFont(new Font(FONT_SIZE));
+        gc.fillText("Jonossa: " + queue, x + 10, y - 5);
 
-        int jonossa = customerAmounts[index] - servicePointAmounts[index];
-        if (jonossa < 0) {
-            jonossa = 0;
-        }
-
-        for (int i = 0; i < jonossa; i++) {
+        for (int i = 0; i < queue; i++) {
             gc.setFill(Color.BLUEVIOLET);
             gc.fillOval(x + 10 + i * 11, y - 30, 10, 10);
-            if (i >= 11) {
+            if (i >= MAX_QUEUE_DISPLAY) {
                 gc.fillText("...", x + 10 + i * 11, y - 5);
                 break;
             }
         }
+    }
 
-        gc.setFill(Color.BLACK);
-        gc.fillText("Jonossa: " + jonossa, x + 10, y - 5);
+    private void drawServicePointDetails(int x, int y, int index) {
+        int customers = Math.min(customerAmounts[index], servicePointAmounts[index]);
+        int servicePoints = servicePointAmounts[index];
+        double circleSize = Math.min(CIRCLE_SIZE, (BOX_WIDTH - 20) / (double) servicePoints);
+        double spacing = (circleSize / 3) / servicePoints;
 
-        gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(x, y, boxWidth, boxHeight);
-
-        int asiakkaat = customerAmounts[index];
-        int palvelupisteet = servicePointAmounts[index];
-
-        // Skaalatan ympyränkoot ja välit siten, että ne mahtuvat ruutuun
-        double ympyranKoko = Math.min(20, (boxWidth - 20) / (double) palvelupisteet);
-        double valit = (ympyranKoko / 3) / (palvelupisteet);
-
-        if (customerAmounts[index] > servicePointAmounts[index]) {
-            asiakkaat = servicePointAmounts[index];
-        }
-
-        int i = 0;
-        for (; i < asiakkaat; i++) {
+        for (int i = 0; i < customers; i++) {
             gc.setFill(Color.RED);
-            gc.fillOval(x + 10 + i * (ympyranKoko+valit), y + 50, ympyranKoko, ympyranKoko);
+            gc.fillOval(x + 10 + i * (circleSize + spacing), y + 50, circleSize, circleSize);
         }
-        for (int j = 0; j < (palvelupisteet - asiakkaat); j++, i++) {
+        for (int i = customers; i < servicePoints; i++) {
             gc.setFill(Color.GREEN);
-            gc.fillOval(x + 10 + i * (ympyranKoko+valit), y + 50, ympyranKoko, ympyranKoko);
+            gc.fillOval(x + 10 + i * (circleSize + spacing), y + 50, circleSize, circleSize);
         }
 
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font(14));
+        gc.setFont(new Font(FONT_SIZE));
         gc.fillText(names[index], x + 10, y + 20);
-        gc.fillText("Asiakkaat: " + asiakkaat + " / " + palvelupisteet, x + 10, y + 100);
-
-        if (usageRates[index] > 100) {
-            gc.setFill(Color.RED);
-        } else {
-            gc.setFill(Color.GREEN);
-        }
+        gc.fillText("Asiakkaat: " + customers + " / " + servicePoints, x + 10, y + 100);
+        gc.setFill(usageRates[index] > 100 ? Color.RED : Color.GREEN);
         gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 130);
+
+        String keskiPalveluaika = "Keski palveluaika: " + String.format("%.2f", getKeskiPalveluaika(index));
+        String totalPalveluaika = "Total palveluaika: " + String.format("%.2f", getTotalPalveluaika(index));
+        String kayttoAste = "Käyttöaste: " + String.format("%.2f", getKayttoAste(index));
+        String lapimeno = "Läpimeno: " + String.format("%.2f", getLapimeno(index));
+
+        gc.fillText(keskiPalveluaika, x + 10, y + 150);
+        gc.fillText(totalPalveluaika, x + 10, y + 170);
+        gc.fillText(kayttoAste, x + 10, y + 190);
+        gc.fillText(lapimeno, x + 10, y + 210);
+    }
+
+    private double getKeskiPalveluaika(int index) {
+        switch (index) {
+            case 0: return CheckIn.getKeskiPalveluaika();
+            case 1: return SelfCheckIn.getKeskiPalveluaika();
+            case 2: return Turvatarkastus.getKeskiPalveluaika();
+            case 3: return Portti.getKeskiPalveluaika();
+            default: return 0.0;
+        }
+    }
+
+    private double getTotalPalveluaika(int index) {
+        switch (index) {
+            case 0: return CheckIn.getTotalPalveluaika();
+            case 1: return SelfCheckIn.getTotalPalveluaika();
+            case 2: return Turvatarkastus.getTotalPalveluaika();
+            case 3: return Portti.getTotalPalveluaika();
+            default: return 0.0;
+        }
+    }
+
+    private double getKayttoAste(int index) {
+        switch (index) {
+            case 0: return CheckIn.getKayttoAste();
+            case 1: return SelfCheckIn.getKayttoAste();
+            case 2: return Turvatarkastus.getKayttoAste();
+            case 3: return Portti.getKayttoAste();
+            default: return 0.0;
+        }
+    }
+
+    private double getLapimeno(int index) {
+        switch (index) {
+            case 0: return CheckIn.getLapimeno();
+            case 1: return SelfCheckIn.getLapimeno();
+            case 2: return Turvatarkastus.getLapimeno();
+            case 3: return Portti.getLapimeno();
+            default: return 0.0;
+        }
     }
 
     @Override

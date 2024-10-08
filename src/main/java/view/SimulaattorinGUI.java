@@ -72,7 +72,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         GridPane grid = createGridPane();
         setupGrid(grid);
 
-        naytto = new Visualisointi3(400, 700, getAika());
+        naytto = new Visualisointi3(700, 700, getAika());
 
         HBox hBox = new HBox(10, grid, (Canvas) naytto);
         hBox.setPadding(new Insets(15));
