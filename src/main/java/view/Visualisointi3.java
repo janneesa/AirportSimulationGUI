@@ -40,25 +40,24 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         drawProgressBar();
     }
 
+    // Alin laatikko päättyy y = 410;
     private void drawProgressBar() {
         gc.setFill(Color.WHITE);
-        gc.fillRect(0, 640, this.getWidth(), 50);
+        gc.fillRect(0, 420, this.getWidth(), 100);
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(14));
-        gc.fillText("Kello: " + Kello.getInstance().getAika() + " / " + simulointiaika, 10, 650);
+        gc.fillText("Kello: " + Kello.getInstance().getAika() + " / " + simulointiaika, 50, 430);
         gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(10, 650, this.getWidth() - 20, 20);
+        gc.fillRect(50, 435, this.getWidth() - 100, 20);
 
         double progress = (double) Kello.getInstance().getAika() / simulointiaika;
 
-
-
         gc.setFill(Color.GREEN);
-        gc.fillRect(10, 650, (this.getWidth() - 20) * progress, 20);
+        gc.fillRect(50, 435, (this.getWidth() - 100) * progress, 20);
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(14));
-        gc.fillText(String.format("Progress: %.2f%%", progress * 100), 10, 715);
+        gc.fillText(String.format("Progress: %.2f%%", progress * 100), 50, 470);
     }
 
     private void drawServicePoints() {
@@ -76,16 +75,16 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         int startY = 50;
         int x, y;
 
-        if (index == 1) {
-            x = startX + (index % 2) * (boxWidth + spacingX);
-        } else {
+        if (index == 0 || index == 1) {
             x = startX;
+        } else {
+            x = startX + (index-1) * (boxWidth + spacingX);
         }
 
-        if (index == 3) {
-            y = startY + 2 * (boxHeight + spacingY);
+        if (index == 1) {
+            y = startY + + boxHeight + spacingY;
         } else {
-            y = startY + (index / 2) * (boxHeight + spacingY);
+            y = startY;
         }
 
         gc.setFill(Color.LIGHTSALMON);
