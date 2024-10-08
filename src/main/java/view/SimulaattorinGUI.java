@@ -285,7 +285,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 Integer.parseInt(meanSelfCheckIn.getText()), Integer.parseInt(varianceSelfCheckIn.getText()),
                 Integer.parseInt(meanTurvatarkastus.getText()), Integer.parseInt(varianceTurvatarkastus.getText()),
                 Integer.parseInt(meanPortti.getText()), Integer.parseInt(variancePortti.getText()),
-                Integer.parseInt(meanSaapumisvali.getText()), Integer.parseInt(varianceSaapumisvali.getText())
+                Integer.parseInt(meanSaapumisvali.getText()), Integer.parseInt(varianceSaapumisvali.getText()),
+                selfCheckInSlider.getValue()
         );
         return defaults;
     }
@@ -307,6 +308,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         variancePortti.setText(String.valueOf(defaults.getVariancePortti()));
         meanSaapumisvali.setText(String.valueOf(defaults.getMeanSaapumisvali()));
         varianceSaapumisvali.setText(String.valueOf(defaults.getVarianceSaapumisvali()));
+        selfCheckInSlider.setValue(defaults.getSelfCheckInTodennakoisyys());
     }
 
     public static Button getTallennaButton() {

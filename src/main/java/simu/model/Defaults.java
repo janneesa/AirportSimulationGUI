@@ -38,8 +38,10 @@ public class Defaults {
     private int meanSaapumisvali;
     @Column (name = "variance_saapumisvali")
     private int varianceSaapumisvali;
+    @Column (name = "self_check_in_todennakoisyys")
+    private double selfCheckInTodennakoisyys;
 
-    public Defaults(int aika, int viive, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali) {
+    public Defaults(int aika, int viive, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super();
         this.aika = aika; this.viive = viive; this.checkInKoko = checkInKoko; this.selfCheckInKoko = selfCheckInKoko;
         this.turvatarkastusKoko = turvatarkastusKoko; this.porttiKoko = porttiKoko;
@@ -48,6 +50,7 @@ public class Defaults {
         this.meanTurvatarkastus = meanTurvatarkastus; this.varianceTurvatarkastus = varianceTurvatarkastus;
         this.meanPortti = meanPortti; this.variancePortti = variancePortti;
         this.meanSaapumisvali = meanSaapumisvali; this.varianceSaapumisvali = varianceSaapumisvali;
+        this.selfCheckInTodennakoisyys = selfCheckInTodennakoisyys;
     }
 
     public Defaults() {}
@@ -118,5 +121,9 @@ public class Defaults {
 
     public int getVarianceSaapumisvali() {
         return varianceSaapumisvali;
+    }
+
+    public double getSelfCheckInTodennakoisyys() {
+        return selfCheckInTodennakoisyys;
     }
 }
