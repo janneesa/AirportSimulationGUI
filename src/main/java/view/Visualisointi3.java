@@ -25,6 +25,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private static final int FONT_SIZE = 14;
     private static final int MAX_QUEUE_DISPLAY = 11;
     private static final double CIRCLE_SIZE = 20.0;
+    private static final double PROGRESS_BAR_WIDTH_RATIO = 0.75;
 
     private GraphicsContext gc;
     private String[] names = {"Check-In", "Self-Check-In", "Turvatarkastus", "Portti"};
@@ -32,6 +33,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private double[] usageRates = {0.0, 0.0, 0.0, 0.0};
     private int[] servicePointAmounts = {0, 0, 0, 0};
     private double simulointiaika;
+    private double previousProgress = 0.0;
 
     public Visualisointi3(int w, int h, double simulointiaika) {
         super(w, h);
@@ -61,21 +63,33 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     }
 
     private void drawProgressBar() {
+        double progressBarWidth = this.getWidth() * PROGRESS_BAR_WIDTH_RATIO;
+        double progress = Kello.getInstance().getAika() / simulointiaika;
+
+        if (progress > previousProgress) {
+            previousProgress = progress;
+        } else {
+            progress = previousProgress;
+        }
+
         gc.setFill(Color.WHITE);
         gc.fillRect(0, PROGRESS_BAR_Y, this.getWidth(), PROGRESS_BAR_HEIGHT);
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(FONT_SIZE));
-        gc.fillText("Kello: " + Kello.getInstance().getAika() + " / " + simulointiaika, PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10);
-        gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10, this.getWidth() - 2 * PROGRESS_BAR_MARGIN, 20);
+        gc.fillText("Kello: " + String.format("%.2f", Kello.getInstance().getAika()) + " / " + String.format("%.2f", simulointiaika), PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10);
 
-        double progress = Kello.getInstance().getAika() / simulointiaika;
+        gc.setFill(Color.LIGHTGRAY);
+        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 30, progressBarWidth, 20);
+
         gc.setFill(Color.GREEN);
-        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10, (this.getWidth() - 2 * PROGRESS_BAR_MARGIN) * progress, 20);
+        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 30, progressBarWidth * progress, 20);
+
+        gc.setFill(Color.WHITE);
+        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 50, progressBarWidth, 20);
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(FONT_SIZE));
-        gc.fillText(String.format("Progress: %.2f%%", progress * 100), PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 75);
+        gc.fillText(String.format("Progress: %.2f%%", progress * 100), PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 60);
     }
 
     private void drawServicePoints() {

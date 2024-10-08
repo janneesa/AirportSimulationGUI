@@ -129,25 +129,25 @@ public class OmaMoottori extends Moottori {
     @Override
     protected void tulokset() {
         Results results = new Results(
-                (int) Kello.getInstance().getAika(),
-                (int) Asiakas.getValmiitAsiakkaat(),
-                (int) Asiakas.getKeskiViipyminen(),
-                (int) CheckIn.getKeskiPalveluaika(),
-                (int) CheckIn.getTotalPalveluaika(),
-                (int) CheckIn.getKayttoAste(),
-                (int) CheckIn.getLapimeno(),
-                (int) SelfCheckIn.getKeskiPalveluaika(),
-                (int) SelfCheckIn.getTotalPalveluaika(),
-                (int) SelfCheckIn.getKayttoAste(),
-                (int) SelfCheckIn.getLapimeno(),
-                (int) Turvatarkastus.getKeskiPalveluaika(),
-                (int) Turvatarkastus.getTotalPalveluaika(),
-                (int) Turvatarkastus.getKayttoAste(),
-                (int) Turvatarkastus.getLapimeno(),
-                (int) Portti.getKeskiPalveluaika(),
-                (int) Portti.getTotalPalveluaika(),
-                (int) Portti.getKayttoAste(),
-                (int) Portti.getLapimeno()
+                Kello.getInstance().getAika(),
+                Asiakas.getValmiitAsiakkaat(),
+                Asiakas.getKeskiViipyminen(),
+                CheckIn.getKeskiPalveluaika(),
+                CheckIn.getTotalPalveluaika(),
+                CheckIn.getKayttoAste(),
+                CheckIn.getLapimeno(),
+                SelfCheckIn.getKeskiPalveluaika(),
+                SelfCheckIn.getTotalPalveluaika(),
+                SelfCheckIn.getKayttoAste(),
+                SelfCheckIn.getLapimeno(),
+                Turvatarkastus.getKeskiPalveluaika(),
+                Turvatarkastus.getTotalPalveluaika(),
+                Turvatarkastus.getKayttoAste(),
+                Turvatarkastus.getLapimeno(),
+                Portti.getKeskiPalveluaika(),
+                Portti.getTotalPalveluaika(),
+                Portti.getKayttoAste(),
+                Portti.getLapimeno()
         );
 
         kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
