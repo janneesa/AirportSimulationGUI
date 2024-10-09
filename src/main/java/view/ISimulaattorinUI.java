@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.*;
+
 public interface ISimulaattorinUI {
 
 	// Kontrolleri tarvitsee syötteitä, jotka se välittää Moottorille

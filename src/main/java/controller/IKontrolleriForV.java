@@ -12,4 +12,6 @@ public interface IKontrolleriForV {
     public void visualisoiAsiakas(int palvelupiste, int asiakasMaara, double kayttoaste, int palvelupisteMaara);
     public void persistDef(Defaults defaults);
     public Defaults haeEdellinen();
+
+    void resetSimulation();
 }

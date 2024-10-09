@@ -87,4 +87,6 @@ public abstract class Palvelupiste {
 
 	public abstract void paivitaKeskiPalveluaika(double palveluaika);
 
+	public void resetPoint() {
+	}
 }

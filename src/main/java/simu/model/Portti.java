@@ -35,4 +35,11 @@ public class Portti extends Palvelupiste {
     public static double getLapimeno() {
         return aloitetutPalvelut / Kello.getInstance().getAika();
     }
+
+    @Override
+    public void resetPoint(){
+        aloitetutPalvelut = 0;
+        totalPalveluaika = 0.0;
+        keskiPalveluaika = 0.0;
+    }
 }

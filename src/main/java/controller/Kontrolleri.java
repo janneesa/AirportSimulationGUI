@@ -4,6 +4,7 @@ import dao.DefaultsDao;
 import dao.ResultsDao;
 import javafx.application.Platform;
 import simu.framework.IMoottori;
+import simu.framework.Kello;
 import simu.model.Defaults;
 import simu.model.OmaMoottori;
 import simu.model.Results;
@@ -96,5 +97,11 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 
 	public void showTallennaButton() {
 		SimulaattorinGUI.getTallennaButton().setVisible(true);
+		SimulaattorinGUI.getResetButton().setVisible(true);
+	}
+
+	public void resetSimulation() {
+		moottori.reset();
+		Kello.getInstance().setAika(0.0);
 	}
 }

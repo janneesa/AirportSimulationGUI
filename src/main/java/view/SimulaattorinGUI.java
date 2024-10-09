@@ -29,7 +29,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Button hidastaButton;
     private Button nopeutaButton;
     private Button haeEdellinenButton;
+    private static Button resetButton;
     private static Button tallennaButton;
+
     private IVisualisointi naytto;
     private Slider selfCheckInSlider;
 
@@ -52,6 +54,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             kontrolleri.kaynnistaSimulointi();
             kaynnistaButton.setDisable(true);
         });
+
+        resetButton = createButton("Reset", e -> resetSimulation());
+        resetButton.setVisible(false);
 
         hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta());
         nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
@@ -161,10 +166,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 10);
         addGridRow(grid, "Kokonaisaika:", tulos, 11);
         grid.add(kaynnistaButton, 0, 12);
+        grid.add(tallennaButton, 1, 12);
         grid.add(nopeutaButton, 0, 13);
         grid.add(hidastaButton, 1, 13);
         grid.add(haeEdellinenButton, 0, 0);
-        grid.add(tallennaButton, 1, 0);
+        grid.add(resetButton, 1, 0);
+
     }
 
     private void addGridRow(GridPane grid, String labelText1, Control control1, String labelText2, Control control2, int rowIndex) {
@@ -313,5 +320,41 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     public static Button getTallennaButton() {
         return tallennaButton;
+    }
+
+    private void resetSimulation() {
+        aika.setText("500");
+        viive.setText("500");
+        checkInKoko.setText("2");
+        selfCheckInKoko.setText("2");
+        turvatarkastusKoko.setText("2");
+        porttiKoko.setText("2");
+        meanCheckIn.setText("2");
+        varianceCheckIn.setText("1");
+        meanSelfCheckIn.setText("1");
+        varianceSelfCheckIn.setText("1");
+        meanTurvatarkastus.setText("2");
+        varianceTurvatarkastus.setText("5");
+        meanPortti.setText("1");
+        variancePortti.setText("2");
+        meanSaapumisvali.setText("15");
+        varianceSaapumisvali.setText("5");
+        selfCheckInSlider.setValue(0.5);
+
+        kaynnistaButton.setDisable(false);
+        tallennaButton.setVisible(false);
+        resetButton.setVisible(false);
+
+        tulos.setText("");
+
+        naytto.tyhjennaNaytto();
+
+        kontrolleri.resetSimulation();
+
+
+    }
+
+    public static Button getResetButton() {
+        return resetButton;
     }
 }

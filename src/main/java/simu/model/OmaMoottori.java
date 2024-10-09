@@ -202,4 +202,19 @@ public class OmaMoottori extends Moottori {
         kontrolleri.visualisoiAsiakas(4, porttiAsiakasMaara, getKayttoaste(porttiPisteet), porttiPisteet.length);
     }
 
+    public void reset() {
+        for (Palvelupiste p : checkInPisteet) {
+            p.resetPoint();
+        }
+        for (Palvelupiste p : selfCheckInPisteet) {
+            p.resetPoint();
+        }
+        for (Palvelupiste p : turvatarkastusPisteet) {
+            p.resetPoint();
+        }
+        for (Palvelupiste p : porttiPisteet) {
+            p.resetPoint();
+        }
+    }
+
 }
