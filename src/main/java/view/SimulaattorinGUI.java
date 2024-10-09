@@ -267,7 +267,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     @Override
     public void setLoppuaika(double aika) {
-        tulos.setText(String.format("%.2f h", aika / 60));
+        int hours = (int) (aika / 60);
+        int minutes = (int) (aika % 60);
+        int seconds = (int) ((aika * 60) % 60);
+        tulos.setText(String.format("%dh %dmin %dsec", hours, minutes, seconds));
     }
 
     @Override

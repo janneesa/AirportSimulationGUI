@@ -5,10 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import simu.framework.Kello;
-import simu.model.CheckIn;
-import simu.model.Portti;
-import simu.model.SelfCheckIn;
-import simu.model.Turvatarkastus;
+import simu.model.*;
 
 public class Visualisointi3 extends Canvas implements IVisualisointi {
 
@@ -60,6 +57,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
             drawServicePoint(servicePoint - 1);
         }
         drawProgressBar();
+        drawGenericDetails();
     }
 
     private void drawProgressBar() {
@@ -72,7 +70,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
             progress = previousProgress;
         }
 
-        int progressBarY = 350;
+        int progressBarY = 450;
         int progressBarX = 250;
 
         gc.setFill(Color.WHITE);
@@ -163,17 +161,52 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.setFont(new Font(FONT_SIZE));
         gc.fillText("Asiakkaat: " + customers + " / " + servicePoints, x + 10, y + 100);
         gc.setFill(usageRates[index] > 100 ? Color.RED : Color.BLACK);
-        gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 130);
+        gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 120);
 
+        String aloitetutPalvelut = "Aloitetut palvelut: " + getAloitetutPalvelut(index);
         String keskiPalveluaika = "Keski palveluaika: " + String.format("%.2f", getKeskiPalveluaika(index));
         String totalPalveluaika = "Total palveluaika: " + String.format("%.2f", getTotalPalveluaika(index));
         String kayttoAste = "Käyttöaste: " + String.format("%.2f", getKayttoAste(index));
-        String lapimeno = "Läpimeno: " + String.format("%.2f", getLapimeno(index));
 
-        gc.fillText(keskiPalveluaika, x + 10, y + 150);
-        gc.fillText(totalPalveluaika, x + 10, y + 170);
-        gc.fillText(kayttoAste, x + 10, y + 190);
-        gc.fillText(lapimeno, x + 10, y + 210);
+        gc.fillText(aloitetutPalvelut, x + 10, y + 150);
+        gc.fillText(keskiPalveluaika, x + 10, y + 170);
+        gc.fillText(totalPalveluaika, x + 10, y + 190);
+        gc.fillText(kayttoAste, x + 10, y + 210);
+
+    }
+
+    private void drawGenericDetails() {
+        String saapuneetAsiakkaat = "Saapuneet asiakkaat: " + Asiakas.getSaapuneetAsiakkaat();
+        String valmiitAsiakkaat = "Valmiit asiakkaat: " + Asiakas.getValmiitAsiakkaat();
+        String keskiViipyminen = "Läpimenon keskiarvo: " + String.format("%.2f", Asiakas.getKeskiViipyminen());
+
+        int detailsX = 250;
+        int detailsY = 350;
+        int detailsWidth = 300;
+        int detailsHeight = 60;
+
+        gc.clearRect(detailsX, detailsY - 10, detailsWidth, detailsHeight);
+
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font(FONT_SIZE));
+        gc.fillText(saapuneetAsiakkaat, detailsX, detailsY);
+        gc.fillText(valmiitAsiakkaat, detailsX, detailsY + 20);
+        gc.fillText(keskiViipyminen, detailsX, detailsY + 40);
+    }
+
+    private int getAloitetutPalvelut(int index) {
+        switch (index) {
+            case 0:
+                return CheckIn.getAloitetutPalvelut();
+            case 1:
+                return SelfCheckIn.getAloitetutPalvelut();
+            case 2:
+                return Turvatarkastus.getAloitetutPalvelut();
+            case 3:
+                return Portti.getAloitetutPalvelut();
+            default:
+                return 0;
+        }
     }
 
     private double getKeskiPalveluaika(int index) {

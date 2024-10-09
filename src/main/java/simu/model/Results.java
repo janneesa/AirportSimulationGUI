@@ -13,6 +13,8 @@ public class Results {
     private double valmiitAsiakkaat;
     @Column(name = "mean_lapimenoaika")
     private double meanLapimenoaika;
+    @Column(name = "check_in_aloitetut_palvelut")
+    private double checkInAloitetutPalvelut;
     @Column(name = "check_in_mean_palveluaika")
     private double checkInMeanPalveluaika;
     @Column(name = "check_in_koko_palveluaika")
@@ -21,6 +23,8 @@ public class Results {
     private double checkInKayttoaste;
     @Column(name = "check_in_suorituskyky")
     private double checkInSuorituskyky;
+    @Column(name = "self_check_in_aloitetut_palvelut")
+    private double selfCheckInAloitetutPalvelut;
     @Column(name = "self_check_in_mean_palveluaika")
     private double selfCheckInMeanPalveluaika;
     @Column(name = "self_check_in_koko_palveluaika")
@@ -29,6 +33,8 @@ public class Results {
     private double selfCheckInKayttoaste;
     @Column(name = "self_check_in_suorituskyky")
     private double selfCheckInSuorituskyky;
+    @Column(name = "turvatarkastus_aloitetut_palvelut")
+    private double turvatarkastusAloitetutPalvelut;
     @Column(name = "turvatarkastus_mean_palveluaika")
     private double turvatarkastusMeanPalveluaika;
     @Column(name = "turvatarkastus_koko_palveluaika")
@@ -37,6 +43,8 @@ public class Results {
     private double turvatarkastusKayttoaste;
     @Column(name = "turvatarkastus_suorituskyky")
     private double turvatarkastusSuorituskyky;
+    @Column(name = "portti_aloitetut_palvelut")
+    private double porttiAloitetutPalvelut;
     @Column(name = "portti_mean_palveluaika")
     private double porttiMeanPalveluaika;
     @Column(name = "portti_koko_palveluaika")
@@ -46,22 +54,26 @@ public class Results {
     @Column(name = "portti_suorituskyky")
     private double porttiSuorituskyky;
 
-    public Results(double loppuaika, double valmiitAsiakkaat, double meanLapimenoaika, double checkInMeanPalveluaika, double checkInKokoPalveluaika, double checkInKayttoaste, double checkInSuorituskyky, double selfCheckInMeanPalveluaika, double selfCheckInKokoPalveluaika, double selfCheckInKayttoaste, double selfCheckInSuorituskyky, double turvatarkastusMeanPalveluaika, double turvatarkastusKokoPalveluaika, double turvatarkastusKayttoaste, double turvatarkastusSuorituskyky, double porttiMeanPalveluaika, double porttiKokoPalveluaika, double porttiKayttoaste, double porttiSuorituskyky) {
+    public Results(double loppuaika, double valmiitAsiakkaat, double meanLapimenoaika, double checkInAloitetutPalvelut, double checkInMeanPalveluaika, double checkInKokoPalveluaika, double checkInKayttoaste, double checkInSuorituskyky, double selfCheckInAloitetutPalvelut, double selfCheckInMeanPalveluaika, double selfCheckInKokoPalveluaika, double selfCheckInKayttoaste, double selfCheckInSuorituskyky, double turvatarkastusAloitetutPalvelut, double turvatarkastusMeanPalveluaika, double turvatarkastusKokoPalveluaika, double turvatarkastusKayttoaste, double turvatarkastusSuorituskyky, double porttiAloitetutPalvelut, double porttiMeanPalveluaika, double porttiKokoPalveluaika, double porttiKayttoaste, double porttiSuorituskyky) {
         this.loppuaika = loppuaika;
         this.valmiitAsiakkaat = valmiitAsiakkaat;
         this.meanLapimenoaika = meanLapimenoaika;
+        this.checkInAloitetutPalvelut = checkInAloitetutPalvelut;
         this.checkInMeanPalveluaika = checkInMeanPalveluaika;
         this.checkInKokoPalveluaika = checkInKokoPalveluaika;
         this.checkInKayttoaste = checkInKayttoaste;
         this.checkInSuorituskyky = checkInSuorituskyky;
+        this.selfCheckInAloitetutPalvelut = selfCheckInAloitetutPalvelut;
         this.selfCheckInMeanPalveluaika = selfCheckInMeanPalveluaika;
         this.selfCheckInKokoPalveluaika = selfCheckInKokoPalveluaika;
         this.selfCheckInKayttoaste = selfCheckInKayttoaste;
         this.selfCheckInSuorituskyky = selfCheckInSuorituskyky;
+        this.turvatarkastusAloitetutPalvelut = turvatarkastusAloitetutPalvelut;
         this.turvatarkastusMeanPalveluaika = turvatarkastusMeanPalveluaika;
         this.turvatarkastusKokoPalveluaika = turvatarkastusKokoPalveluaika;
         this.turvatarkastusKayttoaste = turvatarkastusKayttoaste;
         this.turvatarkastusSuorituskyky = turvatarkastusSuorituskyky;
+        this.porttiAloitetutPalvelut = porttiAloitetutPalvelut;
         this.porttiMeanPalveluaika = porttiMeanPalveluaika;
         this.porttiKokoPalveluaika = porttiKokoPalveluaika;
         this.porttiKayttoaste = porttiKayttoaste;

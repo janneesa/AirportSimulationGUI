@@ -22,6 +22,10 @@ public class Turvatarkastus extends Palvelupiste {
         keskiPalveluaika = totalPalveluaika / aloitetutPalvelut;
     }
 
+    public static int getAloitetutPalvelut() {
+        return aloitetutPalvelut;
+    }
+
     public static double getKeskiPalveluaika() {
         return keskiPalveluaika;
     }
