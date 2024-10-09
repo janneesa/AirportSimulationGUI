@@ -50,15 +50,15 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 kontrolleri.kaynnistaSimulointi();
                 kaynnistaButton.setDisable(true);
             }
-        });
+        }, "kaynnista");
 
-        resetButton = createButton("Reset", e -> resetSimulation());
+        resetButton = createButton("Nollaa", e -> resetSimulation(), "reset");
         resetButton.setVisible(false);
 
-        hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta());
-        nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta());
-        haeEdellinenButton = createButton("Hae edellinen", e -> loadDefaults());
-        tallennaButton = createButton("Tallenna", e -> tallennaSimulaatio());
+        hidastaButton = createButton("Hidasta", e -> kontrolleri.hidasta(), "hidasta");
+        nopeutaButton = createButton("Nopeuta", e -> kontrolleri.nopeuta(), "nopeuta");
+        haeEdellinenButton = createButton("Hae edellinen", e -> loadDefaults(), "haeEdellinen");
+        tallennaButton = createButton("Tallenna", e -> tallennaSimulaatio(), "tallenna");
         tallennaButton.setVisible(false);
 
         initializeTextFields();
@@ -88,7 +88,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         HBox hBox = new HBox(10, grid, mainBox);
         hBox.setPadding(new Insets(15));
 
-        primaryStage.setScene(new Scene(hBox));
+        Scene scene = new Scene(hBox);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
@@ -133,9 +136,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         alert.showAndWait();
     }
 
-    private Button createButton(String text, EventHandler<ActionEvent> handler) {
+    private Button createButton(String text, EventHandler<ActionEvent> handler, String cssClass) {
         Button button = new Button(text);
         button.setOnAction(handler);
+        button.getStyleClass().add(cssClass);
         return button;
     }
 
