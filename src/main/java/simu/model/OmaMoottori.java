@@ -1,6 +1,7 @@
 package simu.model;
 
 import controller.IKontrolleriForM;
+import eduni.distributions.RandomGenerator;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
@@ -13,6 +14,7 @@ public class OmaMoottori extends Moottori {
     private int meanCheckIn, varianceCheckIn, meanSelfCheckIn, varianceSelfCheckIn, meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
     private int meanSaapumisvali, varianceSaapumisvali;
     private int checkInAsiakasMaara, selfCheckInAsiakasMaara, turvatarkastusAsiakasMaara, porttiAsiakasMaara;
+    private RandomGenerator selfCheckInGeneraattori;
 
     public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
@@ -47,6 +49,8 @@ public class OmaMoottori extends Moottori {
         }
 
         saapumisprosessi = new Saapumisprosessi(new Negexp(meanSaapumisvali, varianceSaapumisvali), tapahtumalista, TapahtumanTyyppi.ARRIVAL);
+
+        selfCheckInGeneraattori = new RandomGenerator();
     }
 
     @Override
@@ -77,7 +81,7 @@ public class OmaMoottori extends Moottori {
     }
 
     private void handleArrival() {
-        if (Math.random() < selfCheckInTodennakoisyys) {
+        if (selfCheckInGeneraattori.sample() < selfCheckInTodennakoisyys) {
             getShortestQueue(selfCheckInPisteet).lisaaJonoon(new Asiakas());
         } else {
             getShortestQueue(checkInPisteet).lisaaJonoon(new Asiakas());
