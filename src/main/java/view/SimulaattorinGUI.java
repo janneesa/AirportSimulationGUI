@@ -72,9 +72,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         GridPane grid = createGridPane();
         setupGrid(grid);
 
-        naytto = new Visualisointi3(700, 700, getAika());
+        naytto = new Visualisointi3(700, 575, getAika());
 
-        HBox hBox = new HBox(10, grid, (Canvas) naytto);
+        HBox buttonBox = new HBox(10, kaynnistaButton, tallennaButton, nopeutaButton, hidastaButton, tulos);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(15));
+
+        VBox mainBox = new VBox(10, (Canvas) naytto, buttonBox);
+        mainBox.setPadding(new Insets(15));
+
+        HBox hBox = new HBox(10, grid, mainBox);
         hBox.setPadding(new Insets(15));
 
         primaryStage.setScene(new Scene(hBox));

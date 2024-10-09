@@ -13,19 +13,18 @@ import simu.model.Turvatarkastus;
 public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     private static int CANVAS_WIDTH = 700;
-    private static int CANVAS_HEIGHT = 700;
+    private static int CANVAS_HEIGHT = 575;
     private static final int BOX_WIDTH = 180;
     private static final int BOX_HEIGHT = 225;
     private static final int SPACING_X = 30;
     private static final int SPACING_Y = 40;
     private static final int START_Y = 50;
     private static final int PROGRESS_BAR_HEIGHT = 50;
-    private static final int PROGRESS_BAR_Y = 640;
     private static final int PROGRESS_BAR_MARGIN = 10;
     private static final int FONT_SIZE = 14;
     private static final int MAX_QUEUE_DISPLAY = 11;
     private static final double CIRCLE_SIZE = 20.0;
-    private static final double PROGRESS_BAR_WIDTH_RATIO = 0.75;
+    private static final double PROGRESS_BAR_WIDTH_RATIO = 0.5;
 
     private GraphicsContext gc;
     private String[] names = {"Check-In", "Self-Check-In", "Turvatarkastus", "Portti"};
@@ -72,24 +71,28 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
             progress = previousProgress;
         }
 
+        int progressBarY = 350;
+        int progressBarX = 250;
+
         gc.setFill(Color.WHITE);
-        gc.fillRect(0, PROGRESS_BAR_Y, this.getWidth(), PROGRESS_BAR_HEIGHT);
+        gc.fillRect(progressBarX, progressBarY, progressBarWidth, PROGRESS_BAR_HEIGHT);
+
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(FONT_SIZE));
-        gc.fillText("Kello: " + String.format("%.2f", Kello.getInstance().getAika()) + " / " + String.format("%.2f", simulointiaika), PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 10);
+        gc.fillText("Kello: " + String.format("%.2f", Kello.getInstance().getAika()) + " / " + String.format("%.2f", simulointiaika), progressBarX, progressBarY + 10);
 
         gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 30, progressBarWidth, 20);
+        gc.fillRect(progressBarX, progressBarY + 30, progressBarWidth, 20);
 
         gc.setFill(Color.GREEN);
-        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 30, progressBarWidth * progress, 20);
+        gc.fillRect(progressBarX, progressBarY + 30, progressBarWidth * progress, 20);
 
         gc.setFill(Color.WHITE);
-        gc.fillRect(PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 50, progressBarWidth, 20);
+        gc.fillRect(progressBarX, progressBarY + 50, progressBarWidth, 20);
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(FONT_SIZE));
-        gc.fillText(String.format("Progress: %.2f%%", progress * 100), PROGRESS_BAR_MARGIN, PROGRESS_BAR_Y + 60);
+        gc.fillText(String.format("Progress: %.2f%%", progress * 100), progressBarX, progressBarY + 60);
     }
 
     private void drawServicePoints() {
@@ -104,7 +107,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         int y = START_Y;
 
         if (index == 1) {
-            y = 350;
+            y = 325;
             x = startX;
         } else if (index > 1) {
             x = startX + (index - 1) * (BOX_WIDTH + SPACING_X);
@@ -154,7 +157,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
 
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font(FONT_SIZE*1.5));
+        gc.setFont(new Font(FONT_SIZE * 1.5));
         gc.fillText(names[index], x + 10, y + 20);
         gc.setFont(new Font(FONT_SIZE));
         gc.fillText("Asiakkaat: " + customers + " / " + servicePoints, x + 10, y + 100);
