@@ -132,7 +132,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
             gc.setFill(Color.BLUEVIOLET);
             gc.fillOval(x + 10 + i * 11, y - 30, 10, 10);
             if (i >= MAX_QUEUE_DISPLAY) {
-                gc.fillText("...", x + 10 + i * 11, y - 5);
+                gc.fillText("+", x + 10 + i * 11, y - 5);
                 break;
             }
         }
@@ -154,10 +154,11 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
 
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font(FONT_SIZE));
+        gc.setFont(new Font(FONT_SIZE*1.5));
         gc.fillText(names[index], x + 10, y + 20);
+        gc.setFont(new Font(FONT_SIZE));
         gc.fillText("Asiakkaat: " + customers + " / " + servicePoints, x + 10, y + 100);
-        gc.setFill(usageRates[index] > 100 ? Color.RED : Color.GREEN);
+        gc.setFill(usageRates[index] > 100 ? Color.RED : Color.BLACK);
         gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 130);
 
         String keskiPalveluaika = "Keski palveluaika: " + String.format("%.2f", getKeskiPalveluaika(index));

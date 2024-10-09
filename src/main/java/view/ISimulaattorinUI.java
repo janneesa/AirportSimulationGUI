@@ -30,5 +30,6 @@ public interface ISimulaattorinUI {
 
 	// Kontrolleri tarvitsee
 	IVisualisointi getVisualisointi();
-
+	void setResetButtonVisible(boolean b);
+	void setTallennaButtonVisible(boolean b);
 }

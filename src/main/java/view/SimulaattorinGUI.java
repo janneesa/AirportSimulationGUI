@@ -25,13 +25,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private TextField meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
     private TextField meanSaapumisvali, varianceSaapumisvali;
     private Label tulos, selfCheckInValueLabel;
-    private Button kaynnistaButton;
-    private Button hidastaButton;
-    private Button nopeutaButton;
-    private Button haeEdellinenButton;
-    private static Button resetButton;
-    private static Button tallennaButton;
-
+    private Button kaynnistaButton, hidastaButton, nopeutaButton, haeEdellinenButton;
+    private static Button resetButton, tallennaButton;
     private IVisualisointi naytto;
     private Slider selfCheckInSlider;
 
@@ -171,7 +166,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(hidastaButton, 1, 13);
         grid.add(haeEdellinenButton, 0, 0);
         grid.add(resetButton, 1, 0);
-
     }
 
     private void addGridRow(GridPane grid, String labelText1, Control control1, String labelText2, Control control2, int rowIndex) {
@@ -284,7 +278,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     }
 
     public Defaults getDefaults() {
-        Defaults defaults = new Defaults(
+        return new Defaults(
                 Integer.parseInt(aika.getText()), Integer.parseInt(viive.getText()),
                 Integer.parseInt(checkInKoko.getText()), Integer.parseInt(selfCheckInKoko.getText()),
                 Integer.parseInt(turvatarkastusKoko.getText()), Integer.parseInt(porttiKoko.getText()),
@@ -295,7 +289,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 Integer.parseInt(meanSaapumisvali.getText()), Integer.parseInt(varianceSaapumisvali.getText()),
                 selfCheckInSlider.getValue()
         );
-        return defaults;
     }
 
     public void setDefaults(Defaults defaults) {
@@ -318,43 +311,23 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         selfCheckInSlider.setValue(defaults.getSelfCheckInTodennakoisyys());
     }
 
-    public static Button getTallennaButton() {
-        return tallennaButton;
+    public void setTallennaButtonVisible(boolean visible) {
+        tallennaButton.setVisible(visible);
     }
 
     private void resetSimulation() {
-        aika.setText("500");
-        viive.setText("500");
-        checkInKoko.setText("2");
-        selfCheckInKoko.setText("2");
-        turvatarkastusKoko.setText("2");
-        porttiKoko.setText("2");
-        meanCheckIn.setText("2");
-        varianceCheckIn.setText("1");
-        meanSelfCheckIn.setText("1");
-        varianceSelfCheckIn.setText("1");
-        meanTurvatarkastus.setText("2");
-        varianceTurvatarkastus.setText("5");
-        meanPortti.setText("1");
-        variancePortti.setText("2");
-        meanSaapumisvali.setText("15");
-        varianceSaapumisvali.setText("5");
+        initializeTextFields();
         selfCheckInSlider.setValue(0.5);
-
         kaynnistaButton.setDisable(false);
         tallennaButton.setVisible(false);
         resetButton.setVisible(false);
-
         tulos.setText("");
-
         naytto.tyhjennaNaytto();
-
         kontrolleri.resetSimulation();
-
-
     }
 
-    public static Button getResetButton() {
-        return resetButton;
+    public void setResetButtonVisible(boolean visible) {
+        resetButton.setVisible(visible);
     }
+
 }

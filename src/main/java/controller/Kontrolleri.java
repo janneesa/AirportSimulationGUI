@@ -9,7 +9,6 @@ import simu.model.Defaults;
 import simu.model.OmaMoottori;
 import simu.model.Results;
 import view.ISimulaattorinUI;
-import view.SimulaattorinGUI;
 
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
@@ -78,7 +77,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 		DefaultsDao defaultsDao= new DefaultsDao();
 		defaultsDao.persist(defaults);
 		setResults(results);
-
 		persistRes(results);
 	}
 
@@ -96,8 +94,8 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 	}
 
 	public void showTallennaButton() {
-		SimulaattorinGUI.getTallennaButton().setVisible(true);
-		SimulaattorinGUI.getResetButton().setVisible(true);
+		ui.setTallennaButtonVisible(true);
+		ui.setResetButtonVisible(true);
 	}
 
 	public void resetSimulation() {
