@@ -17,7 +17,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private static final int BOX_WIDTH = 180;
     private static final int BOX_HEIGHT = 225;
     private static final int SPACING_X = 30;
-    private static final int SPACING_Y = 50;
+    private static final int SPACING_Y = 40;
     private static final int START_Y = 50;
     private static final int PROGRESS_BAR_HEIGHT = 50;
     private static final int PROGRESS_BAR_Y = 640;

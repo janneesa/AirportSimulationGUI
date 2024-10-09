@@ -316,7 +316,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     }
 
     private void resetSimulation() {
-        initializeTextFields();
         selfCheckInSlider.setValue(0.5);
         kaynnistaButton.setDisable(false);
         tallennaButton.setVisible(false);
