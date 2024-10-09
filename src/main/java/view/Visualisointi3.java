@@ -161,11 +161,11 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.setFont(new Font(FONT_SIZE));
         gc.fillText("Asiakkaat: " + customers + " / " + servicePoints, x + 10, y + 100);
         gc.setFill(usageRates[index] > 100 ? Color.RED : Color.BLACK);
-        gc.fillText("Käyttö: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 120);
+        gc.fillText("Käyttö prosentti: " + String.format("%.2f", usageRates[index]) + "%", x + 10, y + 120);
 
         String aloitetutPalvelut = "Aloitetut palvelut: " + getAloitetutPalvelut(index);
-        String keskiPalveluaika = "Keski palveluaika: " + String.format("%.2f", getKeskiPalveluaika(index));
-        String totalPalveluaika = "Total palveluaika: " + String.format("%.2f", getTotalPalveluaika(index));
+        String keskiPalveluaika = "Palveluaikojen KA: " + String.format("%.2f", getKeskiPalveluaika(index));
+        String totalPalveluaika = "Täysi palveluaika: " + String.format("%.2f", getTotalPalveluaika(index));
         String kayttoAste = "Käyttöaste: " + String.format("%.2f", getKayttoAste(index));
 
         gc.fillText(aloitetutPalvelut, x + 10, y + 150);
