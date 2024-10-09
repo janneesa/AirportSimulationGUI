@@ -46,8 +46,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         primaryStage.setTitle("Simulaattori");
 
         kaynnistaButton = createButton("Käynnistä simulointi", e -> {
-            kontrolleri.kaynnistaSimulointi();
-            kaynnistaButton.setDisable(true);
+            if (tarkistaParametrit()) {
+                kontrolleri.kaynnistaSimulointi();
+                kaynnistaButton.setDisable(true);
+            }
         });
 
         resetButton = createButton("Reset", e -> resetSimulation());
@@ -63,10 +65,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         tulos = new Label();
         tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
-        selfCheckInSlider = new Slider(0, 1, 0.5);
-        selfCheckInValueLabel = new Label(String.format("Self-Check-in-todennäköisyys: %.2f%%", selfCheckInSlider.getValue() * 100));
+        selfCheckInSlider = new Slider(0, 100, 50);
+        selfCheckInValueLabel = new Label(String.format("Self-Check-in-todennäköisyys: %.2f%%", selfCheckInSlider.getValue()));
         selfCheckInSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            selfCheckInValueLabel.setText(String.format("Self-Check-in-todennäköisyys: %.2f%%", newValue.doubleValue() * 100));
+            selfCheckInValueLabel.setText(String.format("Self-Check-in-todennäköisyys: %.2f%%", newValue.doubleValue()));
         });
 
         GridPane grid = createGridPane();
@@ -320,7 +322,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     }
 
     private void resetSimulation() {
-        selfCheckInSlider.setValue(0.5);
+        selfCheckInSlider.setValue(50);
         kaynnistaButton.setDisable(false);
         tallennaButton.setVisible(false);
         resetButton.setVisible(false);
@@ -333,4 +335,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         resetButton.setVisible(visible);
     }
 
+    public boolean tarkistaParametrit() {
+        if (Integer.parseInt(aika.getText()) <= 0 || Integer.parseInt(viive.getText()) <= 0) {
+            showAlert("Virhe", "Aika ja viive", "Simulointiaika tai viive ei voi olla negatiivinen tai 0.");
+            return false;
+        } else if (Integer.parseInt(checkInKoko.getText()) <= 0 || Integer.parseInt(selfCheckInKoko.getText()) <= 0 || Integer.parseInt(turvatarkastusKoko.getText()) <= 0 || Integer.parseInt(porttiKoko.getText()) <= 0) {
+            showAlert("Virhe", "Palvelupisteiden määrä", "Palvelupisteiden määrä ei voi olla negatiivinen tai 0.");
+            return false;
+        } else if (Integer.parseInt(meanCheckIn.getText()) <= 0 || Integer.parseInt(varianceCheckIn.getText()) <= 0 || Integer.parseInt(meanSelfCheckIn.getText()) <= 0 || Integer.parseInt(varianceSelfCheckIn.getText()) <= 0 || Integer.parseInt(meanTurvatarkastus.getText()) <= 0 || Integer.parseInt(varianceTurvatarkastus.getText()) <= 0 || Integer.parseInt(meanPortti.getText()) <= 0 || Integer.parseInt(variancePortti.getText()) <= 0 || Integer.parseInt(meanSaapumisvali.getText()) <= 0 || Integer.parseInt(varianceSaapumisvali.getText()) <= 0) {
+            showAlert("Virhe", "Aika parametrit", "Palveluajat tai varianssit eivät voi olla negatiivisia tai 0.");
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

@@ -9,12 +9,12 @@ import eduni.distributions.Normal;
 public class OmaMoottori extends Moottori {
 
     private Saapumisprosessi saapumisprosessi;
-    private double selfCheckInTodennakoisyys = 0.5;
+    private double selfCheckInTodennakoisyys;
     private Palvelupiste[] checkInPisteet, selfCheckInPisteet, turvatarkastusPisteet, porttiPisteet;
     private int meanCheckIn, varianceCheckIn, meanSelfCheckIn, varianceSelfCheckIn, meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
     private int meanSaapumisvali, varianceSaapumisvali;
     private int checkInAsiakasMaara, selfCheckInAsiakasMaara, turvatarkastusAsiakasMaara, porttiAsiakasMaara;
-    private RandomGenerator selfCheckInGeneraattori;
+    private Negexp selfCheckInGeneraattori;
 
     public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
@@ -50,7 +50,7 @@ public class OmaMoottori extends Moottori {
 
         saapumisprosessi = new Saapumisprosessi(new Negexp(meanSaapumisvali, varianceSaapumisvali), tapahtumalista, TapahtumanTyyppi.ARRIVAL);
 
-        selfCheckInGeneraattori = new RandomGenerator();
+        selfCheckInGeneraattori = new Negexp(50,50);
     }
 
     @Override
@@ -81,6 +81,7 @@ public class OmaMoottori extends Moottori {
     }
 
     private void handleArrival() {
+        System.out.println(selfCheckInGeneraattori.sample());
         if (selfCheckInGeneraattori.sample() < selfCheckInTodennakoisyys) {
             getShortestQueue(selfCheckInPisteet).lisaaJonoon(new Asiakas());
         } else {
