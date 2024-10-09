@@ -19,7 +19,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private static final int SPACING_X = 30;
     private static final int SPACING_Y = 40;
     private static final int START_Y = 50;
-    private static final int PROGRESS_BAR_HEIGHT = 50;
+    private static final int PROGRESS_BAR_HEIGHT = 100;
     private static final int PROGRESS_BAR_MARGIN = 10;
     private static final int FONT_SIZE = 14;
     private static final int MAX_QUEUE_DISPLAY = 11;
@@ -49,6 +49,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         drawServicePoints();
         drawProgressBar();
         simulointiaika = SimulaattorinGUI.haeAika();
+        previousProgress = 0.0;
     }
 
     public void paivitaVisualisointi(int servicePoint, int customerCount, double usageRate, int servicePointCount) {
@@ -92,7 +93,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(FONT_SIZE));
-        gc.fillText(String.format("Progress: %.2f%%", progress * 100), progressBarX, progressBarY + 60);
+        gc.fillText(String.format("Progress: %.2f%%", progress * 100), progressBarX, progressBarY + 80);
     }
 
     private void drawServicePoints() {

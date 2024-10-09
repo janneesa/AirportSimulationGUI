@@ -74,7 +74,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
         naytto = new Visualisointi3(700, 575, getAika());
 
-        HBox buttonBox = new HBox(10, kaynnistaButton, tallennaButton, nopeutaButton, hidastaButton, tulos);
+        Label tulosLabel = new Label("Kokonaisaika:");
+
+        HBox buttonBox = new HBox(10, kaynnistaButton, tallennaButton, nopeutaButton, hidastaButton,tulosLabel, tulos);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(15));
 
@@ -166,11 +168,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         addGridRow(grid, "Portti keskiarvo (min):", meanPortti, "Portti varianssi (min):", variancePortti, 8);
         addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 9);
         addGridRow(grid, selfCheckInValueLabel, selfCheckInSlider, 10);
-        addGridRow(grid, "Kokonaisaika:", tulos, 11);
-        grid.add(kaynnistaButton, 0, 12);
-        grid.add(tallennaButton, 1, 12);
-        grid.add(nopeutaButton, 0, 13);
-        grid.add(hidastaButton, 1, 13);
         grid.add(haeEdellinenButton, 0, 0);
         grid.add(resetButton, 1, 0);
     }
