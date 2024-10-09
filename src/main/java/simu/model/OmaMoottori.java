@@ -81,7 +81,6 @@ public class OmaMoottori extends Moottori {
     }
 
     private void handleArrival() {
-        System.out.println(selfCheckInGeneraattori.sample());
         if (selfCheckInGeneraattori.sample() < selfCheckInTodennakoisyys) {
             getShortestQueue(selfCheckInPisteet).lisaaJonoon(new Asiakas());
         } else {
@@ -154,6 +153,26 @@ public class OmaMoottori extends Moottori {
                 Portti.getKayttoAste(),
                 Portti.getLapimeno()
         );
+        System.out.println("Kello: " + Kello.getInstance().getAika());
+        System.out.println("Valmiit asiakkaat: " + Asiakas.getValmiitAsiakkaat());
+        System.out.println("Keski viipyminen: " + Asiakas.getKeskiViipyminen());
+        System.out.println("Check-in keski palveluaika: " + CheckIn.getKeskiPalveluaika());
+        System.out.println("Check-in total palveluaika: " + CheckIn.getTotalPalveluaika());
+        System.out.println("Check-in kaytto aste: " + CheckIn.getKayttoAste());
+        System.out.println("Check-in lapimeno: " + CheckIn.getLapimeno());
+        System.out.println("Self-check-in keski palveluaika: " + SelfCheckIn.getKeskiPalveluaika());
+        System.out.println("Self-check-in total palveluaika: " + SelfCheckIn.getTotalPalveluaika());
+        System.out.println("Self-check-in kaytto aste: " + SelfCheckIn.getKayttoAste());
+        System.out.println("Self-check-in lapimeno: " + SelfCheckIn.getLapimeno());
+        System.out.println("Turvatarkastus keski palveluaika: " + Turvatarkastus.getKeskiPalveluaika());
+        System.out.println("Turvatarkastus total palveluaika: " + Turvatarkastus.getTotalPalveluaika());
+        System.out.println("Turvatarkastus kaytto aste: " + Turvatarkastus.getKayttoAste());
+        System.out.println("Turvatarkastus lapimeno: " + Turvatarkastus.getLapimeno());
+        System.out.println("Portti keski palveluaika: " + Portti.getKeskiPalveluaika());
+        System.out.println("Portti total palveluaika: " + Portti.getTotalPalveluaika());
+        System.out.println("Portti kaytto aste: " + Portti.getKayttoAste());
+        System.out.println("Portti lapimeno: " + Portti.getLapimeno());
+
 
         kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
         kontrolleri.setResults(results);

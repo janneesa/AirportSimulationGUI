@@ -70,7 +70,11 @@ public class Asiakas {
 	}
 
 	public static double getKeskiViipyminen(){
-		return sum/valmiitAsiakkaat;
+		if (valmiitAsiakkaat == 0 || sum == 0){
+			return 0.0;
+		} else {
+			return sum/valmiitAsiakkaat;
+		}
 	}
 
 	public static double getSaapuneetAsiakkaat() {
