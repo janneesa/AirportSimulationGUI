@@ -77,4 +77,11 @@ public class Asiakas {
 		return saapuneetAsiakkaat;
 	}
 
+	public static void resetAsiakkaat() {
+		i = 1;
+		sum = 0;
+		valmiitAsiakkaat = 0;
+		saapuneetAsiakkaat = 0;
+	}
+
 }

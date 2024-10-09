@@ -5,6 +5,7 @@ import dao.ResultsDao;
 import javafx.application.Platform;
 import simu.framework.IMoottori;
 import simu.framework.Kello;
+import simu.model.Asiakas;
 import simu.model.Defaults;
 import simu.model.OmaMoottori;
 import simu.model.Results;
@@ -100,6 +101,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 
 	public void resetSimulation() {
 		moottori.reset();
+		Asiakas.resetAsiakkaat();
 		Kello.getInstance().setAika(0.0);
 	}
 }
