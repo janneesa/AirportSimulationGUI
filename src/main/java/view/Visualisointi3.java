@@ -93,6 +93,9 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(FONT_SIZE));
+        if (progress > 1) {
+            progress = 1;
+        }
         gc.fillText(String.format("Progress: %.2f%%", progress * 100), progressBarX, progressBarY + 80);
     }
 
