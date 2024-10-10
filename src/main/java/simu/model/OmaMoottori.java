@@ -14,7 +14,7 @@ public class OmaMoottori extends Moottori {
     private int meanCheckIn, varianceCheckIn, meanSelfCheckIn, varianceSelfCheckIn, meanTurvatarkastus, varianceTurvatarkastus, meanPortti, variancePortti;
     private int meanSaapumisvali, varianceSaapumisvali;
     private int checkInAsiakasMaara, selfCheckInAsiakasMaara, turvatarkastusAsiakasMaara, porttiAsiakasMaara;
-    private Negexp selfCheckInGeneraattori;
+    private Normal selfCheckInGeneraattori;
 
     public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
@@ -50,7 +50,7 @@ public class OmaMoottori extends Moottori {
 
         saapumisprosessi = new Saapumisprosessi(new Negexp(meanSaapumisvali, varianceSaapumisvali), tapahtumalista, TapahtumanTyyppi.ARRIVAL);
 
-        selfCheckInGeneraattori = new Negexp(50,50);
+        selfCheckInGeneraattori = new Normal(50,20);
     }
 
     @Override
@@ -80,8 +80,9 @@ public class OmaMoottori extends Moottori {
         paivitaGUI();
     }
 
+    // Math.random() distribuution käytön sijasta, väliaikaiseksi tarkoitettu ratkaisu
     private void handleArrival() {
-        if (selfCheckInGeneraattori.sample() < selfCheckInTodennakoisyys) {
+        if (Math.random() * 100 < selfCheckInTodennakoisyys) {
             getShortestQueue(selfCheckInPisteet).lisaaJonoon(new Asiakas());
         } else {
             getShortestQueue(checkInPisteet).lisaaJonoon(new Asiakas());
@@ -139,22 +140,22 @@ public class OmaMoottori extends Moottori {
                 CheckIn.getAloitetutPalvelut(),
                 CheckIn.getKeskiPalveluaika(),
                 CheckIn.getTotalPalveluaika(),
-                CheckIn.getKayttoAste(),
+                CheckIn.getKayttoAste() / checkInPisteet.length,
                 CheckIn.getLapimeno(),
                 SelfCheckIn.getAloitetutPalvelut(),
                 SelfCheckIn.getKeskiPalveluaika(),
                 SelfCheckIn.getTotalPalveluaika(),
-                SelfCheckIn.getKayttoAste(),
+                SelfCheckIn.getKayttoAste() / selfCheckInPisteet.length,
                 SelfCheckIn.getLapimeno(),
                 Turvatarkastus.getAloitetutPalvelut(),
                 Turvatarkastus.getKeskiPalveluaika(),
                 Turvatarkastus.getTotalPalveluaika(),
-                Turvatarkastus.getKayttoAste(),
+                Turvatarkastus.getKayttoAste() / turvatarkastusPisteet.length,
                 Turvatarkastus.getLapimeno(),
                 Portti.getAloitetutPalvelut(),
                 Portti.getKeskiPalveluaika(),
                 Portti.getTotalPalveluaika(),
-                Portti.getKayttoAste(),
+                Portti.getKayttoAste() / porttiPisteet.length,
                 Portti.getLapimeno()
         );
 

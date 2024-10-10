@@ -19,7 +19,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private static final int PROGRESS_BAR_HEIGHT = 100;
     private static final int PROGRESS_BAR_MARGIN = 10;
     private static final int FONT_SIZE = 14;
-    private static final int MAX_QUEUE_DISPLAY = 11;
+    private static final int MAX_QUEUE_DISPLAY = 14;
     private static final double CIRCLE_SIZE = 20.0;
     private static final double PROGRESS_BAR_WIDTH_RATIO = 0.5;
 
@@ -45,6 +45,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.fillRect(0, 0, this.getWidth(), this.getHeight());
         drawServicePoints();
         drawProgressBar();
+        previousProgress = 0;
         simulointiaika = SimulaattorinGUI.haeAika();
         previousProgress = 0.0;
     }
@@ -62,6 +63,7 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     private void drawProgressBar() {
         double progressBarWidth = this.getWidth() * PROGRESS_BAR_WIDTH_RATIO;
+
         double progress = Kello.getInstance().getAika() / simulointiaika;
 
         if (progress > previousProgress) {
@@ -231,10 +233,10 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     private double getKayttoAste(int index) {
         switch (index) {
-            case 0: return CheckIn.getKayttoAste();
-            case 1: return SelfCheckIn.getKayttoAste();
-            case 2: return Turvatarkastus.getKayttoAste();
-            case 3: return Portti.getKayttoAste();
+            case 0: return CheckIn.getKayttoAste() / servicePointAmounts[index];
+            case 1: return SelfCheckIn.getKayttoAste() / servicePointAmounts[index];
+            case 2: return Turvatarkastus.getKayttoAste() / servicePointAmounts[index];
+            case 3: return Portti.getKayttoAste() / servicePointAmounts[index];
             default: return 0.0;
         }
     }

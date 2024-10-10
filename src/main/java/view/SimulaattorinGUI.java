@@ -166,7 +166,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private void setupGrid(GridPane grid) {
         addGridRow(grid, "Simulointiaika (min):", aika, "Viive (min):", viive, 1);
         addGridRow(grid, "Check-in-pisteiden määrä:", checkInKoko, "Self-Check-in-pisteiden määrä:", selfCheckInKoko, 2);
-        addGridRow(grid, "Turvatarkastus pisteiden määrä:", turvatarkastusKoko, "Portti pisteiden määrä:", porttiKoko, 3);
+        addGridRow(grid, "Turvatarkastuspisteiden määrä:", turvatarkastusKoko, "Porttipisteiden määrä:", porttiKoko, 3);
         grid.add(new Label("Palveluaikojen keskiarvot ja varianssit (min): "), 0, 4, 2, 1);
         addGridRow(grid, "Check-in (min):", meanCheckIn, "Check-In varianssi (min):", varianceCheckIn, 5);
         addGridRow(grid, "Self-Check-In keskiarvo (min):", meanSelfCheckIn, "Self-Check-In varianssi (min):", varianceSelfCheckIn, 6);
