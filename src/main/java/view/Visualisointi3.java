@@ -76,9 +76,9 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.setFill(Color.WHITE);
         gc.fillRect(progressBarX, progressBarY, progressBarWidth, PROGRESS_BAR_HEIGHT);
 
-        gc.setFill(Color.BLACK);
-        gc.setFont(new Font(FONT_SIZE));
-        gc.fillText("Kello: " + String.format("%.2f", Kello.getInstance().getAika()) + " / " + String.format("%.2f", simulointiaika), progressBarX, progressBarY + 10);
+        //gc.setFill(Color.BLACK);
+        //gc.setFont(new Font(FONT_SIZE));
+        //gc.fillText("Kello: " + String.format("%.2f", Kello.getInstance().getAika()) + " / " + String.format("%.2f", simulointiaika), progressBarX, progressBarY + 10);
 
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(progressBarX, progressBarY + 30, progressBarWidth, 20);
