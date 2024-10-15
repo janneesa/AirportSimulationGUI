@@ -126,4 +126,72 @@ public class Defaults {
     public double getSelfCheckInTodennakoisyys() {
         return selfCheckInTodennakoisyys;
     }
+
+    public void setAika(int aika) {
+        this.aika = aika;
+    }
+
+    public void setViive(int viive) {
+        this.viive = viive;
+    }
+
+    public void setCheckInKoko(int checkInKoko) {
+        this.checkInKoko = checkInKoko;
+    }
+
+    public void setSelfCheckInKoko(int selfCheckInKoko) {
+        this.selfCheckInKoko = selfCheckInKoko;
+    }
+
+    public void setTurvatarkastusKoko(int turvatarkastusKoko) {
+        this.turvatarkastusKoko = turvatarkastusKoko;
+    }
+
+    public void setPorttiKoko(int porttiKoko) {
+        this.porttiKoko = porttiKoko;
+    }
+
+    public void setMeanCheckIn(int meanCheckIn) {
+        this.meanCheckIn = meanCheckIn;
+    }
+
+    public void setVarianceCheckIn(int varianceCheckIn) {
+        this.varianceCheckIn = varianceCheckIn;
+    }
+
+    public void setMeanSelfCheckIn(int meanSelfCheckIn) {
+        this.meanSelfCheckIn = meanSelfCheckIn;
+    }
+
+    public void setVarianceSelfCheckIn(int varianceSelfCheckIn) {
+        this.varianceSelfCheckIn = varianceSelfCheckIn;
+    }
+
+    public void setMeanTurvatarkastus(int meanTurvatarkastus) {
+        this.meanTurvatarkastus = meanTurvatarkastus;
+    }
+
+    public void setVarianceTurvatarkastus(int varianceTurvatarkastus) {
+        this.varianceTurvatarkastus = varianceTurvatarkastus;
+    }
+
+    public void setMeanPortti(int meanPortti) {
+        this.meanPortti = meanPortti;
+    }
+
+    public void setVariancePortti(int variancePortti) {
+        this.variancePortti = variancePortti;
+    }
+
+    public void setMeanSaapumisvali(int meanSaapumisvali) {
+        this.meanSaapumisvali = meanSaapumisvali;
+    }
+
+    public void setVarianceSaapumisvali(int varianceSaapumisvali) {
+        this.varianceSaapumisvali = varianceSaapumisvali;
+    }
+
+    public void setSelfCheckInTodennakoisyys(double selfCheckInTodennakoisyys) {
+        this.selfCheckInTodennakoisyys = selfCheckInTodennakoisyys;
+    }
 }
