@@ -2,6 +2,12 @@ package simu.model;
 
 import jakarta.persistence.*;
 
+/**
+ * <p>Represents the results of a ran simulation.</p>
+ *
+ * <p>Includes getters and setters for all results</p>
+ */
+
 @Entity
 @Table(name = "results")
 public class Results {

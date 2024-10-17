@@ -7,6 +7,11 @@ import javafx.scene.text.Font;
 import simu.framework.Kello;
 import simu.model.*;
 
+/**
+ * Visualizes the simulation with a canvas.
+ *
+ */
+
 public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     private static int CANVAS_WIDTH = 700;
@@ -31,6 +36,13 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
     private double simulointiaika;
     private double previousProgress = 0.0;
 
+    /**
+     * Constructs a new Visualisointi3 instance.
+     *
+     * @param w the width of the canvas.
+     * @param h the height of the canvas.
+     * @param simulointiaika the total simulation time.
+     */
     public Visualisointi3(int w, int h, double simulointiaika) {
         super(w, h);
         CANVAS_WIDTH = w;
@@ -40,6 +52,9 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         tyhjennaNaytto();
     }
 
+    /**
+     * Clears the canvas and draws the initial state.
+     */
     public void tyhjennaNaytto() {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -50,6 +65,14 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         previousProgress = 0.0;
     }
 
+    /**
+     * Updates the visualization with the latest data.
+     *
+     * @param servicePoint the index of the service point.
+     * @param customerCount the number of customers.
+     * @param usageRate the usage rate of the service point.
+     * @param servicePointCount the number of service points.
+     */
     public void paivitaVisualisointi(int servicePoint, int customerCount, double usageRate, int servicePointCount) {
         if (servicePoint >= 1 && servicePoint <= 4) {
             customerAmounts[servicePoint - 1] = customerCount;
@@ -61,6 +84,9 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         drawGenericDetails();
     }
 
+    /**
+     * Updates the progress bar on the canvas.
+     */
     private void drawProgressBar() {
         double progressBarWidth = this.getWidth() * PROGRESS_BAR_WIDTH_RATIO;
 
@@ -99,12 +125,20 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.fillText(String.format("Progress: %.2f%%", progress * 100), progressBarX, progressBarY + 80);
     }
 
+    /**
+     * Draws all service points on the canvas.
+     */
     private void drawServicePoints() {
         for (int i = 0; i < names.length; i++) {
             drawServicePoint(i);
         }
     }
 
+    /**
+     * Draws a specific service point on the canvas.
+     *
+     * @param index index of the service point.
+     */
     private void drawServicePoint(int index) {
         int startX = (CANVAS_WIDTH - (3 * BOX_WIDTH + 2 * SPACING_X)) / 2;
         int x = startX + index * (BOX_WIDTH + SPACING_X);
@@ -122,6 +156,14 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         drawServicePointDetails(x, y, index);
     }
 
+
+    /**
+     * Draws the rectangle which visualizes one type of service point.
+     *
+     * @param x x-coordinate of the box.
+     * @param y y-coordinate of the box.
+     * @param index index of the service point.
+     */
     private void drawServicePointBox(int x, int y, int index) {
         gc.setFill(Color.LIGHTSALMON);
         gc.fillRect(x, y - 40, BOX_WIDTH, BOX_HEIGHT / 2);
@@ -129,6 +171,13 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.fillRect(x, y, BOX_WIDTH, BOX_HEIGHT);
     }
 
+    /**
+     * Draws the rectangle which visualizes the queue for one type of service point.
+     *
+     * @param x x-coordinate of the queue.
+     * @param y y-coordinate of the queue.
+     * @param index index of the service point.
+     */
     private void drawQueue(int x, int y, int index) {
         int queue = Math.max(0, customerAmounts[index] - servicePointAmounts[index]);
         gc.setFill(Color.BLACK);
@@ -145,6 +194,13 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
     }
 
+    /**
+     * Draws the details for a type of service point.
+     *
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @param index index of the service point.
+     */
     private void drawServicePointDetails(int x, int y, int index) {
         int customers = Math.min(customerAmounts[index], servicePointAmounts[index]);
         int servicePoints = servicePointAmounts[index];
@@ -180,6 +236,9 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
 
     }
 
+    /**
+     * Draws information about the total amount of customers arrived, serviced and throughput.
+     */
     private void drawGenericDetails() {
         String saapuneetAsiakkaat = "Saapuneet asiakkaat: " + Asiakas.getSaapuneetAsiakkaat();
         String valmiitAsiakkaat = "Valmiit asiakkaat: " + Asiakas.getValmiitAsiakkaat();
@@ -199,6 +258,12 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         gc.fillText(keskiViipyminen, detailsX, detailsY + 40);
     }
 
+    /**
+     * Gets the amount of started services for a specific service point.
+     *
+     * @param index index of the service point.
+     * @return number of started services.
+     */
     private int getAloitetutPalvelut(int index) {
         switch (index) {
             case 0:
@@ -214,6 +279,12 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
     }
 
+    /**
+     * Gets the average service time for a specific service point.
+     *
+     * @param index index of the service point.
+     * @return mean service time.
+     */
     private double getKeskiPalveluaika(int index) {
         switch (index) {
             case 0: return CheckIn.getKeskiPalveluaika();
@@ -224,6 +295,12 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
     }
 
+    /**
+     * Gets the total service time for a specific service point.
+     *
+     * @param index index of the service point.
+     * @return total service time.
+     */
     private double getTotalPalveluaika(int index) {
         switch (index) {
             case 0: return CheckIn.getTotalPalveluaika();
@@ -234,6 +311,12 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
     }
 
+    /**
+     * Gets the utilization rate for a specific service point.
+     *
+     * @param index index of the service point.
+     * @return utilization rate.
+     */
     private double getKayttoAste(int index) {
         switch (index) {
             case 0: return CheckIn.getKayttoAste() / servicePointAmounts[index];
@@ -244,6 +327,12 @@ public class Visualisointi3 extends Canvas implements IVisualisointi {
         }
     }
 
+    /**
+     * Gets the throughput rate for a specific service point.
+     *
+     * @param index index of the service point.
+     * @return throughput rate.
+     */
     private double getLapimeno(int index) {
         switch (index) {
             case 0: return CheckIn.getLapimeno();

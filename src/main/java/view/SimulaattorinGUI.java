@@ -270,10 +270,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(vbox, 0, rowIndex, 2, 1);
     }
 
-    private void addGridRow(GridPane grid, String labelText, Control control1, int rowIndex) {
-        VBox vbox = new VBox(5, new Label(labelText), control1);
-        grid.add(vbox, 0, rowIndex, 2, 1);
-    }
 
     @Override
     public double getAika() {
@@ -366,10 +362,22 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         launch(args);
     }
 
+    /**
+     * Static method to get the simulation time from the text field.
+     *
+     * @return Simulation time as a double.
+     */
     public static Double haeAika() {
         return Double.parseDouble(aika.getText());
     }
 
+    /**
+     * <p>Gathers the currently set parameters from the fields and returns them as a Defaults object.</p>
+     *
+     * <p>Used to save the parameters to the database.</p>
+     *
+     * @return Defaults object with the currently set parameters.
+     */
     public Defaults getDefaults() {
         return new Defaults(
                 Integer.parseInt(aika.getText()), Integer.parseInt(viive.getText()),
@@ -384,6 +392,13 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         );
     }
 
+    /**
+     * <p>Sets the parameters from the Defaults object to the text fields.</p>
+     *
+     * <p>Used to set the parameters from the previously saved simulation, fetched from the database to the text fields.</p>
+     *
+     * @param defaults Defaults object with the parameters to be set to the text fields.
+     */
     public void setDefaults(Defaults defaults) {
         aika.setText(String.valueOf(defaults.getAika()));
         viive.setText(String.valueOf(defaults.getViive()));
@@ -404,10 +419,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         selfCheckInSlider.setValue(defaults.getSelfCheckInTodennakoisyys());
     }
 
+    /**
+     * Toggles the visibility of the "Tallenna" button.
+     *
+     * @param visible Boolean value to trigger the visibility of the button.
+     */
     public void setTallennaButtonVisible(boolean visible) {
         tallennaButton.setVisible(visible);
     }
 
+    /**
+     * Resets the simulation. Enables a new simulation, with new parameters to be run.
+     */
     private void resetSimulation() {
         selfCheckInSlider.setValue(50);
         kaynnistaButton.setDisable(false);
@@ -418,10 +441,22 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         kontrolleri.resetSimulation();
     }
 
+    /**
+     * Toggles the visibility of the "Nollaa" button.
+     *
+     * @param visible Boolean value to trigger the visibility of the button.
+     */
     public void setResetButtonVisible(boolean visible) {
         resetButton.setVisible(visible);
     }
 
+    /**
+     * <p>Checks if the parameters are valid.</p>
+     *
+     * <p>If the parameters are not valid, shows an alert window with information on the invalid parameters.</p>
+     *
+     * @return True if the parameters are valid, false if not.
+     */
     public boolean tarkistaParametrit() {
         if (Integer.parseInt(aika.getText()) <= 0 || Integer.parseInt(viive.getText()) <= 0) {
             showAlert("Virhe", "Aika ja viive", "Simulointiaika tai viive ei voi olla negatiivinen tai 0.");

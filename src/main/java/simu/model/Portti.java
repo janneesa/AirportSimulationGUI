@@ -4,6 +4,11 @@ import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtumalista;
 
+/**
+ * <p>Represents the gates of the simulation model.</p>
+ *
+ */
+
 public class Portti extends Palvelupiste {
     private static int aloitetutPalvelut = 0;
     private static double totalPalveluaika = 0.0;

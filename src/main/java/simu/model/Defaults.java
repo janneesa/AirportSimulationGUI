@@ -2,6 +2,12 @@ package simu.model;
 
 import jakarta.persistence.*;
 
+/**
+ * <p>Represents the parameters of the simulation model.</p>
+ *
+ * <p>Includes getters and setters for all parameters, which the user can interact with.</p>
+ */
+
 @Entity
 @Table(name = "defaults")
 public class Defaults {

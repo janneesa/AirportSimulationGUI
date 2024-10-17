@@ -6,6 +6,12 @@ import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 
+/**
+ * <p>Represents the simulation engine.</p>
+ *
+ * <p>Has the main simulation logic, which is executed in the run() method.</p>
+ */
+
 public class OmaMoottori extends Moottori {
 
     private Saapumisprosessi saapumisprosessi;
@@ -16,6 +22,30 @@ public class OmaMoottori extends Moottori {
     private int checkInAsiakasMaara, selfCheckInAsiakasMaara, turvatarkastusAsiakasMaara, porttiAsiakasMaara;
     private Normal selfCheckInGeneraattori;
 
+    /**
+     * <p>Constructor for the simulation engine.</p>
+     *
+     * <p>Creates the needed amount of service points of each type.</p>
+     *
+     * <p>Initializes the first arrival process.</p>
+     *
+     * @param kontrolleri The controller for the simulation engine
+     * @param checkInKoko The amount of the check-in points
+     * @param selfCheckInKoko The amount of the self-check-in points
+     * @param turvatarkastusKoko The amount of the security check points
+     * @param porttiKoko The amount of gates
+     * @param meanCheckIn The mean service time for the check-in points
+     * @param varianceCheckIn The variance of the service time for the check-in points
+     * @param meanSelfCheckIn The mean service time for the self-check-in points
+     * @param varianceSelfCheckIn The variance of the service time for the self-check-in points
+     * @param meanTurvatarkastus The mean service time for the security check points
+     * @param varianceTurvatarkastus The variance of the service time for the security check points
+     * @param meanPortti The mean service time for the gates
+     * @param variancePortti The variance of the service time for the gates
+     * @param meanSaapumisvali The mean arrival interval
+     * @param varianceSaapumisvali The variance of the arrival interval
+     * @param selfCheckInTodennakoisyys The probability of the self-check-in
+     */
     public OmaMoottori(IKontrolleriForM kontrolleri, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super(kontrolleri);
         this.meanCheckIn = meanCheckIn;
@@ -58,6 +88,14 @@ public class OmaMoottori extends Moottori {
         saapumisprosessi.generoiSeuraava();
     }
 
+    /**
+     * <p>Executes the simulation logic.</p>
+     *
+     * <p>Checks the type of event and moves the customer to the correct type of service point accordingly.</p>
+     * <p>Updates the GUI.</p>
+     *
+     * @param t
+     */
     @Override
     protected void suoritaTapahtuma(Tapahtuma t) {
         switch ((TapahtumanTyyppi) t.getTyyppi()) {
@@ -80,7 +118,11 @@ public class OmaMoottori extends Moottori {
         paivitaGUI();
     }
 
-    // Math.random() distribuution käytön sijasta, väliaikaiseksi tarkoitettu ratkaisu
+    /**
+     * <p>Handles the arrival of a customer.</p>
+     *
+     * <p>Uses the selfCheckInTodennakoisyys variable to draw if the customer goes to self check-in or check-in.</p>
+     */
     private void handleArrival() {
         if (Math.random() * 100 < selfCheckInTodennakoisyys) {
             getShortestQueue(selfCheckInPisteet).lisaaJonoon(new Asiakas());
@@ -90,6 +132,11 @@ public class OmaMoottori extends Moottori {
         saapumisprosessi.generoiSeuraava();
     }
 
+    /**
+     * <p>Handles the finish of a customers service through the system.</p>
+     *
+     * <p>Sets the customers departure time and prints its report.</p>
+     */
     private void handlePorttiValmis() {
         for (Palvelupiste p : porttiPisteet) {
             if (p.onVarattu() && p.onJonossa() && p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
@@ -101,6 +148,14 @@ public class OmaMoottori extends Moottori {
         }
     }
 
+    /**
+     * <p>Handles the movement of a customer from one service point to another.</p>
+     *
+     * <p>Gets the shortest queue from the destination and moves the customer to it.</p>
+     *
+     * @param mista The source service points
+     * @param minne The destination service points
+     */
     private void siirraAsiakas(Palvelupiste[] mista, Palvelupiste[] minne) {
         for (Palvelupiste p : mista) {
             if (p.onVarattu() && p.onJonossa() && p.getJono().peek().getPalvelunPaattymisaika() == Kello.getInstance().getAika()) {
@@ -111,6 +166,10 @@ public class OmaMoottori extends Moottori {
         }
     }
 
+    /**
+     * <p>Processes the events in the service points.</p>
+     * <p>Updates the GUI.</p>
+     */
     @Override
     protected void yritaCTapahtumat() {
         prosessoiTapahtumaJonot(checkInPisteet);
@@ -120,6 +179,13 @@ public class OmaMoottori extends Moottori {
         paivitaGUI();
     }
 
+    /**
+     * <p>Processes the service points queues.</p>
+     *
+     * <p>Starts the service for the first customer in the queue if the service point is not reserved.</p>
+     *
+     * @param pisteet The service points to process
+     */
     private void prosessoiTapahtumaJonot(Palvelupiste[] pisteet) {
         for (Palvelupiste p : pisteet) {
             if (!p.onVarattu() && p.onJonossa()) {
@@ -131,6 +197,9 @@ public class OmaMoottori extends Moottori {
         }
     }
 
+    /**
+     * Gets the results of the simulation, passes them to the controller and toggles the save button.
+     */
     @Override
     protected void tulokset() {
         Results results = new Results(
@@ -164,6 +233,12 @@ public class OmaMoottori extends Moottori {
         kontrolleri.showTallennaButton();
     }
 
+    /**
+     * Gets the service point with the shortest queue.
+     *
+     * @param pisteet The service points to check
+     * @return The service point with the shortest queue
+     */
     private Palvelupiste getShortestQueue(Palvelupiste[] pisteet) {
         Palvelupiste shortest = pisteet[0];
         for (Palvelupiste p : pisteet) {
@@ -174,6 +249,12 @@ public class OmaMoottori extends Moottori {
         return shortest;
     }
 
+    /**
+     * Gets the amount of customers in service and the queue of the service point type.
+     *
+     * @param pisteet The service point type to check
+     * @return
+     */
     private int getAsiakasMaara(Palvelupiste[] pisteet) {
         int jononKoko = 0;
         for (Palvelupiste p : pisteet) {
@@ -182,6 +263,12 @@ public class OmaMoottori extends Moottori {
         return jononKoko;
     }
 
+    /**
+     * Gets the usage rate of the service point type.
+     *
+     * @param pisteet The service point type to check
+     * @return
+     */
     private double getKayttoaste(Palvelupiste[] pisteet) {
         int varatut = 0;
         for (Palvelupiste p : pisteet) {
@@ -193,6 +280,9 @@ public class OmaMoottori extends Moottori {
         return Math.min(kayttoaste, 100);
     }
 
+    /**
+     * Updates the GUI with the current state of the simulation.
+     */
     private void paivitaGUI() {
         checkInAsiakasMaara = getAsiakasMaara(checkInPisteet);
         kontrolleri.visualisoiAsiakas(1, checkInAsiakasMaara, getKayttoaste(checkInPisteet), checkInPisteet.length);
@@ -207,6 +297,9 @@ public class OmaMoottori extends Moottori {
         kontrolleri.visualisoiAsiakas(4, porttiAsiakasMaara, getKayttoaste(porttiPisteet), porttiPisteet.length);
     }
 
+    /**
+     * Resets the service points to their initial state.
+     */
     public void reset() {
         for (Palvelupiste p : checkInPisteet) {
             p.resetPoint();
