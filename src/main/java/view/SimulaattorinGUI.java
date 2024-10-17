@@ -16,6 +16,10 @@ import javafx.scene.text.*;
 import simu.framework.Trace;
 import simu.model.Defaults;
 
+/**
+ * The graphical user interface of the simulator. Creates the window and all the components in it.
+ */
+
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     private IKontrolleriForV kontrolleri;
@@ -30,12 +34,24 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private IVisualisointi naytto;
     private Slider selfCheckInSlider;
 
+    /**
+     * Initializes the controller. Sets the trace level which changes output prints.
+     */
     @Override
     public void init() {
         Trace.setTraceLevel(Trace.Level.INFO);
         kontrolleri = new Kontrolleri(this);
     }
 
+    /**
+     * <p>Creates the window and all the components in it.</p>
+     *
+     * <p>Creates the control buttons, calls initializeTextFields() to create text fields for input.</p>
+     *
+     * <p>Creates the visualisation window, which implements IVisualisointi interface.</p>
+     *
+     * @param primaryStage The main window of the application.
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setOnCloseRequest(t -> {
@@ -95,11 +111,17 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         primaryStage.show();
     }
 
+    /**
+     * Saves the currently set simulation parameters to the database.
+     */
     private void tallennaSimulaatio() {
         Defaults defaults = getDefaults();
         kontrolleri.persistDef(defaults);
     }
 
+    /**
+     * Loads the previous saved values from the database and sets them to the text fields.
+     */
     private void loadDefaults() {
         try {
             Defaults defaults = kontrolleri.haeEdellinen();
@@ -109,6 +131,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         }
     }
 
+    /**
+     * Creates and sets the defaults values to the text fields.
+     */
     private void initializeTextFields() {
         aika = createTextField("500");
         viive = createTextField("500");
@@ -128,6 +153,15 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         varianceSaapumisvali = createTextField("5");
     }
 
+    /**
+     * <p>Shows an alert window with the given title, header and content.</p>
+     *
+     * <p>Used to display error messages.</p>
+     *
+     * @param title   Title of the alert window.
+     * @param header  Header for the window.
+     * @param content String explaining the error.
+     */
     private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -136,6 +170,14 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         alert.showAndWait();
     }
 
+    /**
+     * Creates a button with the given text, event handler and CSS class.
+     *
+     * @param text Text to be displayed on the button.
+     * @param handler Event handler for the button.
+     * @param cssClass CSS class for the button.
+     * @return Button with the given parameters.
+     */
     private Button createButton(String text, EventHandler<ActionEvent> handler, String cssClass) {
         Button button = new Button(text);
         button.setOnAction(handler);
@@ -143,6 +185,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         return button;
     }
 
+    /**
+     * Creates a text field with the given text.
+     *
+     * @param promptText Text to be displayed in the text field.
+     * @return Text field with the given text.
+     */
     private TextField createTextField(String promptText) {
         TextField textField = new TextField(promptText);
         textField.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -155,6 +203,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         return textField;
     }
 
+    /**
+     * Creates a grid pane for the input fields.
+     *
+     * @return Grid pane for the text fields.
+     */
     private GridPane createGridPane() {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -163,13 +216,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         return grid;
     }
 
+    /**
+     * Sets up the grid pane with the input fields and labels.
+     *
+     * @param grid Grid pane to be displayed to the user.
+     */
     private void setupGrid(GridPane grid) {
         addGridRow(grid, "Simulointiaika (min):", aika, "Viive (min):", viive, 1);
         addGridRow(grid, "Check-in-pisteiden määrä:", checkInKoko, "Self-Check-in-pisteiden määrä:", selfCheckInKoko, 2);
         addGridRow(grid, "Turvatarkastuspisteiden määrä:", turvatarkastusKoko, "Porttipisteiden määrä:", porttiKoko, 3);
         grid.add(new Label("Palveluaikojen keskiarvot ja varianssit (min): "), 0, 4, 2, 1);
         addGridRow(grid, "Check-in (min):", meanCheckIn, "Check-In varianssi (min):", varianceCheckIn, 5);
-        addGridRow(grid, "Self-Check-In keskiarvo (min):", meanSelfCheckIn, "Self-Check-In varianssi (min):", varianceSelfCheckIn, 6);
+        addGridRow(grid, "Self-Check-in keskiarvo (min):", meanSelfCheckIn, "Self-Check-in varianssi (min):", varianceSelfCheckIn, 6);
         addGridRow(grid, "Turvatarkastus keskiarvo (min):", meanTurvatarkastus, "Turvatarkastus varianssi (min):", varianceTurvatarkastus, 7);
         addGridRow(grid, "Portti keskiarvo (min):", meanPortti, "Portti varianssi (min):", variancePortti, 8);
         addGridRow(grid, "Saapumisvälin keskiarvo (min):", meanSaapumisvali, "Saapumisvälin varianssi (min):", varianceSaapumisvali, 9);
@@ -178,6 +236,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(resetButton, 1, 0);
     }
 
+    /**
+     * <p>Used to display the input fields and labels in the grid pane.</p>
+     *
+     * <p>Adds a row to the grid pane with two labels and two input fields.</p>
+     *
+     * @param grid Grid pane to be displayed to the user.
+     * @param labelText1 Label for the first input field.
+     * @param control1 First input field.
+     * @param labelText2 Label for the second input field.
+     * @param control2 Second input field.
+     * @param rowIndex Index of the row in the grid pane.
+     */
     private void addGridRow(GridPane grid, String labelText1, Control control1, String labelText2, Control control2, int rowIndex) {
         VBox vbox1 = new VBox(5, new Label(labelText1), control1);
         VBox vbox2 = new VBox(5, new Label(labelText2), control2);
@@ -185,6 +255,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         grid.add(vbox2, 1, rowIndex);
     }
 
+    /**
+     * <p>Used to display the input fields and labels in the grid pane.</p>
+     *
+     * <p>Currently used to create the row which includes the check-in slider.</p>
+     *
+     * @param grid Grid pane to be displayed to the user.
+     * @param label Label for the input field.
+     * @param control Input field.
+     * @param rowIndex Index of the row in the grid pane.
+     */
     private void addGridRow(GridPane grid, Label label, Control control, int rowIndex) {
         VBox vbox = new VBox(5, label, control);
         grid.add(vbox, 0, rowIndex, 2, 1);
