@@ -47,6 +47,27 @@ public class Defaults {
     @Column (name = "self_check_in_todennakoisyys")
     private double selfCheckInTodennakoisyys;
 
+    /**
+     * <p>Constructor for the parameters of the simulation model.</p>
+     *
+     * @param aika the simulation run time
+     * @param viive the delay
+     * @param checkInKoko the size of the check-in point
+     * @param selfCheckInKoko the size of the self-check-in point
+     * @param turvatarkastusKoko the size of the security check point
+     * @param porttiKoko the size of the gate
+     * @param meanCheckIn the mean service time at the check-in point
+     * @param varianceCheckIn the variance of the service time at the check-in point
+     * @param meanSelfCheckIn the mean service time at the self-check-in point
+     * @param varianceSelfCheckIn the variance of the service time at the self-check-in point
+     * @param meanTurvatarkastus the mean service time at the security check point
+     * @param varianceTurvatarkastus the variance of the service time at the security check point
+     * @param meanPortti the mean service time at the gate
+     * @param variancePortti the variance of the service time at the gate
+     * @param meanSaapumisvali the mean arrival interval
+     * @param varianceSaapumisvali the variance of the arrival interval
+     * @param selfCheckInTodennakoisyys the probability of self-check-in
+     */
     public Defaults(int aika, int viive, int checkInKoko, int selfCheckInKoko, int turvatarkastusKoko, int porttiKoko, int meanCheckIn, int varianceCheckIn, int meanSelfCheckIn, int varianceSelfCheckIn, int meanTurvatarkastus, int varianceTurvatarkastus, int meanPortti, int variancePortti, int meanSaapumisvali, int varianceSaapumisvali, double selfCheckInTodennakoisyys) {
         super();
         this.aika = aika; this.viive = viive; this.checkInKoko = checkInKoko; this.selfCheckInKoko = selfCheckInKoko;
@@ -59,15 +80,21 @@ public class Defaults {
         this.selfCheckInTodennakoisyys = selfCheckInTodennakoisyys;
     }
 
+    /**
+     * <p>Empty constructor for the parameters of the simulation model.</p>
+     *
+     */
     public Defaults() {}
 
     public int getId() {
         return id;
     }
 
+
     public int getAika() {
         return aika;
     }
+
 
     public int getViive() {
         return viive;
@@ -77,21 +104,26 @@ public class Defaults {
         return checkInKoko;
     }
 
+
     public int getSelfCheckInKoko() {
         return selfCheckInKoko;
     }
+
 
     public int getTurvatarkastusKoko() {
         return turvatarkastusKoko;
     }
 
+
     public int getPorttiKoko() {
         return porttiKoko;
     }
 
+
     public int getMeanCheckIn() {
         return meanCheckIn;
     }
+
 
     public int getVarianceCheckIn() {
         return varianceCheckIn;
