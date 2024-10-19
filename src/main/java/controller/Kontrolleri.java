@@ -153,6 +153,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 
 	/**
 	 * Resets the simulation by calling the reset method in the model.
+	 *
 	 */
 	public void resetSimulation() {
 		moottori.reset();

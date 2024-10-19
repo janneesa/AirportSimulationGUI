@@ -442,7 +442,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     }
 
     /**
-     * Toggles the visibility of the "Nollaa" button.
+     * Toggles the visibility of the Nollaa" button.
      *
      * @param visible Boolean value to trigger the visibility of the button.
      */
