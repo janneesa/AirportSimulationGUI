@@ -27,18 +27,38 @@ public class Turvatarkastus extends Palvelupiste {
         keskiPalveluaika = totalPalveluaika / aloitetutPalvelut;
     }
 
+    /**
+     * Returns the number of services that have been started.
+     *
+     * return the number of services that have been started.
+     */
     public static int getAloitetutPalvelut() {
         return aloitetutPalvelut;
     }
 
+    /**
+     * Returns the average service time.
+     *
+     * return the average service time.
+     */
     public static double getKeskiPalveluaika() {
         return keskiPalveluaika;
     }
 
+    /**
+     * Returns the total service time.
+     *
+     * return the total service time.
+     */
     public static double getTotalPalveluaika() {
         return totalPalveluaika;
     }
 
+    /**
+     * Returns the utilization rate.
+     *
+     * return the utilization rate.
+     */
     public static double getKayttoAste() {
         if (Kello.getInstance().getAika() == 0 || totalPalveluaika == 0) {
             return 0.0;
@@ -48,6 +68,11 @@ public class Turvatarkastus extends Palvelupiste {
         }
     }
 
+    /**
+     * Returns the throughput.
+     *
+     * return the throughput.
+     */
     public static double getLapimeno() {
         if (Kello.getInstance().getAika() == 0 || aloitetutPalvelut == 0) {
             return 0.0;

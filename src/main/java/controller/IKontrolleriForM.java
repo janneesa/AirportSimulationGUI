@@ -2,6 +2,11 @@ package controller;
 
 import simu.model.Results;
 
+/**
+ * The controller interface that is provided to the simulation engine.
+ *
+ */
+
 public interface IKontrolleriForM {
 
     // Rajapinta, joka tarjotaan moottorille:

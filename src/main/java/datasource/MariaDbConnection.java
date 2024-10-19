@@ -2,6 +2,10 @@ package datasource;
 
 import jakarta.persistence.*;
 
+/**
+ * The class for the database connection.
+ */
+
 public class MariaDbConnection {
 
     private static EntityManagerFactory emf = null;

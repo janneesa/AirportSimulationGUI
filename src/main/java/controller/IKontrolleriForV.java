@@ -2,6 +2,11 @@ package controller;
 
 import simu.model.Defaults;
 
+/**
+ * The controller interface that is provided to the view.
+ *
+ */
+
 public interface IKontrolleriForV {
 
     // Rajapinta, joka tarjotaan  käyttöliittymälle:

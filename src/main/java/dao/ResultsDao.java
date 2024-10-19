@@ -5,7 +5,19 @@ import datasource.MariaDbConnection;
 import simu.model.Results;
 import java.util.ArrayList;
 
+/**
+ * The data access object for the results.
+ *
+ * @see simu.model.Results
+ */
+
 public class ResultsDao {
+
+    /**
+     * Persist the results to the database.
+     *
+     * @param res the results to persist
+     */
     public void persist(Results res) {
         EntityManager em = MariaDbConnection.getInstance();
         em.getTransaction().begin();
