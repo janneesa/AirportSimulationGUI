@@ -8,8 +8,9 @@ import simu.framework.Kello;
 import simu.model.*;
 
 /**
- * Visualizes the simulation with a canvas.
+ * <p>Visualizes the simulation with a canvas.</p>
  *
+ * <p>Responsible for drawing the visualized service points and queues and updating the interface to the current situation of the model.</p>
  */
 
 public class Visualisointi3 extends Canvas implements IVisualisointi {

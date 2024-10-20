@@ -4,6 +4,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+// * Template for a visualisation class.
+ *
+ * Not used in the current version of the program.
+ */
+
 public class Visualisointi extends Canvas implements IVisualisointi{
 
 	private final GraphicsContext gc;
