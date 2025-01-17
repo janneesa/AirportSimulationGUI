@@ -16,11 +16,13 @@ The Airport Simulator project was developed as part of Metropolia’s Object-Ori
 The simulation models customer flow, analyzes wait times, and measures the efficiency of service processes, helping optimize airport operations. The final product includes an intuitive JavaFX-based graphical user interface (GUI) with adjustable parameters for customer flow, service points, and service times. 
 
 <h2> Key Features </h2>
-- Simulates customer flow through airport service points.
-- Analyzes wait times, service efficiency, and potential bottlenecks.
-- Customizable parameters such as customer flow rates and service times.
-- Intuitive, real-time visualizations of queues and service point statuses.
-- Ability to save and load previous simulations for comparative analysis.
+<ul>
+    <li> Simulates customer flow through airport service points.</li>
+    <li> Analyzes wait times, service efficiency, and potential bottlenecks.</li>
+    <li> Customizable parameters such as customer flow rates and service times.</li>
+    <li> Intuitive, real-time visualizations of queues and service point statuses.</li>
+    <li> Ability to save and load previous simulations for comparative analysis.</li>
+</ul>
 
 <h2> Images </h2>
 <img width="600" alt="Starting simulation" src="https://github.com/user-attachments/assets/ef3c5d8f-aa7e-46a2-b4ef-420a91db4800">
