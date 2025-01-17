@@ -1,9 +1,8 @@
 # Airport Simulator - Java Project
 <br />
 Airport Simulator is a Java-based simulation project designed to model customer flow through various airport service points, including check-in, security, and gates. The project aims to analyze queue times and optimize service processes for different scales of airport operations.
-<br />
-<br />
-<b>Technologies:</b>
+
+<h2>Technologies:</h2>
     <ul>
         <li>Java</li>
         <li>JavaFX</li>
@@ -11,7 +10,6 @@ Airport Simulator is a Java-based simulation project designed to model customer 
         <li>JUnit 5 (Testing)</li>
         <li>Git (Version Control)</li>
     </ul>
-<br />
 
 <h2> Description </h2>
 The Airport Simulator project was developed as part of Metropolia’s Object-Oriented Programming course. It implements a three-phase simulation model to simulate customer movement through key airport service points, such as check-in counters, self-check-in kiosks, security checks, and gates. 
